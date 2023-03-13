@@ -35,7 +35,7 @@ ifdef::env-github[]
 endif::[]
 
 // /!\ A MODIFIER !!!
-:baseURL: https://github.com/IUT-Blagnac/sae4-01-template
+:baseURL: https://github.com/IUT-Blagnac/sae4-01-2023-lateam21
 
 // Tags
 image:{baseURL}/actions/workflows/build.yml/badge.svg[Build] 
@@ -58,8 +58,8 @@ Vous trouverez le dépôt "template" qui a servi de base ici : https://github.co
 
 Projet est réalisé par::
 
-- https://github.com/janeDoe[Jane Doe]
-- https://github.com/johnSmith[John Smith]
+- https://github.com/Aadroman[Ruben Longéque]
+- https://github.com/tobilub04[Tobiasz Strzeszewski]
 ...
 
 
