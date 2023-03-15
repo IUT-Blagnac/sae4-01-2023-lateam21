@@ -20,6 +20,10 @@ public class Belote {
 		// Connection � la base de donn�es
 		// et cr�ation des champs 
 
+<<<<<<< HEAD:Belote2023/src/main/java/Belote.java
+=======
+
+>>>>>>> ba3cd638f6be3addcf60849e501be94d4092c6fc:Belote2023/src/Belote.java
 		try {
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
