@@ -1,5 +1,3 @@
-  
-  
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;  
@@ -14,24 +12,6 @@ import javax.swing.JOptionPane;
 
 public class Belote {
 
-
-	static class Match{
-		public int eq1,eq2;
-		public Match(int e1,int e2){
-			eq1 = e1;
-			eq2 = e2;
-		}
-		public String toString(){
-			if(eq1 < eq2){
-				return "  " + eq1 + " contre " + eq2;
-			}else{
-				return "  " + eq2 + " contre " + eq1;
-			}
-		}
-	}	
-	
-
-
 	public static void main(String[] args) throws SQLException {
 		
         Connection connection = null;  
@@ -39,22 +19,22 @@ public class Belote {
 
 		// Connection � la base de donn�es
 		// et cr�ation des champs 
-  
-			try {  
-				Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
-				String dos = System.getenv("APPDATA") + "\\jBelote";
-				System.out.println("Dossier de stockage:" + dos);
-				if( !new File(dos).isDirectory() ){
-					new File(dos).mkdir();
-				}
-				connection = DriverManager  
-				        .getConnection("jdbc:hsqldb:file:" + dos + "\\belote","sa","");  
-				statement = connection.createStatement();  
-				
-				importSQL(connection, new File("create.sql"));
-				
-			}catch(SQLException e){
+		try {
+			Class.forName("org.hsqldb.jdbcDriver").newInstance();
+
+			String dos = System.getProperty("user.dir") + "\\Belote2023\\jBelote";
+			System.out.println("Dossier de stockage:" + dos);
+			if( !new File(dos).isDirectory() ){
+				new File(dos).mkdir();
+			}
+			connection = DriverManager
+					.getConnection("jdbc:hsqldb:file:" + dos + "\\belote","sa","");
+			statement = connection.createStatement();
+
+			importSQL(connection, new File("create.sql"));
+
+		}catch(SQLException e){
 				JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
 				System.out.println(e.getMessage());
 				System.exit(0);
@@ -75,7 +55,7 @@ public class Belote {
 	}
 
 	
-	public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
+	private static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
 	{
 	        Scanner s = new Scanner(in);
 	        s.useDelimiter("(;(\r)?\n)|(--\n)");
