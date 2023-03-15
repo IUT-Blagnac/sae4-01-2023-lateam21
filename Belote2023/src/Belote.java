@@ -39,22 +39,23 @@ public class Belote {
 
 		// Connection � la base de donn�es
 		// et cr�ation des champs 
-  
-			try {  
-				Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
-				String dos = System.getenv("APPDATA") + "\\jBelote";
-				System.out.println("Dossier de stockage:" + dos);
-				if( !new File(dos).isDirectory() ){
-					new File(dos).mkdir();
-				}
-				connection = DriverManager  
-				        .getConnection("jdbc:hsqldb:file:" + dos + "\\belote","sa","");  
-				statement = connection.createStatement();  
-				
-				importSQL(connection, new File("create.sql"));
-				
-			}catch(SQLException e){
+
+		try {
+			Class.forName("org.hsqldb.jdbcDriver").newInstance();
+
+			String dos = System.getProperty("user.dir") + "\\Belote2023\\jBelote";
+			System.out.println("Dossier de stockage:" + dos);
+			if( !new File(dos).isDirectory() ){
+				new File(dos).mkdir();
+			}
+			connection = DriverManager
+					.getConnection("jdbc:hsqldb:file:" + dos + "\\belote","sa","");
+			statement = connection.createStatement();
+
+			importSQL(connection, new File("create.sql"));
+
+		}catch(SQLException e){
 				JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
 				System.out.println(e.getMessage());
 				System.exit(0);
