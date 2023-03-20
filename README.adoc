@@ -158,5 +158,5 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 image::./Livrables/digramme_classe_etape1.jpg[]
 
 ====  Digramme de séquence
-image::./Livrables/digrame_seq_part1_etape1.png
-image::./Livrables/digrame_seq_part2_etape1.png
+image::./Livrables/digrame_seq_part1_etape1.png[]
+image::./Livrables/digrame_seq_part2_etape1.png[]
