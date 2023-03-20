@@ -169,8 +169,7 @@ Après analyse du code et analyse, nous en tirons les critiques suivantes :
 - La classe interne Match est inutile car c’est une répétition de la classe MatchM, sans pour autant avoir tous les éléments de celle-ci
 - Il manque des getters et des setters dans certaines classes, ce qui implique que tous les attributs ne sont pas “private” ce qui peut être problématique, car cela veut dire que on peut modifier les attributs de n’importe où.
 
-
-
 On s’est donc mis d’accord sur plusieurs points qu'il faut mettre en avance lors de notre travail de refactoring. Tout d’abord, corriger les erreurs de fonctionnement de code, comme le fait que l’application n’affiche pas le vainqueur - ou le manque de getters et des setters. 
 Pour faciliter cette tâche on a donc commencé à faire des issues sur le github de notre projet.
+
 image::./Livrables/issues_etape1.png[]
