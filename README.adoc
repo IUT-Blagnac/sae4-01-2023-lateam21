@@ -162,7 +162,7 @@ image::./Livrables/digrame_seq_part1_etape1.png[]
 image::./Livrables/digrame_seq_part2_etape1.png[]
 
 ==== Analyse du code
-Après analyse du code et analyse, nous en tirons les critiques suivantes :: 
+Après analyse du code et analyse, nous en tirons les critiques suivantes :
 - Mauvaise organisation du code, les packages sont inexistants ce qui rend la lisibilité des interactions compliquée.
 - Gestion des dépendances compliqués car avec la présence d’un jar dans le projet, cela le rend plus lourd. De plus, si une personne récupère les codes sources, il doit alors de son côté réinstaller les dépendances.
 - Manque de commentaires et de documentation, ce qui rend la compréhension du code fastidieuse.
