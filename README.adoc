@@ -153,4 +153,8 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 **********************************************************************
 
 == Compte-Rendu du projet
+=== Etape 1
+==== Diagramme de classe
+
+====  Digramme de séquence
 
