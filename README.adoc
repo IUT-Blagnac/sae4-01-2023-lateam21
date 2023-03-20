@@ -173,3 +173,4 @@ Après analyse du code et analyse, nous en tirons les critiques suivantes :
 
 On s’est donc mis d’accord sur plusieurs points qu'il faut mettre en avance lors de notre travail de refactoring. Tout d’abord, corriger les erreurs de fonctionnement de code, comme le fait que l’application n’affiche pas le vainqueur - ou le manque de getters et des setters. 
 Pour faciliter cette tâche on a donc commencé à faire des issues sur le github de notre projet.
+image::./Livrables/issues_etape1.png[]
