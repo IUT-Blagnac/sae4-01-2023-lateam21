@@ -155,7 +155,7 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 == Compte-Rendu du projet
 === Etape 1
 ==== Diagramme de classe
-image::/Livrables/digramme_classe_etape1
+image::Livrables/digramme_classe_etape1.jpeg
 
 ====  Digramme de séquence
 
