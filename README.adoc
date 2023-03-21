@@ -151,3 +151,25 @@ image:88x31.png["Licence Creative
 Commons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/3.0/"]
 http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé].
 **********************************************************************
+
+== Compte-Rendu du projet
+=== Etape 1
+==== Diagramme de classe
+image::./Livrables/digramme_classe_etape1.jpg[]
+
+====  Digramme de séquence
+image::./Livrables/digrame_seq_part1_etape1.png[]
+image::./Livrables/digrame_seq_part2_etape1.png[]
+
+==== Analyse du code
+Après analyse du code et analyse, nous en tirons les critiques suivantes :
+- Mauvaise organisation du code, les packages sont inexistants ce qui rend la lisibilité des interactions compliquée.
+- Gestion des dépendances compliqués car avec la présence d’un jar dans le projet, cela le rend plus lourd. De plus, si une personne récupère les codes sources, il doit alors de son côté réinstaller les dépendances.
+- Manque de commentaires et de documentation, ce qui rend la compréhension du code fastidieuse.
+- La classe interne Match est inutile car c’est une répétition de la classe MatchM, sans pour autant avoir tous les éléments de celle-ci
+- Il manque des getters et des setters dans certaines classes, ce qui implique que tous les attributs ne sont pas “private” ce qui peut être problématique, car cela veut dire que on peut modifier les attributs de n’importe où.
+
+On s’est donc mis d’accord sur plusieurs points qu'il faut mettre en avance lors de notre travail de refactoring. Tout d’abord, corriger les erreurs de fonctionnement de code, comme le fait que l’application n’affiche pas le vainqueur - ou le manque de getters et des setters. 
+Pour faciliter cette tâche on a donc commencé à faire des issues sur le github de notre projet.
+
+image::./Livrables/issues_etape1.png[]
