@@ -1,4 +1,4 @@
-package main;
+package models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -82,7 +82,7 @@ public class Tournoi {
 		try {
 			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ id_tournoi + ";");
 			while(rs.next()) datam.add(new MatchM(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
-			//public main.MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
+			//public models.MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -374,9 +374,9 @@ public class Tournoi {
 
 	}
 	public void majMatch(int index){
-		String termine = (getMatch(index).score1 > 0 || getMatch(index).score2 > 0) ? "oui":"non";
+		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
 		System.out.println(termine);
-		String req="UPDATE matchs SET equipe1='" + getMatch(index).eq1 + "', equipe2='" + getMatch(index).eq2 + "',  score1='" + getMatch(index).score1 + "',  score2='" +getMatch(index).score2 + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).idmatch + ";";
+		String req="UPDATE matchs SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
 		try {
 			st.executeUpdate(req);
 		} catch (SQLException e) {

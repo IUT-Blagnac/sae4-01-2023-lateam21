@@ -1,5 +1,7 @@
 package main;
 
+import models.Fenetre;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;  
@@ -25,7 +27,7 @@ public class Belote {
 		try {
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
-			String dos = System.getProperty("user.dir") + "\\Belote2023";
+			String dos = System.getProperty("user.dir");
 			String beloteFile = dos + "\\jBelote";
 			String createFile = dos + "\\create.sql";
 			System.out.println("Dossier de stockage:" + beloteFile);

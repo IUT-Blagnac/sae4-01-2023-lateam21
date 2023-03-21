@@ -1,4 +1,4 @@
-package main;
+package models;
 
 public 	class Equipe{
 	Equipe( int _id, int _num, String _eq1, String _eq2){

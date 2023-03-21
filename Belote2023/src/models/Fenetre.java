@@ -1,4 +1,4 @@
-package main;
+package models;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -306,8 +306,8 @@ public class Fenetre extends JFrame {
 					Tournoi.creerTournoi(Fenetre.this.s);
 					Fenetre.this.tracer_select_tournoi();
 					//String nt = JOptionPane.showInputDialog("Nom du tournoi ?");
-					//ResultSet rs = main.Fenetre.this.s.executeQuery("SELECT)
-					//main.Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
+					//ResultSet rs = models.Fenetre.this.s.executeQuery("SELECT)
+					//models.Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 				}
 			});
 	        
@@ -327,9 +327,9 @@ public class Fenetre extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					String nt = Fenetre.this.list.getSelectedValue();
 					Fenetre.this.t = new Tournoi(nt, Fenetre.this.s);
-					//main.Fenetre.this.detracer_select_tournoi();
+					//models.Fenetre.this.detracer_select_tournoi();
 					Fenetre.this.tracer_details_tournoi();
-					Fenetre.this.setStatutSelect("main.Tournoi \" " + nt + " \"");
+					Fenetre.this.setStatutSelect("models.Tournoi \" " + nt + " \"");
 					
 				}
 			});
@@ -687,19 +687,19 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getMatch(arg0).num_tour;
+						r= t.getMatch(arg0).getNum_tour();
 					break;
 					case 1:
-						r= t.getMatch(arg0).eq1;
+						r= t.getMatch(arg0).getEq1();
 					break;
 					case 2:
-						r= t.getMatch(arg0).eq2;
+						r= t.getMatch(arg0).getEq2();
 					break;
 					case 3:
-						r= t.getMatch(arg0).score1;
+						r= t.getMatch(arg0).getScore1();
 					break;
 					case 4:
-						r= t.getMatch(arg0).score2;
+						r= t.getMatch(arg0).getScore2();
 					break;
 					}
 					return r;
@@ -733,7 +733,7 @@ public class Fenetre extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y){
-					return y > 2 && t.getMatch(x).num_tour == t.getNbTours();
+					return y > 2 && t.getMatch(x).getNum_tour() == t.getNbTours();
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					MatchM m = t.getMatch(rowIndex);
@@ -742,7 +742,7 @@ public class Fenetre extends JFrame {
 					}else if( columnIndex == 3){
 						try{
 							int sco = Integer.parseInt((String)aValue);
-							m.score1 = sco;
+							m.setScore1(sco);
 							t.majMatch(rowIndex);
 							
 						}catch(Exception e){
@@ -752,7 +752,7 @@ public class Fenetre extends JFrame {
 					}else if( columnIndex == 4){
 						try{
 							int sco = Integer.parseInt((String)aValue);
-							m.score2 = sco;
+							m.setScore2(sco);
 							t.majMatch(rowIndex);
 							
 						}catch(Exception e){
