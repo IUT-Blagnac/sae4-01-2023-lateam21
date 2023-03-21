@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -68,11 +70,11 @@ public class Fenetre extends JFrame {
     public Tournoi t = null;
     
     private JLabel statut_slect = null;
-    private final String statut_deft = "Gestion de tournois de Belote v1.0 - ";
+    private final String statut_deft = "Gestion de tournois de main.Belote v1.0 - ";
 	public Fenetre(Statement st){
 		
 		s = st;
-		this.setTitle("Gestion de tournoi de Belote");
+		this.setTitle("Gestion de tournoi de main.Belote");
 		setSize(800,400);
 		this.setVisible(true);
 		this.setLocationRelativeTo(this.getParent());
@@ -304,8 +306,8 @@ public class Fenetre extends JFrame {
 					Tournoi.creerTournoi(Fenetre.this.s);
 					Fenetre.this.tracer_select_tournoi();
 					//String nt = JOptionPane.showInputDialog("Nom du tournoi ?");
-					//ResultSet rs = Fenetre.this.s.executeQuery("SELECT)
-					//Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
+					//ResultSet rs = main.Fenetre.this.s.executeQuery("SELECT)
+					//main.Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 				}
 			});
 	        
@@ -325,9 +327,9 @@ public class Fenetre extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					String nt = Fenetre.this.list.getSelectedValue();
 					Fenetre.this.t = new Tournoi(nt, Fenetre.this.s);
-					//Fenetre.this.detracer_select_tournoi();
+					//main.Fenetre.this.detracer_select_tournoi();
 					Fenetre.this.tracer_details_tournoi();
-					Fenetre.this.setStatutSelect("Tournoi \" " + nt + " \"");
+					Fenetre.this.setStatutSelect("main.Tournoi \" " + nt + " \"");
 					
 				}
 			});

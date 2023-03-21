@@ -1,3 +1,5 @@
+package main;
+
 public class MatchM{
 		public int idmatch,eq1,eq2,score1,score2,num_tour;
 		public boolean termine;
