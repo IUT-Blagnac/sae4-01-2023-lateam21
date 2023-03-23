@@ -152,7 +152,7 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 **********************************************************************
 
 == Compte-Rendu du projet
-=== Etape 1
+=== Etape 1 (Semaine 11)
 ==== Diagramme de classe
 image::./Livrables/digramme_classe_etape1.jpg[]
 
@@ -173,7 +173,7 @@ Pour faciliter cette tâche on a donc commencé à faire des issues sur le githu
 
 image::./Livrables/issues_etape1.png[]
 
-=== Etape 2
+=== Etape 2 (Semaine 12)
 ==== Ajout des getters et setters aux classes pré-existantes du projet
 
 ==== Ajout du patron Singleton
