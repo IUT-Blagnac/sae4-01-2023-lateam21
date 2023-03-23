@@ -60,7 +60,6 @@ Projet est réalisé par::
 
 - https://github.com/Aadroman[Ruben Longéque]
 - https://github.com/tobilub04[Tobiasz Strzeszewski]
-...
 
 
 == Contexte général
