@@ -173,3 +173,7 @@ On s’est donc mis d’accord sur plusieurs points qu'il faut mettre en avance 
 Pour faciliter cette tâche on a donc commencé à faire des issues sur le github de notre projet.
 
 image::./Livrables/issues_etape1.png[]
+
+=== Etape 2
+
+=== Etape 3
