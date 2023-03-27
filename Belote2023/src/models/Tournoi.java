@@ -135,13 +135,13 @@ public class Tournoi {
 		System.out.println("Nombre d'�quipes : " + getNbEquipes());
 		System.out.println("Nombre de tours  : " + nbt);
 		String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
-		Vector<Vector<Match>> ms;
+		Vector<Vector<MatchM>> ms;
 		ms = Tournoi.getMatchsToDo(getNbEquipes(), nbt);
 		int z = 1;
 		char v = ' ';
-		for(Vector<Match> t :ms){
-			for(Match m:t){
-				req += v + "(NULL," + id_tournoi + ", " + z + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
+		for(Vector<MatchM> t :ms){
+			for(MatchM m:t){
+				req += v + "(NULL," + id_tournoi + ", " + z + ", "+ m.getEq1() + ", " + m.getEq2() + ", 'non')";
 				v = ',';
 			}
 			req += "\n";
@@ -176,14 +176,14 @@ public class Tournoi {
 		
 		
 		if(nbtoursav == 0){
-			Vector<Match> ms;
+			Vector<MatchM> ms;
 			
 			ms = Tournoi.getMatchsToDo(getNbEquipes(), nbtoursav+1).lastElement();
 			
 			String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
 			char v = ' ';
-			for(Match m:ms){
-				req += v + "(NULL," + id_tournoi + ", " + (nbtoursav + 1) + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
+			for(MatchM m:ms){
+				req += v + "(NULL," + id_tournoi + ", " + (nbtoursav + 1) + ", "+ m.getEq1() + ", " + m.getEq2() + ", 'non')";
 				v = ',';
 			}
 			req += "\n";
@@ -360,7 +360,7 @@ public class Tournoi {
 	}
 	public void majEquipe(int index){
 		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).eq1) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).eq2) + "' WHERE id_equipe = " + getEquipe(index).id + ";";
+			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).getEq1()) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).getEq2()) + "' WHERE id_equipe = " + getEquipe(index).getId() + ";";
 			System.out.println(req);
 			st.executeUpdate(req);
 		    majEquipes();
@@ -421,7 +421,7 @@ public class Tournoi {
 
       }
     
-	public static Vector<Vector<Match>> getMatchsToDo(int nbJoueurs, int nbTours){
+	public static Vector<Vector<MatchM>> getMatchsToDo(int nbJoueurs, int nbTours){
 		if( nbTours  >= nbJoueurs){
 			System.out.println("Erreur tours < equipes");
 			return null;
@@ -446,10 +446,10 @@ public class Tournoi {
 		boolean quitter;
 		int     i, increment  = 1, temp;
 
-		Vector<Vector<Match>> retour = new Vector<Vector<Match>>();
-		
-		Vector<Match> vm;
-		
+		Vector<Vector<MatchM>> retour = new Vector<Vector<MatchM>>();
+
+		Vector<MatchM> vm;
+
 		for( int r = 1; r <= nbTours;r++){
 			if(r > 1){
 				temp = tabJoueurs[nbJoueurs - 2];
@@ -460,12 +460,12 @@ public class Tournoi {
 			}
 			i       = 0;
 			quitter = false;
-			vm = new Vector<Match>();
+			vm = new Vector<MatchM>();
 			while(!quitter){
 				if (tabJoueurs[i] == -1 || tabJoueurs[nbJoueurs - 1  - i] == -1){
 					// Nombre impair de joueur, le joueur n'a pas d'adversaire
 				}else{
-					vm.add(new Match(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
+					vm.add(new MatchM(i,tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i],0,0,0,false));
 				}
 
 		        i+= increment;
@@ -488,24 +488,5 @@ public class Tournoi {
 			retour.add(vm);
 		}
 		return retour;
-	}  
-
-	static class Match{
-		public int eq1,eq2;
-		public Match(int e1,int e2){
-			eq1 = e1;
-			eq2 = e2;
-		}
-		public String toString(){
-			if(eq1 < eq2){
-				return "  " + eq1 + " contre " + eq2;
-			}else{
-				return "  " + eq2 + " contre " + eq1;
-			}
-		}
 	}
-
-
-	
-
 }
