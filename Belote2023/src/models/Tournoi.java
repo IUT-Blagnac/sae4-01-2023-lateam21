@@ -6,20 +6,49 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import IDAO.TournoiIDAOImpl;
 
 public class Tournoi {
-	String statuttnom;
-	String nt;
-	int    statut;
-	int    id_tournoi;
+	//attributs de la classe tournoi
+	private int    statut;
+	private int    id_tournoi;
+	private String NomTournoi;
+	private int nbMatchs;
+
+	private String statuttnom;
 	//int    nbtours;
 	private Vector<Equipe> dataeq = null;
 	private Vector<MatchM> datam  = null;
 	private Vector<Integer>ideqs  = null; 
 	Statement st;
+	static TournoiIDAOImpl idao = TournoiIDAOImpl.getInstance();
 		
-	public Tournoi(String nt, Statement s){
-		st = s;
+	public Tournoi(String nt){
+		this.id_tournoi = 0;
+		this.nbMatchs = 0;
+		this.NomTournoi = nt;
+		this.statut = 0;
+
+		statuttnom = "Inconnu";
+		switch(this.statut){
+			//case 0:
+			//	statuttnom = "Configuration du tournoi";
+			//break;
+			case 0:
+				statuttnom = "Inscription des joueurs";
+				break;
+			case 1:
+				statuttnom = "Génération des matchs";
+				break;
+			case 2:
+				statuttnom = "Matchs en cours";
+				break;
+			case 3:
+				statuttnom = "Terminé";
+				break;
+
+		}
+		/*st = s;
 
 		try {
 			ResultSet rs = s.executeQuery("SELECT * FROM tournois WHERE nom_tournoi = '" + Tournoi.mysql_real_escape_string(nt) + "';");
@@ -39,27 +68,55 @@ public class Tournoi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		statuttnom = "Inconnu";
-		switch(this.statut){
-		//case 0:
-		//	statuttnom = "Configuration du tournoi";
-		//break;
-		case 0:
-			statuttnom = "Inscription des joueurs";
-		break;
-		case 1:
-			statuttnom = "Génération des matchs";
-		break;
-		case 2:
-			statuttnom = "Matchs en cours";
-		break;
-		case 3:
-			statuttnom = "Terminé";
-		break;
-			
-		}
-		this.nt = nt;
-		
+		this.NomTournoi = nt;*/
+	}
+
+	public MatchM getMatch(int index){
+		if(datam == null) majMatch();
+		return datam.get(index);
+	}
+	public int getNbMatchs(){
+		if(datam == null) majMatch();
+		return datam.size();
+	}
+	public Equipe getEquipe(int index){
+		if(dataeq == null)
+			majEquipes();
+		return dataeq.get(index);
+
+	}
+	public int getNbEquipes(){
+		if(dataeq == null)
+			majEquipes();
+		return dataeq.size();
+	}
+
+	public int    getStatut(){
+		return statut;
+	}
+	public String getNStatut(){
+		return statuttnom;
+	}
+	public String getNom() {
+		return NomTournoi;
+	}
+	public int getNbTours(){
+		return idao.getNbTours(this);
+	}
+	public int getId_tournoi() {
+		return id_tournoi;
+	}
+	public void setId_tournoi(int id_tournoi) {
+		this.id_tournoi = id_tournoi;
+	}
+	public void setNomTournoi(String nomTournoi) {
+		NomTournoi = nomTournoi;
+	}
+	public void setNbMatchs(int nbMatchs) {
+		this.nbMatchs = nbMatchs;
+	}
+	public void setStatut(int statut) {
+		this.statut = statut;
 	}
 
 	public void majEquipes(){
@@ -89,46 +146,7 @@ public class Tournoi {
 			System.out.println(e.getMessage());
 		}
 	}
-	public MatchM getMatch(int index){
-		if(datam == null) majMatch();
-		return datam.get(index);
-	}
-	public int getNbMatchs(){
-		if(datam == null) majMatch();
-		return datam.size();
-	}
-	public Equipe getEquipe(int index){
-		if(dataeq == null) 
-			majEquipes();
-		return dataeq.get(index);
-		
-	}
-	public int getNbEquipes(){
-		if(dataeq == null) 
-			majEquipes();
-		return dataeq.size();
-	}
-	
-	public int    getStatut(){
-		return statut;
-	}
-	public String getNStatut(){
-		return statuttnom;
-	}
-	public String getNom() {
-		return nt;
-	}
-	public int getNbTours(){
-		try {
-			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+id_tournoi+"; ");
-			rs.next();
-			return rs.getInt(1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			return -1;
-		}
-	}
+
 	public void genererMatchs(){
 		int nbt = 1;
 
@@ -269,26 +287,8 @@ public class Tournoi {
 		}
 	}
 		
-	public static int deleteTournoi(Statement s2, String nomtournoi){
-		try {
-			int idt;
-			ResultSet rs = s2.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + mysql_real_escape_string(nomtournoi) + "';");
-			rs.next();
-			idt = rs.getInt(1);
-			rs.close();
-			System.out.println("ID du tournoi � supprimer:" + idt);
-			s2.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idt);
-			s2.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idt);
-			s2.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idt);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur suppression" + e.getMessage());
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur inconnue");
-		} 
-		return 0;
+	public static void deleteTournoi(String nom){
+		idao.deleteTournoi(nom);
 	}
 	public static int creerTournoi(Statement s2){
 		String s = (String)JOptionPane.showInputDialog(
