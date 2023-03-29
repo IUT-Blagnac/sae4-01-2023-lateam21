@@ -177,3 +177,5 @@ image::./Livrables/issues_etape1.png[]
 ==== Ajout des getters et setters aux classes pré-existantes du projet
 
 ==== Ajout du patron Singleton
+
+=== Etape 3 (Semaine 13)
