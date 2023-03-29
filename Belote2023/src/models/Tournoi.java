@@ -290,20 +290,19 @@ public class Tournoi {
 	public static void deleteTournoi(String nom){
 		idao.deleteTournoi(nom);
 	}
-	public static int creerTournoi(Statement s2){
-		String s = (String)JOptionPane.showInputDialog(
+	public static int creerTournoi(){
+		String nomNewTournoi = (String)JOptionPane.showInputDialog(
                 null,
                 "Entrez le nom du tournoi",
                 "Nom du tournoi",
                 JOptionPane.PLAIN_MESSAGE);
-		
-		
-		if(s == null || s == ""){
+
+		if(nomNewTournoi == null || nomNewTournoi == ""){
 			return 1;
 		}else{
 			try {
-				s =  mysql_real_escape_string(s);
-				if(s.length() < 3){
+				nomNewTournoi =  mysql_real_escape_string(nomNewTournoi);
+				if(nomNewTournoi.length() < 3){
 					JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
 					return 2;					
 				}
@@ -311,32 +310,18 @@ public class Tournoi {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(s == ""){
+			if(nomNewTournoi == ""){
 				JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
 				return 2;
 			}else{
-				
-				
-				ResultSet rs;
-				try {
-					rs = s2.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + s + "';");
-					if(rs.next()){
-						JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Un tournoi du m�me nom existe d�j�");
-						return 2;							
-					}
-	
-					System.out.println("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+s+"', 0)");
-				s2.executeUpdate("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+s+"', 0)");
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					System.out.println("Erreur requete insertion nouveau tournoi:" + e.getMessage());
-					
-					//e.printStackTrace();
-					
-					
+				Tournoi T = idao.getOne(nomNewTournoi);
+				if(T!=null){
+					JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Un tournoi du m�me nom existe d�j�");
+					return 2;
 				}
+				System.out.println("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+nomNewTournoi+"', 0)");
+				idao.creerTournoi(nomNewTournoi);
 				//s2.executeUpdate("INSERT INTO tournois (id")
-				
 			}
 		}
 		return 0;

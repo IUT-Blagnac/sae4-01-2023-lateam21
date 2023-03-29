@@ -1,6 +1,6 @@
 package main;
 
-import models.Fenetre;
+import view.Fenetre;
 
 import java.io.File;
 import java.io.FileNotFoundException;
