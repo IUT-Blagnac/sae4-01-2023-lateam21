@@ -60,7 +60,6 @@ Projet est réalisé par::
 
 - https://github.com/Aadroman[Ruben Longéque]
 - https://github.com/tobilub04[Tobiasz Strzeszewski]
-...
 
 
 == Contexte général
@@ -178,5 +177,8 @@ image::./Livrables/issues_etape1.png[]
 ==== Ajout des getters et setters aux classes pré-existantes du projet
 
 ==== Ajout du patron Singleton
+<<<<<<< HEAD
 
 === Etape 3 (Semaine 13)
+=======
+>>>>>>> 8afd29c48d5658f28c64a0183930d3d4939c61eb
