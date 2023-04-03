@@ -3,6 +3,7 @@ package IDAO;
 import models.Equipe;
 import models.Tournoi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,5 +25,4 @@ public interface TournoiIDAO extends IDAO<Tournoi> {
 
     public void creerTournoi(String nom);
 
-    public List<Equipe> getEquipesTournoi(Tournoi t);
 }

@@ -1,6 +1,7 @@
 package view;
 
 import IDAO.TournoiIDAOImpl;
+import Service.EquipeService;
 import Service.TournoiService;
 import models.Equipe;
 import models.MatchM;
@@ -126,6 +127,7 @@ public class Fenetre extends JFrame {
 	private Tournoi tournoi = null;
 
 	public TournoiService ts = new TournoiService();
+	private EquipeService es = new EquipeService();
 	public Fenetre(Statement st){
 		
 		s = st;
@@ -431,7 +433,7 @@ public class Fenetre extends JFrame {
 		}
 		majboutons();
 		if(equipes_trace){
-			ts.majEquipes();
+			es.majEquipes(tournoi);
 			eq_modele.fireTableDataChanged();
 		}else{
 			equipes_trace = true;
@@ -453,13 +455,13 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= ts.getEquipe(arg0).getNum();
+						r= es.getEquipe(arg0, tournoi).getNum();
 					break;
 					case 1:
-						r= ts.getEquipe(arg0).getEq1();
+						r= es.getEquipe(arg0, tournoi).getEq1();
 					break;
 					case 2:
-						r= ts.getEquipe(arg0).getEq2();
+						r= es.getEquipe(arg0, tournoi).getEq2();
 					break;
 					}
 					return r;
@@ -479,7 +481,7 @@ public class Fenetre extends JFrame {
 				@Override
 				public int getRowCount() {
 					if(tournoi == null)return 0;
-					return ts.getNbEquipes();
+					return es.getNbEquipes(tournoi);
 				}
 
 				@Override
@@ -491,7 +493,7 @@ public class Fenetre extends JFrame {
 					return y > 0;
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Equipe e = ts.getEquipe(rowIndex);
+					Equipe e = es.getEquipe(rowIndex, tournoi);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 1){
@@ -499,7 +501,7 @@ public class Fenetre extends JFrame {
 					}else if( columnIndex == 2){
 						e.setEq2((String) aValue);
 					}
-					ts.majEquipe(rowIndex);
+					ts.majEquipe(rowIndex,tournoi);
 					fireTableDataChanged();
 				}
 			};
@@ -517,10 +519,10 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					ts.ajouterEquipe();
-					eq_valider.setEnabled(ts.getNbEquipes() > 0 && ts.getNbEquipes() % 2 == 0) ;
+					es.ajouterEquipe(tournoi);
+					eq_valider.setEnabled(es.getNbEquipes(tournoi) > 0 && es.getNbEquipes(tournoi) % 2 == 0) ;
 					eq_modele.fireTableDataChanged();
-					if(ts.getNbEquipes() > 0){
+					if(es.getNbEquipes(tournoi) > 0){
 						eq_jt.getSelectionModel().setSelectionInterval(0, 0);
 
 					}
@@ -533,11 +535,11 @@ public class Fenetre extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(Fenetre.this.eq_jt.getSelectedRow() != -1){
-						ts.supprimerEquipe(ts.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
+						ts.supprimerEquipe(es.getEquipe(Fenetre.this.eq_jt.getSelectedRow(), tournoi).getId(), tournoi);
 					}
-					eq_valider.setEnabled(ts.getNbEquipes() > 0 && ts.getNbEquipes() % 2 == 0) ;
+					eq_valider.setEnabled(es.getNbEquipes(tournoi) > 0 && es.getNbEquipes(tournoi) % 2 == 0) ;
 					eq_modele.fireTableDataChanged();
-					if(ts.getNbEquipes() > 0){
+					if(es.getNbEquipes(tournoi) > 0){
 						eq_jt.getSelectionModel().setSelectionInterval(0, 0);
 					}
 				}
@@ -546,13 +548,13 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ts.genererMatchs();
+					ts.genererMatchs(tournoi);
 					Fenetre.this.majboutons();
 					Fenetre.this.tracer_tournoi_matchs();
 
 				}
 			});
-			if(ts.getNbEquipes() > 0){
+			if(es.getNbEquipes(tournoi) > 0){
 				eq_jt.getSelectionModel().setSelectionInterval(0, 0);
 			}
 			bt.add(eq_ajouter);
@@ -568,7 +570,7 @@ public class Fenetre extends JFrame {
 		}else{
 			eq_ajouter.setEnabled(true);
 			eq_supprimer.setEnabled(true);
-			eq_valider.setEnabled(ts.getNbEquipes() > 0) ;
+			eq_valider.setEnabled(es.getNbEquipes(tournoi) > 0) ;
 		}
 		fen.show(c, EQUIPES);
 
@@ -635,7 +637,7 @@ public class Fenetre extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					ts.ajouterTour();
+					ts.ajouterTour(tournoi);
 					Fenetre.this.tracer_tours_tournoi();
 				}
 			});
@@ -655,7 +657,7 @@ public class Fenetre extends JFrame {
 
 			tours_supprimer.setEnabled( ts.getNbTours(tournoi) > 1);
 
-			if(!peutajouter || ts.getNbTours(tournoi)  >= ts.getNbEquipes()-1 ){
+			if(!peutajouter || ts.getNbTours(tournoi)  >= es.getNbEquipes(tournoi)-1 ){
 				tours_ajouter.setEnabled(false);
 			}else
 				tours_ajouter.setEnabled(true);

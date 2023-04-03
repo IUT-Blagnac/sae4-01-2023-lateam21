@@ -177,8 +177,4 @@ public class TournoiIDAOImpl extends AbstractDAO implements TournoiIDAO {
         }
     }
 
-    @Override
-    public List<Equipe> getEquipesTournoi(Tournoi t) {
-        return null;
-    }
 }
