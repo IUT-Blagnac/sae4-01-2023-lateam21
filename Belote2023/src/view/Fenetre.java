@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -32,7 +33,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
-
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 
 public class Fenetre extends JFrame {
@@ -579,13 +581,13 @@ public class Fenetre extends JFrame {
 			return ;
 		}
 		majboutons();
-		Vector< Vector<Object>> to =new Vector<Vector<Object>>();
-		Vector<Object> v;
+		ArrayList< Object> to =new ArrayList<Object>();
+		ArrayList<Object> v;
 		boolean peutajouter = true;
 		try {
 			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournoi.getId_tournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
 			while(rs.next()){
-				v = new Vector<Object>();
+				v = new ArrayList<Object>();
 				v.add(rs.getInt("num_tour"));
 				v.add(rs.getInt("tmatchs"));
 				v.add(rs.getString("termines"));
@@ -595,11 +597,11 @@ public class Fenetre extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		Vector<String> columnNames = new Vector<String>();
+		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("Numéro du tour");
 		columnNames.add("Nombre de matchs");
 		columnNames.add("Matchs joués");
-		tours_t = new JTable(to,columnNames );
+		tours_t = new JTable((TableModel) to, (TableColumnModel) columnNames);
 		if(tours_trace){
 			tours_js.setViewportView(tours_t);
 		}else{
@@ -796,12 +798,12 @@ public class Fenetre extends JFrame {
 			return ;
 		}
 
-		Vector< Vector<Object>> to =new Vector<Vector<Object>>();
-		Vector<Object> v;
+		ArrayList< Object> to =new ArrayList<Object>();
+		ArrayList<Object> v;
 		try {
 			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournoi.getId_tournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournoi.getId_tournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.tournoi.getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.tournoi.getId_tournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
 			while(rs.next()){
-				v = new Vector<Object>();
+				v = new ArrayList<Object>();
 				v.add(rs.getInt("equipe"));
 				v.add(rs.getString("joueur1"));
 				v.add(rs.getString("joueur2"));
@@ -813,14 +815,14 @@ public class Fenetre extends JFrame {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		Vector<String> columnNames = new Vector<String>();
+		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("Numéro d'équipe");
 		columnNames.add("Nom joueur 1");
 		columnNames.add("Nom joueur 2");
 		columnNames.add("Score");
 		columnNames.add("Matchs gagnés");
 		columnNames.add("Matchs joués");
-		resultats_jt = new JTable(to,columnNames );
+		resultats_jt = new JTable((TableModel) to, (TableColumnModel) columnNames);
 		resultats_jt.setAutoCreateRowSorter(true);
 
 		if(resultats_trace){

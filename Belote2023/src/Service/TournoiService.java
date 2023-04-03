@@ -15,9 +15,9 @@ import java.util.Vector;
 
 public class TournoiService {
     //attibuts classe controller
-    private Vector<Equipe> dataeq = null;
-    private Vector<MatchM> datam  = null;
-    private Vector<Integer>ideqs  = null;
+    private ArrayList<Equipe> dataeq = null;
+    private ArrayList<MatchM> datam  = null;
+    private ArrayList<Integer>ideqs  = null;
     static TournoiIDAOImpl idao = TournoiIDAOImpl.getInstance();
     Statement st;
     private Tournoi tournoi;
@@ -54,8 +54,8 @@ public class TournoiService {
     }
 
     public void majEquipes(){
-        dataeq = new Vector<Equipe>();
-        ideqs = new Vector<Integer>();
+        dataeq = new ArrayList<Equipe>();
+        ideqs = new ArrayList<Integer>();
         try {
             ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + tournoi.getId_tournoi() + " ORDER BY num_equipe;");
             while(rs.next()){
@@ -69,7 +69,7 @@ public class TournoiService {
         }
     }
     public void majMatch(){
-        datam = new Vector<MatchM>();
+        datam = new ArrayList<MatchM>();
         try {
             ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ tournoi.getId_tournoi() + ";");
             while(rs.next()) datam.add(new MatchM(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));

@@ -1,5 +1,6 @@
 package IDAO;
 
+import models.Equipe;
 import models.Tournoi;
 
 import java.sql.PreparedStatement;
@@ -43,9 +44,9 @@ public class TournoiIDAOImpl extends AbstractDAO implements TournoiIDAO {
             idTournoiDelete = rs.getInt(1);
             rs.close();
             System.out.println("ID du tournoi � supprimer:" + idTournoiDelete);
-            ps.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idTournoiDelete);
-            ps.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idTournoiDelete);
-            ps.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idTournoiDelete);
+            ps.executeUpdate("DELETE * FROM matchs   WHERE id_tournoi = " + idTournoiDelete);
+            ps.executeUpdate("DELETE * FROM equipes  WHERE id_tournoi = " + idTournoiDelete);
+            ps.executeUpdate("DELETE * FROM tournois WHERE id_tournoi = " + idTournoiDelete);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             System.out.println("Erreur suppression : " + e.getMessage());
@@ -174,5 +175,10 @@ public class TournoiIDAOImpl extends AbstractDAO implements TournoiIDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Equipe> getEquipesTournoi(Tournoi t) {
+        return null;
     }
 }
