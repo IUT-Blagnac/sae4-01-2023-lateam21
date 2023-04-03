@@ -1,6 +1,7 @@
 package view;
 
 import IDAO.TournoiIDAOImpl;
+import Service.TournoiService;
 import models.Equipe;
 import models.MatchM;
 import models.Tournoi;
@@ -57,7 +58,51 @@ public class Fenetre extends JFrame {
 	private JButton       bmatchs;
 	private JButton       bresultats;
 	private JButton       bparams;
-	
+
+	private JTable                     tours_t;
+	private JScrollPane                tours_js;
+	private JPanel                     tours_p;
+	private BoxLayout                  tours_layout;
+	private JLabel                     tours_desc;
+
+	private JButton                    tours_ajouter;
+	private JButton                    tours_supprimer;
+	private JButton                    tours_rentrer;
+
+	private JLabel                     detailt_nom;
+	private JLabel                     detailt_statut;
+	private JLabel                     detailt_nbtours;
+	//JButton                    detailt_enregistrer;
+
+	private AbstractTableModel eq_modele;
+	private JButton            eq_ajouter;
+	private JButton            eq_supprimer;
+	private JButton            eq_valider;
+	private JScrollPane        eq_js;
+	private JTable                     eq_jt;
+	private JPanel                     eq_p;
+	private BoxLayout                  eq_layout;
+	private JLabel                     eq_desc;
+
+	private AbstractTableModel match_modele;
+	private JScrollPane        match_js;
+	private JTable                     match_jt;
+	private JPanel                     match_p;
+	private BoxLayout                  match_layout;
+	private JLabel                     match_desc;
+	private JPanel                     match_bas;
+	private JLabel                     match_statut;
+	private JButton                    match_valider;
+
+	private JScrollPane        resultats_js;
+	private JTable                     resultats_jt;
+	private JPanel                     resultats_p;
+	private BoxLayout                  resultats_layout;
+	private JLabel                     resultats_desc;
+	private JPanel                     resultats_bas;
+	private JLabel                     resultats_statut;
+
+
 	private boolean tournois_trace  = false;
 	private boolean details_trace   = false;
 	private boolean equipes_trace   = false;
@@ -72,11 +117,13 @@ public class Fenetre extends JFrame {
     final static String TOURS    = "Tours";
     final static String MATCHS   = "Matchs";
     final static String RESULTATS= "Resultats";
-    public Tournoi t = null;
     
     private JLabel statut_slect = null;
     private final String statut_deft = "Gestion de tournois de main.Belote v1.0 - ";
 	private TournoiIDAOImpl idao = TournoiIDAOImpl.getInstance();
+	private Tournoi tournoi = null;
+
+	public TournoiService ts = new TournoiService();
 	public Fenetre(Statement st){
 		
 		s = st;
@@ -170,7 +217,7 @@ public class Fenetre extends JFrame {
 		statut_slect.setText(statut_deft + "" + t);
 	}
 	public void majboutons(){
-		if( t == null){
+		if( tournoi == null){
 			btournois.setEnabled(true);
 			bequipes.setEnabled(false);
 			bmatchs.setEnabled(false);
@@ -178,7 +225,7 @@ public class Fenetre extends JFrame {
 			bresultats.setEnabled(false);
 			bparams.setEnabled(false);
 		}else{
-			switch(t.getStatut()){
+			switch(ts.getTournoiStatut(tournoi)){
 				case 0:
 					btournois.setEnabled(true);
 					bequipes.setEnabled(true);
@@ -190,10 +237,10 @@ public class Fenetre extends JFrame {
 				case 2:
 					btournois.setEnabled(true);
 					bequipes.setEnabled(true);
-					bmatchs.setEnabled(t.getNbTours() > 0);
+					bmatchs.setEnabled(ts.getNbTours(tournoi) > 0);
 					btours.setEnabled(true);
 
-					int total=idao.getNbMatchs(t), termines=idao.getNbMatchsFini(t);
+					int total=ts.getNbMatchs(), termines=idao.getNbMatchsFini(tournoi);
 					bresultats.setEnabled(total == termines && total > 0);
 					bparams.setEnabled(true);
 					break;
@@ -202,7 +249,7 @@ public class Fenetre extends JFrame {
 	}
 	public void tracer_select_tournoi(){
 
-		t = null;
+//		lt = null;
 		majboutons();
 
 		int nbdeLignes = 0;
@@ -246,19 +293,19 @@ public class Fenetre extends JFrame {
 
 		}else{
 		    tournois_trace = true;
-			JPanel t = new JPanel();
+			JPanel jpanel = new JPanel();
 
-			t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
-			c.add(t,TOURNOIS);
+			jpanel.setLayout(new BoxLayout(jpanel, BoxLayout.Y_AXIS));
+			c.add(jpanel,TOURNOIS);
 			gt = new JTextArea("Gestion des tournois\nXXXXX XXXXXXXX, juillet 2012");
 			gt.setAlignmentX(Component.CENTER_ALIGNMENT);
 			gt.setEditable(false);
-			t.add(gt);
+			jpanel.add(gt);
 
 			// Recherche de la liste des tournois
 			ListeTournois = new JPanel();
 
-			t.add(ListeTournois);
+			jpanel.add(ListeTournois);
 
 			list = new JList<String>(noms_tournois);
 			list.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -272,15 +319,15 @@ public class Fenetre extends JFrame {
 	        label = new JLabel("Liste des tournois");
 	        label.setLabelFor(list);
 	        label.setAlignmentX(Component.LEFT_ALIGNMENT);
-	        t.add(label);
+			jpanel.add(label);
 	        //c.add(Box.createRigidArea(new Dimension(0,0)));
-	        t.add(listScroller);
-	        t.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+			jpanel.add(listScroller);
+			jpanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
 
 
 	        Box bh = Box.createHorizontalBox();
-	        t.add(bh);
+			jpanel.add(bh);
 			creerTournoi = new JButton("Créer un nouveau tournoi");
 			selectTournoi = new JButton("Sélectionner le tournoi");
 			deleteTournoi = new JButton("Supprimer le tournoi");
@@ -288,7 +335,7 @@ public class Fenetre extends JFrame {
 			bh.add(selectTournoi);
 			bh.add(deleteTournoi);
 
-			t.updateUI();
+			jpanel.updateUI();
 	        if(nbdeLignes == 0){
 	        	selectTournoi.setEnabled(false);
 	        	deleteTournoi.setEnabled(false);
@@ -300,7 +347,7 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Tournoi.creerTournoi();
+					ts.creerTournoi();
 					Fenetre.this.tracer_select_tournoi();
 					//String nt = JOptionPane.showInputDialog("Nom du tournoi ?");
 					//ResultSet rs = view.Fenetre.this.s.executeQuery("SELECT)
@@ -312,7 +359,7 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Tournoi.deleteTournoi(Fenetre.this.list.getSelectedValue());
+					ts.deleteTournoi(Fenetre.this.list.getSelectedValue());
 					Fenetre.this.tracer_select_tournoi();
 
 
@@ -323,7 +370,7 @@ public class Fenetre extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					String nt = Fenetre.this.list.getSelectedValue();
-					Fenetre.this.t = new Tournoi(nt);
+					Fenetre.this.tournoi = new Tournoi(nt);
 					//view.Fenetre.this.detracer_select_tournoi();
 					Fenetre.this.tracer_details_tournoi();
 					Fenetre.this.setStatutSelect("models.Tournoi \" " + nt + " \"");
@@ -332,26 +379,17 @@ public class Fenetre extends JFrame {
 			});
 	        fen.show(c, TOURNOIS);
 		}
-
-
-
 	}
-
-	JLabel                     detailt_nom;
-	JLabel                     detailt_statut;
-	JLabel                     detailt_nbtours;
-	//JButton                    detailt_enregistrer;
-
 	public void tracer_details_tournoi(){
-		if(t == null){
+		if(tournoi == null){
 			return ;
 		}
 		majboutons();
 
 		if(details_trace){
-			detailt_nom.setText(t.getNom());
-			detailt_statut.setText(t.getNStatut());
-			detailt_nbtours.setText(Integer.toString(t.getNbTours()));
+			detailt_nom.setText(tournoi.getNom());
+			detailt_statut.setText(tournoi.getNStatut());
+			detailt_nbtours.setText(Integer.toString(ts.getNbTours(tournoi)));
 		}else{
 			details_trace = false;
 			JPanel p = new JPanel();
@@ -360,15 +398,15 @@ public class Fenetre extends JFrame {
 			c.add(p, DETAIL);
 
 			JPanel tab = new JPanel( new GridLayout(4,2));
-			detailt_nom = new JLabel(t.getNom());
+			detailt_nom = new JLabel(tournoi.getNom());
 			tab.add(new JLabel("Nom du tournoi"));
 			tab.add(detailt_nom);
 
-			detailt_statut = new JLabel(t.getNStatut());
+			detailt_statut = new JLabel(tournoi.getNStatut());
 			tab.add(new JLabel("Statut"));
 			tab.add(detailt_statut);
 
-			detailt_nbtours = new JLabel(Integer.toString(t.getNbTours()));
+			detailt_nbtours = new JLabel(Integer.toString(ts.getNbTours(tournoi)));
 			tab.add(new JLabel("Nombre de tours:"));
 			tab.add(detailt_nbtours);
 			//detailt_nbtours.setPreferredSize(new Dimension(40,40));
@@ -381,30 +419,17 @@ public class Fenetre extends JFrame {
 			p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			//p.add(new JLabel("  e"));
 			//tab.setPreferredSize(new Dimension(-1, 200));
-
-
 		}
 		fen.show(c, DETAIL);
-
 	}
 
-	private AbstractTableModel eq_modele;
-    private JButton            eq_ajouter;
-    private JButton            eq_supprimer;
-    private JButton            eq_valider;
-    private JScrollPane        eq_js;
-    JTable                     eq_jt;
-    JPanel                     eq_p;
-    BoxLayout                  eq_layout;
-    JLabel                     eq_desc;
-
 	public void tracer_tournoi_equipes(){
-		if(t == null){
+		if(tournoi == null){
 			return ;
 		}
 		majboutons();
 		if(equipes_trace){
-			t.majEquipes();
+			ts.majEquipes();
 			eq_modele.fireTableDataChanged();
 		}else{
 			equipes_trace = true;
@@ -426,13 +451,13 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getEquipe(arg0).getNum();
+						r= ts.getEquipe(arg0).getNum();
 					break;
 					case 1:
-						r= t.getEquipe(arg0).getEq1();
+						r= ts.getEquipe(arg0).getEq1();
 					break;
 					case 2:
-						r= t.getEquipe(arg0).getEq2();
+						r= ts.getEquipe(arg0).getEq2();
 					break;
 					}
 					return r;
@@ -451,8 +476,8 @@ public class Fenetre extends JFrame {
 				 }
 				@Override
 				public int getRowCount() {
-					if(t == null)return 0;
-					return t.getNbEquipes();
+					if(tournoi == null)return 0;
+					return ts.getNbEquipes();
 				}
 
 				@Override
@@ -460,11 +485,11 @@ public class Fenetre extends JFrame {
 					return 3;
 				}
 				public boolean isCellEditable(int x, int y){
-					if(t.getStatut() != 0) return false;
+					if(tournoi.getStatut() != 0) return false;
 					return y > 0;
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Equipe e = t.getEquipe(rowIndex);
+					Equipe e = ts.getEquipe(rowIndex);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 1){
@@ -472,7 +497,7 @@ public class Fenetre extends JFrame {
 					}else if( columnIndex == 2){
 						e.setEq2((String) aValue);
 					}
-					t.majEquipe(rowIndex);
+					ts.majEquipe(rowIndex);
 					fireTableDataChanged();
 				}
 			};
@@ -490,10 +515,10 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					t.ajouterEquipe();
-					eq_valider.setEnabled(t.getNbEquipes() > 0 && t.getNbEquipes() % 2 == 0) ;
+					ts.ajouterEquipe();
+					eq_valider.setEnabled(ts.getNbEquipes() > 0 && ts.getNbEquipes() % 2 == 0) ;
 					eq_modele.fireTableDataChanged();
-					if(t.getNbEquipes() > 0){
+					if(ts.getNbEquipes() > 0){
 						eq_jt.getSelectionModel().setSelectionInterval(0, 0);
 
 					}
@@ -506,11 +531,11 @@ public class Fenetre extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(Fenetre.this.eq_jt.getSelectedRow() != -1){
-						t.supprimerEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
+						ts.supprimerEquipe(ts.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
 					}
-					eq_valider.setEnabled(t.getNbEquipes() > 0 && t.getNbEquipes() % 2 == 0) ;
+					eq_valider.setEnabled(ts.getNbEquipes() > 0 && ts.getNbEquipes() % 2 == 0) ;
 					eq_modele.fireTableDataChanged();
-					if(t.getNbEquipes() > 0){
+					if(ts.getNbEquipes() > 0){
 						eq_jt.getSelectionModel().setSelectionInterval(0, 0);
 					}
 				}
@@ -519,13 +544,13 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					t.genererMatchs();
+					ts.genererMatchs();
 					Fenetre.this.majboutons();
 					Fenetre.this.tracer_tournoi_matchs();
 
 				}
 			});
-			if(t.getNbEquipes() > 0){
+			if(ts.getNbEquipes() > 0){
 				eq_jt.getSelectionModel().setSelectionInterval(0, 0);
 			}
 			bt.add(eq_ajouter);
@@ -534,33 +559,23 @@ public class Fenetre extends JFrame {
 			eq_p.add(bt);
 			eq_p.add(new JLabel("Dans le cas de nombre d'équipes impair, créer une équipe virtuelle"));
 		}
-		if(t.getStatut() != 0){
+		if(tournoi.getStatut() != 0){
 			eq_ajouter.setEnabled(false);
 			eq_supprimer.setEnabled(false);
-			eq_valider.setEnabled(t.getStatut() == 1);
+			eq_valider.setEnabled(tournoi.getStatut() == 1);
 		}else{
 			eq_ajouter.setEnabled(true);
 			eq_supprimer.setEnabled(true);
-			eq_valider.setEnabled(t.getNbEquipes() > 0) ;
+			eq_valider.setEnabled(ts.getNbEquipes() > 0) ;
 		}
 		fen.show(c, EQUIPES);
 
 	}
 
-	JTable                     tours_t;
-	JScrollPane                tours_js;
-	JPanel                     tours_p;
-	BoxLayout                  tours_layout;
-	JLabel                     tours_desc;
-
-	JButton                    tours_ajouter;
-	JButton                    tours_supprimer;
-	JButton                    tours_rentrer;
-
 	public void tracer_tours_tournoi(){
 
 
-		if(t == null){
+		if(tournoi == null){
 			return ;
 		}
 		majboutons();
@@ -568,7 +583,7 @@ public class Fenetre extends JFrame {
 		Vector<Object> v;
 		boolean peutajouter = true;
 		try {
-			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
+			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournoi.getId_tournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
 			while(rs.next()){
 				v = new Vector<Object>();
 				v.add(rs.getInt("num_tour"));
@@ -618,7 +633,7 @@ public class Fenetre extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					t.ajouterTour();
+					ts.ajouterTour();
 					Fenetre.this.tracer_tours_tournoi();
 				}
 			});
@@ -626,7 +641,7 @@ public class Fenetre extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					t.supprimerTour();
+					ts.supprimerTour();
 					Fenetre.this.tracer_tours_tournoi();
 				}
 			});
@@ -636,9 +651,9 @@ public class Fenetre extends JFrame {
 			tours_ajouter.setEnabled(true);
 		}else{
 
-			tours_supprimer.setEnabled( t.getNbTours() > 1);
+			tours_supprimer.setEnabled( ts.getNbTours(tournoi) > 1);
 
-			if(!peutajouter || t.getNbTours()  >= t.getNbEquipes()-1 ){
+			if(!peutajouter || ts.getNbTours(tournoi)  >= ts.getNbEquipes()-1 ){
 				tours_ajouter.setEnabled(false);
 			}else
 				tours_ajouter.setEnabled(true);
@@ -648,23 +663,13 @@ public class Fenetre extends JFrame {
 		//tours_ajouter.setEnabled(peutajouter);
 	}
 
-	private AbstractTableModel match_modele;
-    private JScrollPane        match_js;
-    JTable                     match_jt;
-    JPanel                     match_p;
-    BoxLayout                  match_layout;
-    JLabel                     match_desc;
-    JPanel                     match_bas;
-    JLabel                     match_statut;
-    JButton                    match_valider;
-
 	public void tracer_tournoi_matchs(){
-		if(t == null){
+		if(tournoi == null){
 			return ;
 		}
 		majboutons();
 		if(match_trace){
-			t.majMatch();
+			ts.majMatch();
 			match_modele.fireTableDataChanged();
 			majStatutM();
 		}else{
@@ -684,19 +689,19 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getMatch(arg0).getNum_tour();
+						r= ts.getMatch(arg0).getNum_tour();
 					break;
 					case 1:
-						r= t.getMatch(arg0).getEq1();
+						r= ts.getMatch(arg0).getEq1();
 					break;
 					case 2:
-						r= t.getMatch(arg0).getEq2();
+						r= ts.getMatch(arg0).getEq2();
 					break;
 					case 3:
-						r= t.getMatch(arg0).getScore1();
+						r= ts.getMatch(arg0).getScore1();
 					break;
 					case 4:
-						r= t.getMatch(arg0).getScore2();
+						r= ts.getMatch(arg0).getScore2();
 					break;
 					}
 					return r;
@@ -720,8 +725,8 @@ public class Fenetre extends JFrame {
 				@Override
 				public int getRowCount() {
 					// TODO Auto-generated method stub
-					if(t == null)return 0;
-					return t.getNbMatchs();
+					if(tournoi == null)return 0;
+					return ts.getNbMatchs();
 				}
 
 				@Override
@@ -730,17 +735,17 @@ public class Fenetre extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y){
-					return y > 2 && t.getMatch(x).getNum_tour() == t.getNbTours();
+					return y > 2 && ts.getMatch(x).getNum_tour() == ts.getNbTours(tournoi);
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					MatchM m = t.getMatch(rowIndex);
+					MatchM m = ts.getMatch(rowIndex);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 3){
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore1(sco);
-							t.majMatch(rowIndex);
+							ts.majMatch(rowIndex);
 
 						}catch(Exception e){
 							return ;
@@ -750,7 +755,7 @@ public class Fenetre extends JFrame {
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore2(sco);
-							t.majMatch(rowIndex);
+							ts.majMatch(rowIndex);
 
 						}catch(Exception e){
 							return ;
@@ -785,24 +790,16 @@ public class Fenetre extends JFrame {
 
 	}
 
-    private JScrollPane        resultats_js;
-    JTable                     resultats_jt;
-    JPanel                     resultats_p;
-    BoxLayout                  resultats_layout;
-    JLabel                     resultats_desc;
-    JPanel                     resultats_bas;
-    JLabel                     resultats_statut;
-
 
 	public void tracer_tournoi_resultats(){
-		if(t == null){
+		if(tournoi == null){
 			return ;
 		}
 
 		Vector< Vector<Object>> to =new Vector<Vector<Object>>();
 		Vector<Object> v;
 		try {
-			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
+			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournoi.getId_tournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournoi.getId_tournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.tournoi.getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.tournoi.getId_tournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
 			while(rs.next()){
 				v = new Vector<Object>();
 				v.add(rs.getInt("equipe"));
@@ -861,7 +858,7 @@ public class Fenetre extends JFrame {
 	private void majStatutM(){
 		int total=-1, termines=-1;
 		try {
-			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
+			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournoi.getId_tournoi() +" GROUP by id_tournoi ;");
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);

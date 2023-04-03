@@ -1,7 +1,7 @@
 package models;
 
 public 	class Equipe{
-	Equipe( int _id, int _num, String _eq1, String _eq2){
+	public Equipe( int _id, int _num, String _eq1, String _eq2){
 		id = _id;
 		num = _num;
 		eq1 = _eq1;
