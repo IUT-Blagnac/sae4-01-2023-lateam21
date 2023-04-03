@@ -13,30 +13,29 @@ import javax.swing.JOptionPane;
 public class Belote {
 
 	public static void main(String[] args) throws SQLException {
-		
+		//TESSST
         Connection connection = null;  
         Statement statement = null;  		
 
 		// Connection � la base de donn�es
 		// et cr�ation des champs 
 
-<<<<<<< HEAD:Belote2023/src/main/java/Belote.java
-=======
 
->>>>>>> ba3cd638f6be3addcf60849e501be94d4092c6fc:Belote2023/src/Belote.java
 		try {
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
-			String dos = System.getProperty("user.dir") + "\\Belote2023\\jBelote";
-			System.out.println("Dossier de stockage:" + dos);
-			if( !new File(dos).isDirectory() ){
-				new File(dos).mkdir();
+			String dos = System.getProperty("user.dir");
+			String beloteFile = dos + "\\jBelote";
+			String createFile = dos + "\\create.sql";
+			System.out.println("Dossier de stockage:" + beloteFile);
+			if( !new File(beloteFile).isDirectory() ){
+				new File(beloteFile).mkdir();
 			}
 			connection = DriverManager
-					.getConnection("jdbc:hsqldb:file:" + dos + "\\belote","sa","");
+					.getConnection("jdbc:hsqldb:file:" + beloteFile + "\\belote","sa","");
 			statement = connection.createStatement();
 
-			importSQL(connection, new File("create.sql"));
+			importSQL(connection, new File(createFile));
 
 		}catch(SQLException e){
 				JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
