@@ -1,0 +1,268 @@
+package IDAO;
+
+import models.Tournament;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * The type Tournament idao.
+ */
+public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
+    /**
+     * The constant instance.
+     */
+    private static TournamentIDAOImpl instance = null;
+
+    /**
+     * Instantiates a new Tournament idao.
+     */
+    private TournamentIDAOImpl(){
+        super();
+    }
+
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public final static TournamentIDAOImpl getInstance() {
+        if (TournamentIDAOImpl.instance == null) {
+            synchronized(TournamentIDAOImpl.class) {
+                if (TournamentIDAOImpl.instance == null) {
+                    TournamentIDAOImpl.instance = new TournamentIDAOImpl();
+                }
+            }
+        }
+        return TournamentIDAOImpl.instance;
+    }
+
+    /**
+     * Add.
+     *
+     * @param obj the obj
+     */
+    @Override
+    public void add(Tournament obj) {
+
+    }
+
+    /**
+     * Delete.
+     *
+     * @param id the id
+     */
+    @Override
+    public void delete(int id) {
+
+    }
+
+    /**
+     * Delete tournament.
+     *
+     * @param nomT the nom t
+     */
+    @Override
+    public void deleteTournament(String nomT) {
+        try {
+            int idTournamentDelete;
+            PreparedStatement ps = connection.prepareStatement("SELECT id_tournoi FROM tournois WHERE nom_tournoi = ?");
+            ps.setString(1, nomT);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            idTournamentDelete = rs.getInt(1);
+            rs.close();
+            System.out.println("ID du tournoi � supprimer:" + idTournamentDelete);
+            ps.executeUpdate("DELETE * FROM matchs   WHERE id_tournoi = " + idTournamentDelete);
+            ps.executeUpdate("DELETE * FROM equipes  WHERE id_tournoi = " + idTournamentDelete);
+            ps.executeUpdate("DELETE * FROM tournois WHERE id_tournoi = " + idTournamentDelete);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println("Erreur suppression : " + e.getMessage());
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            System.out.println("Erreur inconnue");
+        }
+    }
+
+    /**
+     * Gets one.
+     *
+     * @param id the id
+     * @return the one
+     */
+    @Override
+    public Tournament getOne(int id) {
+        return null;
+    }
+
+    /**
+     * Gets one.
+     *
+     * @param nomT the nom t
+     * @return the one
+     */
+    @Override
+    public Tournament getOne(String nomT) {
+        Tournament t = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM tournois where nom_tournoi = ?");
+            ps.setString(1, nomT);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                t = new Tournament("");
+                t.setIdTournament(rs.getInt("id_tournoi"));
+                t.setNbGames(rs.getInt("nb_matchs"));
+                t.setNameTournament(nomT);
+                t.setStatus(rs.getInt("statut"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return t;
+    }
+
+    /**
+     * Gets all.
+     *
+     * @return the all
+     */
+    @Override
+    public List<Tournament> getAll() {
+        List<Tournament> T = new ArrayList<Tournament>();
+        Tournament t = null;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
+            while(rs.next()){
+                t.setIdTournament(rs.getInt("id_tournoi"));
+                t.setNbGames(rs.getInt("nb_matchs"));
+                t.setNameTournament("nom_tournoi");
+                t.setStatus(rs.getInt("statut"));
+                T.add(t);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return T;
+    }
+
+    /**
+     * Update tournament.
+     *
+     * @param t the t
+     */
+    @Override
+    public void updateTournament(Tournament t) {
+
+    }
+
+    /**
+     * Gets nb rounds.
+     *
+     * @param t the t
+     * @return the nb rounds
+     */
+    @Override
+    public int getNbRounds(Tournament t) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi= ? ; ");
+            ps.setInt(1, t.getIdTournament());
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }
+
+    /**
+     * Gets nb games.
+     *
+     * @param t the t
+     * @return the nb games
+     */
+    @Override
+    public int getNbGames(Tournament t) {
+        int result = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement("Select count(*) from Match m WHERE m.id_tournoi=? GROUP BY id_tournoi ;");
+            ps.setInt(1, t.getIdTournament());
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            result = rs.getInt(1);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * Gets nb games ended.
+     *
+     * @param t the t
+     * @return the nb games ended
+     */
+    @Override
+    public int getNbGamesEnded(Tournament t) {
+        int result = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement("Select count(*) from matchs m  WHERE m.id_tournoi = ?  AND m.termine='oui' ");
+            ps.setInt(1, t.getIdTournament());
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            result = rs.getInt(1);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    /**
+     * Gets all names.
+     *
+     * @return the all names
+     */
+    @Override
+    public List<String> getAllNames() {
+        List<String> names = new ArrayList<String>();
+        String nameT;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
+            while(rs.next()){
+                nameT = rs.getString(1);
+                names.add(nameT);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
+
+    /**
+     * Create tournament.
+     *
+     * @param nom the nom
+     */
+    @Override
+    public void createTournament(String nom) {
+        try {
+            PreparedStatement ps = connection.prepareStatement( "INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, ?, 0)");
+            ps.setString(1,nom);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}
