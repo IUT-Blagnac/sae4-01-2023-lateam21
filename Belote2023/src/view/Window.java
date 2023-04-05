@@ -493,11 +493,10 @@ public class Window extends JFrame {
 
 //		lt = null;
 		updateButtons();
-
-		int nbLines = 0;
 		tournamentNames = new Vector<String>();
        	this.setStatusSelect("sélection d'un tournament");
 		tournamentNames = toS.getTournamentsName();
+		int nbLines = tournamentNames.size();
 
 		if(traceTournament){
 			list.setListData(tournamentNames);

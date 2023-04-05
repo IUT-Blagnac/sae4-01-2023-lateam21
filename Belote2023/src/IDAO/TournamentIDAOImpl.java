@@ -71,6 +71,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
     public void deleteTournament(String nomT) {
         try {
             int idTournamentDelete;
+            Statement st = connection.createStatement();
             PreparedStatement ps = connection.prepareStatement("SELECT id_tournoi FROM tournois WHERE nom_tournoi = ?");
             ps.setString(1, nomT);
             ResultSet rs = ps.executeQuery();
@@ -78,9 +79,9 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             idTournamentDelete = rs.getInt(1);
             rs.close();
             System.out.println("ID du tournoi � supprimer:" + idTournamentDelete);
-            ps.executeUpdate("DELETE * FROM matchs   WHERE id_tournoi = " + idTournamentDelete);
-            ps.executeUpdate("DELETE * FROM equipes  WHERE id_tournoi = " + idTournamentDelete);
-            ps.executeUpdate("DELETE * FROM tournois WHERE id_tournoi = " + idTournamentDelete);
+            st.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idTournamentDelete);
+            st.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idTournamentDelete);
+            st.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idTournamentDelete);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             System.out.println("Erreur suppression : " + e.getMessage());
@@ -215,7 +216,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
             while(rs.next()){
-                nameT = rs.getString(1);
+                nameT = rs.getString("nom_tournoi");
                 names.add(nameT);
             }
         } catch (SQLException e) {
