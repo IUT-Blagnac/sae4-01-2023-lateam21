@@ -1,6 +1,7 @@
 package view;
 
 import IDAO.TournamentIDAOImpl;
+import Service.GameService;
 import Service.TeamService;
 import Service.TournamentService;
 import models.Team;
@@ -330,7 +331,7 @@ public class Window extends JFrame {
 	/**
 	 * The Idao.
 	 */
-	private TournamentIDAOImpl idao = TournamentIDAOImpl.getInstance();
+	private TournamentIDAOImpl idaoTournament = TournamentIDAOImpl.getInstance();
 	/**
 	 * The Tournament.
 	 */
@@ -339,11 +340,13 @@ public class Window extends JFrame {
 	/**
 	 * The Ts.
 	 */
-	public TournamentService ts = new TournamentService();
+	public TournamentService toS = new TournamentService();
 	/**
 	 * The Gs.
 	 */
-	private TeamService gs = new TeamService();
+	private TeamService teS = new TeamService();
+
+	private GameService gS = new GameService();
 
 	/**
 	 * Instantiates a new Window.
@@ -460,7 +463,7 @@ public class Window extends JFrame {
 			bResults.setEnabled(false);
 			bParams.setEnabled(false);
 		}else{
-			switch(ts.getTournamentStatus(tournament)){
+			switch(toS.getTournamentStatus(tournament)){
 				case 0:
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
@@ -472,10 +475,10 @@ public class Window extends JFrame {
 				case 2:
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
-					bGames.setEnabled(ts.getNbRounds(tournament) > 0);
+					bGames.setEnabled(toS.getNbRounds(tournament) > 0);
 					bRounds.setEnabled(true);
 
-					int total=ts.getNbGames(), ended=idao.getNbGamesEnded(tournament);
+					int total=gS.getNbGames(tournament), ended=gS.getNbEndedGames(tournament);
 					bResults.setEnabled(total == ended && total > 0);
 					bParams.setEnabled(true);
 					break;
@@ -494,27 +497,7 @@ public class Window extends JFrame {
 		int nbLines = 0;
 		tournamentNames = new Vector<String>();
        	this.setStatusSelect("sélection d'un tournament");
-		ResultSet rs;
-		try {
-			rs = s.executeQuery("SELECT * FROM tournois;");
-
-			while( rs.next() ){
-				nbLines++;
-				tournamentNames.add(rs.getString("nom_tournoi"));
-			}
-
-			if( nbLines == 0){
-				//System.out.println("Pas de résultats");
-				//t.add(new JLabel("Aucun tournament n'a �t� cr��"));
-			}else{
-				//System.out.println(nbLines + " r�sultats");
-
-			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("Erreur lors de la requète :" + e.getMessage());
-			e.printStackTrace();
-		}
+		tournamentNames = toS.getTournamentsName();
 
 		if(traceTournament){
 			list.setListData(tournamentNames);
@@ -586,7 +569,7 @@ public class Window extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ts.createTournament();
+					toS.createTournament();
 					Window.this.tracerSelectTournament();
 					//String nt = JOptionPane.showInputDialog("Nom du tournament ?");
 					//ResultSet rs = view.Window.this.s.executeQuery("SELECT)
@@ -598,7 +581,7 @@ public class Window extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ts.deleteTournament(Window.this.list.getSelectedValue());
+					toS.deleteTournament(Window.this.list.getSelectedValue());
 					Window.this.tracerSelectTournament();
 
 
@@ -632,7 +615,7 @@ public class Window extends JFrame {
 		if(traceDetails){
 			nameDetails.setText(tournament.getNom());
 			stateDetails.setText(tournament.getStatusName());
-			roundNbDetails.setText(Integer.toString(ts.getNbRounds(tournament)));
+			roundNbDetails.setText(Integer.toString(toS.getNbRounds(tournament)));
 		}else{
 			traceDetails = false;
 			JPanel p = new JPanel();
@@ -649,7 +632,7 @@ public class Window extends JFrame {
 			tab.add(new JLabel("Statut"));
 			tab.add(stateDetails);
 
-			roundNbDetails = new JLabel(Integer.toString(ts.getNbRounds(tournament)));
+			roundNbDetails = new JLabel(Integer.toString(toS.getNbRounds(tournament)));
 			tab.add(new JLabel("Nombre de tours:"));
 			tab.add(roundNbDetails);
 			//detailt_nbtours.setPreferredSize(new Dimension(40,40));
@@ -675,7 +658,7 @@ public class Window extends JFrame {
 		}
 		updateButtons();
 		if(traceTeams){
-			gs.updateTeams(tournament);
+			teS.updateTeams(tournament);
 			modelTeams.fireTableDataChanged();
 		}else{
 			traceTeams = true;
@@ -697,13 +680,13 @@ public class Window extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= gs.getTeam(arg0, tournament).getNum();
+						r= teS.getTeam(arg0, tournament).getNum();
 					break;
 					case 1:
-						r= gs.getTeam(arg0, tournament).getTeam1();
+						r= teS.getTeam(arg0, tournament).getTeam1();
 					break;
 					case 2:
-						r= gs.getTeam(arg0, tournament).getTeam2();
+						r= teS.getTeam(arg0, tournament).getTeam2();
 					break;
 					}
 					return r;
@@ -723,7 +706,7 @@ public class Window extends JFrame {
 				@Override
 				public int getRowCount() {
 					if(tournament == null)return 0;
-					return gs.getNbTeams(tournament);
+					return teS.getNbTeams(tournament);
 				}
 
 				@Override
@@ -735,7 +718,7 @@ public class Window extends JFrame {
 					return y > 0;
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Team e = gs.getTeam(rowIndex, tournament);
+					Team e = teS.getTeam(rowIndex, tournament);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 1){
@@ -743,7 +726,7 @@ public class Window extends JFrame {
 					}else if( columnIndex == 2){
 						e.setTeam2((String) aValue);
 					}
-					ts.updateTeams(rowIndex, tournament);
+					toS.updateTeams(rowIndex, tournament);
 					fireTableDataChanged();
 				}
 			};
@@ -761,10 +744,10 @@ public class Window extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					gs.addTeam(tournament);
-					confirmTeams.setEnabled(gs.getNbTeams(tournament) > 0 && gs.getNbTeams(tournament) % 2 == 0) ;
+					teS.addTeam(tournament);
+					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
 					modelTeams.fireTableDataChanged();
-					if(gs.getNbTeams(tournament) > 0){
+					if(teS.getNbTeams(tournament) > 0){
 						jtTeams.getSelectionModel().setSelectionInterval(0, 0);
 
 					}
@@ -777,11 +760,11 @@ public class Window extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(Window.this.jtTeams.getSelectedRow() != -1){
-						ts.deleteTeam(gs.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
+						toS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
 					}
-					confirmTeams.setEnabled(gs.getNbTeams(tournament) > 0 && gs.getNbTeams(tournament) % 2 == 0) ;
+					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
 					modelTeams.fireTableDataChanged();
-					if(gs.getNbTeams(tournament) > 0){
+					if(teS.getNbTeams(tournament) > 0){
 						jtTeams.getSelectionModel().setSelectionInterval(0, 0);
 					}
 				}
@@ -790,13 +773,13 @@ public class Window extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ts.generateGames(tournament);
+					toS.generateGames(tournament);
 					Window.this.updateButtons();
 					Window.this.traceTournamentGames();
 
 				}
 			});
-			if(gs.getNbTeams(tournament) > 0){
+			if(teS.getNbTeams(tournament) > 0){
 				jtTeams.getSelectionModel().setSelectionInterval(0, 0);
 			}
 			bt.add(addTeams);
@@ -812,7 +795,7 @@ public class Window extends JFrame {
 		}else{
 			addTeams.setEnabled(true);
 			delTeams.setEnabled(true);
-			confirmTeams.setEnabled(gs.getNbTeams(tournament) > 0) ;
+			confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0) ;
 		}
 		window.show(c, TEAMS);
 
@@ -882,7 +865,7 @@ public class Window extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					ts.addRound(tournament);
+					toS.addRound(tournament);
 					Window.this.tracerRoundsTournament();
 				}
 			});
@@ -890,7 +873,7 @@ public class Window extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ts.deleteRound();
+					toS.deleteRound();
 					Window.this.tracerRoundsTournament();
 				}
 			});
@@ -900,9 +883,9 @@ public class Window extends JFrame {
 			addRounds.setEnabled(true);
 		}else{
 
-			delRounds.setEnabled( ts.getNbRounds(tournament) > 1);
+			delRounds.setEnabled( toS.getNbRounds(tournament) > 1);
 
-			if(!canAdd || ts.getNbRounds(tournament)  >= gs.getNbTeams(tournament)-1 ){
+			if(!canAdd || toS.getNbRounds(tournament)  >= teS.getNbTeams(tournament)-1 ){
 				addRounds.setEnabled(false);
 			}else
 				addRounds.setEnabled(true);
@@ -921,7 +904,7 @@ public class Window extends JFrame {
 		}
 		updateButtons();
 		if(traceGames){
-			ts.updateGame();
+			toS.updateGame();
 			modelGame.fireTableDataChanged();
 			updateGameStatus();
 		}else{
@@ -941,19 +924,19 @@ public class Window extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= ts.getGame(arg0).getNumRounds();
+						r= toS.getGame(arg0).getNumRounds();
 					break;
 					case 1:
-						r= ts.getGame(arg0).getTeam1();
+						r= toS.getGame(arg0).getTeam1();
 					break;
 					case 2:
-						r= ts.getGame(arg0).getTeam2();
+						r= toS.getGame(arg0).getTeam2();
 					break;
 					case 3:
-						r= ts.getGame(arg0).getScore1();
+						r= toS.getGame(arg0).getScore1();
 					break;
 					case 4:
-						r= ts.getGame(arg0).getScore2();
+						r= toS.getGame(arg0).getScore2();
 					break;
 					}
 					return r;
@@ -978,7 +961,7 @@ public class Window extends JFrame {
 				public int getRowCount() {
 					// TODO Auto-generated method stub
 					if(tournament == null)return 0;
-					return ts.getNbGames();
+					return gS.getNbGames(tournament);
 				}
 
 				@Override
@@ -987,17 +970,17 @@ public class Window extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y){
-					return y > 2 && ts.getGame(x).getNumRounds() == ts.getNbRounds(tournament);
+					return y > 2 && toS.getGame(x).getNumRounds() == toS.getNbRounds(tournament);
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Game m = ts.getGame(rowIndex);
+					Game m = toS.getGame(rowIndex);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 3){
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore1(sco);
-							ts.updateGame(rowIndex);
+							toS.updateGame(rowIndex);
 
 						}catch(Exception e){
 							return ;
@@ -1007,7 +990,7 @@ public class Window extends JFrame {
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore2(sco);
-							ts.updateGame(rowIndex);
+							toS.updateGame(rowIndex);
 
 						}catch(Exception e){
 							return ;

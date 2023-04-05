@@ -74,6 +74,10 @@ public class TournamentService {
         return idaoTournoi.getNbRounds(tournament);
     }
 
+    public Vector<String> getTournamentsName(){
+        return idaoTournoi.getAllTournamentsNames();
+    }
+
     /**
      * Get game game.
      *
@@ -85,14 +89,6 @@ public class TournamentService {
         return dataGames.get(index);
     }
 
-    /**
-     * Get nb games int.
-     *
-     * @return the int
-     */
-    public int getNbGames(){
-        return idaoTournoi.getNbGames(tournament);
-    }
 
     /**
      * Update game.

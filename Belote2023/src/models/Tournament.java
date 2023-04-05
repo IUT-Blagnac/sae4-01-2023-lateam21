@@ -33,10 +33,10 @@ public class Tournament {
 	 *
 	 * @param nt the nt
 	 */
-	public Tournament(String nt){
+	public Tournament(String name){
 		this.idTournament = 0;
 		this.nbGames = 0;
-		this.nameTournament = nt;
+		this.nameTournament = name;
 		this.status = 0;
 
 		statusName = "Inconnu";
@@ -79,6 +79,32 @@ public class Tournament {
 			e.printStackTrace();
 		}
 		this.NomTournoi = nt;*/
+	}
+
+	public Tournament(String name, int nbGames, int satut){
+		this.idTournament = 0;
+		this.nbGames = nbGames;
+		this.nameTournament = name;
+		this.status = satut;
+
+		switch(this.status){
+			//case 0:
+			//	statuttnom = "Configuration du tournoi";
+			//break;
+			case 0:
+				statusName = "Inscription des joueurs";
+				break;
+			case 1:
+				statusName = "Génération des matchs";
+				break;
+			case 2:
+				statusName = "Matchs en cours";
+				break;
+			case 3:
+				statusName = "Terminé";
+				break;
+
+		}
 	}
 
 

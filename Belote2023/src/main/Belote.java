@@ -100,39 +100,32 @@ public class Belote {
 	/**
 	 * Import sql.
 	 *
-	 * @param conn the conn
+	 * @param conn the connection
 	 * @param in   the in
 	 * @throws SQLException          the sql exception
 	 * @throws FileNotFoundException the file not found exception
 	 */
 	public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
 	{
-	        Scanner s = new Scanner(in);
-	        s.useDelimiter("(;(\r)?\n)|(--\n)");
-	        Statement st = null;
-	        try
-	        {
-	                st = conn.createStatement();
-	                while (s.hasNext())
-	                {
-	                        String line = s.next();
-	                        if (line.startsWith("/*!") && line.endsWith("*/"))
-	                        {
-	                                int i = line.indexOf(' ');
-	                                line = line.substring(i + 1, line.length() - " */".length());
-	                        }
-
-	                        if (line.trim().length() > 0)
-	                        {
-	                        	//System.out.println("Req:" + line);
-	                                st.execute(line);
-	                        }
-	                }
-	        }
-	        finally
-	        {
-	                if (st != null) st.close();
-	        }
+		Scanner s = new Scanner(in);
+		s.useDelimiter("(;(\r)?\n)|(--\n)");
+		Statement st = null;
+		try{
+			st = conn.createStatement();
+			while (s.hasNext()){
+				String line = s.next();
+				if (line.startsWith("/*!") && line.endsWith("*/")){
+					int i = line.indexOf(' ');
+					line = line.substring(i + 1, line.length() - " */".length());
+				}
+				if (line.trim().length() > 0){
+					//System.out.println("Req:" + line);
+					st.execute(line);
+				}
+			}
+		}finally{
+			if (st != null) st.close();
+		}
 	}
 }
 

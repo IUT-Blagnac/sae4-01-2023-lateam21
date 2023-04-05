@@ -2,7 +2,9 @@ package IDAO;
 
 import models.Tournament;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 
 /**
@@ -40,28 +42,15 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      */
     public int getNbRounds(Tournament t);
 
-    /**
-     * Gets nb games.
-     *
-     * @param t the t
-     * @return the nb games
-     */
-    public int getNbGames(Tournament t);
-
-    /**
-     * Gets nb games ended.
-     *
-     * @param t the t
-     * @return the nb games ended
-     */
-    public int getNbGamesEnded(Tournament t);
 
     /**
      * Gets all names.
      *
      * @return the all names
      */
-    public List<String> getAllNames();
+    public ArrayList<String> getAllNames();
+
+    public Vector<String> getAllTournamentsNames();
 
     /**
      * Create tournament.
