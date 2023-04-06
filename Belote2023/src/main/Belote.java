@@ -25,7 +25,7 @@ public class Belote {
 	private final String user = "sa";
 	private final String pwd = "";
 	private static Connection connect = null;
-	private Properties properties = new Properties();
+	private final Properties properties = new Properties();
 
 	private Belote(){
 		String beloteFile = System.getProperty("user.dir") + "\\jBelote";
@@ -34,7 +34,7 @@ public class Belote {
 		try{
 			Class.forName("org.hsqldb.jdbcDriver");
 			this.loadConfig(dataBaseConfigFile);
-			this.connect = DriverManager.getConnection(properties.getProperty("DBURL")+ beloteFile + "\\" + properties.getProperty("DBName"),
+			connect = DriverManager.getConnection(properties.getProperty("DBURL")+ beloteFile + "\\" + properties.getProperty("DBName"),
 					properties.getProperty("DBUser"),
 					properties.getProperty("DBPassword"));
 //			System.out.println("Dossier de stockage:" + beloteFile);
@@ -99,7 +99,6 @@ public class Belote {
 	/**
 	 * Importe un fichier SQL dans la base de données.
 	 * @param dataBaseConfigFile : chemin du fichier SQL.
-	 * @throws FileNotFoundException si le fichier SQL n'est pas trouvé.
 	 */
 	private void loadConfig(String dataBaseConfigFile) {
 		try {

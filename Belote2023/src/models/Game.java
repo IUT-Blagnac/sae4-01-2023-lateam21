@@ -64,4 +64,8 @@ public class Game {
 	public void setScore2(int sco) {
 		this.score2 = sco;
 	}
+
+	public boolean isEnded() {
+		return hasEnded;
+	}
 }

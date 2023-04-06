@@ -22,141 +22,334 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 
+/**
+ * The type Window.
+ */
 public class Window extends JFrame {
+	/**
+	 * The constant serialVersionUID.
+	 */
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The C.
+	 */
 	public JPanel c;
+	/**
+	 * The S.
+	 */
 	Statement s;
 
+	/**
+	 * The Gt.
+	 */
+	private JTextArea gt;
+	/**
+	 * The Tournament list.
+	 */
 	private JPanel tournamentList;
+	/**
+	 * The Tournament names.
+	 */
 	private Vector<String> tournamentNames;
+	/**
+	 * The List.
+	 */
 	private JList<String> list;
+	/**
+	 * The Label.
+	 */
 	private JLabel        label;
+	/**
+	 * The Create tournament.
+	 */
 	private JButton createTournament;
+	/**
+	 * The Select tournament.
+	 */
 	private JButton 	selectTournament;
+	/**
+	 * The Delete tournament.
+	 */
 	private JButton 	deleteTournament;
+	/**
+	 * The B tournament.
+	 */
 	private final JButton 	bTournament;
+	/**
+	 * The B teams.
+	 */
 	private final JButton bTeams;
+	/**
+	 * The B rounds.
+	 */
 	private final JButton bRounds;
+	/**
+	 * The B games.
+	 */
 	private final JButton bGames;
+	/**
+	 * The B results.
+	 */
 	private final JButton bResults;
+	/**
+	 * The B params.
+	 */
 	private final JButton bParams;
 
+	/**
+	 * The T rounds.
+	 */
 	private JTable tRounds;
+	/**
+	 * The Js rounds.
+	 */
 	private JScrollPane jsRounds;
+	/**
+	 * The P rounds.
+	 */
 	private JPanel pRounds;
+	/**
+	 * The Layout rounds.
+	 */
 	private BoxLayout layoutRounds;
+	/**
+	 * The Desc rounds.
+	 */
 	private JLabel descRounds;
 
+	/**
+	 * The Add rounds.
+	 */
 	private JButton addRounds;
+	/**
+	 * The Del rounds.
+	 */
 	private JButton delRounds;
+	/**
+	 * The Rentrer rounds.
+	 */
 	private JButton rentrerRounds;
 
+	/**
+	 * The Name details.
+	 */
 	private JLabel nameDetails;
+	/**
+	 * The State details.
+	 */
 	private JLabel stateDetails;
+	/**
+	 * The Round nb details.
+	 */
 	private JLabel roundNbDetails;
 	//JButton                    saveDetails;
 
+	/**
+	 * The Model teams.
+	 */
 	private AbstractTableModel modelTeams;
+	/**
+	 * The Add teams.
+	 */
 	private JButton addTeams;
+	/**
+	 * The Del teams.
+	 */
 	private JButton delTeams;
+	/**
+	 * The Confirm teams.
+	 */
 	private JButton confirmTeams;
+	/**
+	 * The Js teams.
+	 */
 	private JScrollPane jsTeams;
+	/**
+	 * The Jt teams.
+	 */
 	private JTable jtTeams;
+	/**
+	 * The P teams.
+	 */
 	private JPanel pTeams;
+	/**
+	 * The Layout teams.
+	 */
 	private BoxLayout layoutTeams;
+	/**
+	 * The Desc teams.
+	 */
 	private JLabel descTeams;
 
+	/**
+	 * The Model game.
+	 */
 	private AbstractTableModel modelGame;
+	/**
+	 * The Js game.
+	 */
 	private JScrollPane jsGame;
+	/**
+	 * The Jt game.
+	 */
 	private JTable jtGame;
+	/**
+	 * The P game.
+	 */
 	private JPanel pGame;
+	/**
+	 * The Layout game.
+	 */
 	private BoxLayout layoutGame;
+	/**
+	 * The Desc game.
+	 */
 	private JLabel descGame;
+	/**
+	 * The Bottom game.
+	 */
 	private JPanel bottomGame; //?
+	/**
+	 * The State game.
+	 */
 	private JLabel stateGame;
+	/**
+	 * The Confirm game.
+	 */
 	private JButton confirmGame;
 
+	/**
+	 * The Js results.
+	 */
 	private JScrollPane jsResults;
+	/**
+	 * The Jt results.
+	 */
 	private JTable jtResults;
+	/**
+	 * The P results.
+	 */
 	private JPanel pResults;
+	/**
+	 * The Layout results.
+	 */
 	private BoxLayout layoutResults;
+	/**
+	 * The Desc results.
+	 */
 	private JLabel descResults;
+	/**
+	 * The Bottom results.
+	 */
 	private JPanel bottomResults;
+	/**
+	 * The State results.
+	 */
 	private JLabel stateResults;
 
 
+	/**
+	 * The Trace tournament.
+	 */
 	private boolean traceTournament = false;
+	/**
+	 * The Trace details.
+	 */
 	private boolean traceDetails = false;
+	/**
+	 * The Trace teams.
+	 */
 	private boolean traceTeams = false;
+	/**
+	 * The Trace rounds.
+	 */
 	private boolean traceRounds = false;
+	/**
+	 * The Trace games.
+	 */
 	private boolean traceGames = false;
+	/**
+	 * The Trace results.
+	 */
 	private boolean traceResults = false;
 
+	/**
+	 * The Window.
+	 */
 	private final CardLayout window;
 
-	private final JLabel selectState;
+	/**
+	 * The Select state.
+	 */
+	private JLabel selectState;
+	/**
+	 * The Idao.
+	 */
 	private final TournamentIDAOImpl idaoTournament = TournamentIDAOImpl.getInstance();
+	/**
+	 * The Tournament.
+	 */
 	private Tournament tournament = null;
 
+	/**
+	 * The Ts.
+	 */
 	public TournamentService toS = new TournamentService();
+	/**
+	 * The Gs.
+	 */
 	private final TeamService teS = new TeamService();
 
 	private final GameService gS = new GameService();
 
-<<<<<<< HEAD
-	public Window(Statement st){
-		
-		s = st;
-=======
 	/**
 	 * Instantiates a new Window.
 	 */
 	public Window(){
 
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 		this.setTitle(CONSTANTS.TITLE);
 		setSize(800,400);
 		this.setVisible(true);
 		this.setLocationRelativeTo(this.getParent());
-		
-		
+
+
 		JPanel content = new JPanel();
 		content.setLayout(new BorderLayout());
 		this.setContentPane(content);
-		
-		
+
+
 		JPanel pTop = new JPanel();
 		content.add(pTop,BorderLayout.NORTH);
-		
+
 		pTop.add(selectState = new JLabel());
 		this.setStatusSelect(CONSTANTS.STATUS_SELECT_NULL);
-		
+
 		JPanel pLeft = new JPanel();
 		pLeft.setBackground(Color.RED);
 		pLeft.setPreferredSize(new Dimension(130,0));
 		content.add(pLeft,BorderLayout.WEST);
-		
-		
+
+
 		bTournament = new JButton(CONSTANTS.B_TOURNAMENT);
 		bParams = new JButton(CONSTANTS.B_PARAMS);
 		bTeams = new JButton(CONSTANTS.B_TEAMS);
 		bRounds = new JButton(CONSTANTS.LABEL_ROUNDS);
 		bGames = new JButton(CONSTANTS.B_GAMES);
 		bResults = new JButton(CONSTANTS.B_RESULTS);
-		
-		
+
+
 		int buttonWidth = 100;
 		int buttonHeight = 30;
-		
+
 		bTournament.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bParams.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bTeams.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bRounds.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bGames.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bResults.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
-		
+
 		pLeft.add(bTournament);
 		pLeft.add(bParams);
 		pLeft.add(bTeams);
@@ -165,23 +358,31 @@ public class Window extends JFrame {
 		pLeft.add(bResults);
 		window = new CardLayout(); //? fen? and c?
 		c = new JPanel(window);
-		
+
 		content.add(c,BorderLayout.CENTER);
-		
+
 		bTournament.addActionListener(arg0 -> tracerSelectTournament());
 		bRounds.addActionListener(arg0 -> tracerRoundsTournament());
 		bParams.addActionListener(arg0 -> tracerDetailsTournament());
 		bTeams.addActionListener(e -> tracer_tournoi_equipes());
 		bGames.addActionListener(e -> traceTournamentGames());
 		bResults.addActionListener(arg0 -> traceTournamentResults());
-		
+
 		tracerSelectTournament();
 	}
 
+	/**
+	 * Set status select.
+	 *
+	 * @param t the t
+	 */
 	public void setStatusSelect(String t){
 		selectState.setText(CONSTANTS.deftState + "" + t);
 	}
 
+	/**
+	 * Update buttons.
+	 */
 	public void updateButtons(){
 		if( tournament == null){
 			bTournament.setEnabled(true);
@@ -213,36 +414,39 @@ public class Window extends JFrame {
 		}
 	}
 
+	/**
+	 * Tracer select tournament.
+	 */
 	public void tracerSelectTournament(){
 
 //		lt = null;
 		updateButtons();
 		tournamentNames = new Vector<>();
-       	this.setStatusSelect(CONSTANTS.STATUS_SELECT_TOURNAMENT);
+		this.setStatusSelect(CONSTANTS.STATUS_SELECT_TOURNAMENT);
 		tournamentNames = toS.getTournamentsName();
 		int nbLines = tournamentNames.size();
 
 		if(traceTournament){
 			list.setListData(tournamentNames);
 
-	        if(nbLines == 0){
-	        	selectTournament.setEnabled(false);
-	        	deleteTournament.setEnabled(false);
-	        }else{
-	        	selectTournament.setEnabled(true);
-	        	deleteTournament.setEnabled(true);
-	        	list.setSelectedIndex(0);
-	        }
+			if(nbLines == 0){
+				selectTournament.setEnabled(false);
+				deleteTournament.setEnabled(false);
+			}else{
+				selectTournament.setEnabled(true);
+				deleteTournament.setEnabled(true);
+				list.setSelectedIndex(0);
+			}
 			window.show(c,CONSTANTS.B_TOURNAMENT);
 
 
 		}else{
-		    traceTournament = true;
+			traceTournament = true;
 			JPanel jpanel = new JPanel();
 
 			jpanel.setLayout(new BoxLayout(jpanel, BoxLayout.Y_AXIS));
 			c.add(jpanel,CONSTANTS.B_TOURNAMENT);
-			JTextArea gt = new JTextArea(CONSTANTS.SIGNATURE);
+			gt = new JTextArea(CONSTANTS.SIGNATURE);
 			gt.setAlignmentX(Component.CENTER_ALIGNMENT);
 			gt.setEditable(false);
 			jpanel.add(gt);
@@ -256,22 +460,22 @@ public class Window extends JFrame {
 			list.setAlignmentX(Component.LEFT_ALIGNMENT);
 			list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			//list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		    list.setVisibleRowCount(-1);
-		    JScrollPane listScroller = new JScrollPane(list);
-	        listScroller.setPreferredSize(new Dimension(250, 180));
-	        //listScroller.setAlignmentX(LEFT_ALIGNMENT);
+			list.setVisibleRowCount(-1);
+			JScrollPane listScroller = new JScrollPane(list);
+			listScroller.setPreferredSize(new Dimension(250, 180));
+			//listScroller.setAlignmentX(LEFT_ALIGNMENT);
 
-	        label = new JLabel(CONSTANTS.LABEL_TOURNAMENT_LIST);
-	        label.setLabelFor(list);
-	        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+			label = new JLabel(CONSTANTS.LABEL_TOURNAMENT_LIST);
+			label.setLabelFor(list);
+			label.setAlignmentX(Component.LEFT_ALIGNMENT);
 			jpanel.add(label);
-	        //c.add(Box.createRigidArea(new Dimension(0,0)));
+			//c.add(Box.createRigidArea(new Dimension(0,0)));
 			jpanel.add(listScroller);
 			jpanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
 
 
-	        Box bh = Box.createHorizontalBox();
+			Box bh = Box.createHorizontalBox();
 			jpanel.add(bh);
 			createTournament = new JButton(CONSTANTS.B_TOURNAMENT_NEW);
 			selectTournament = new JButton(CONSTANTS.B_TOURNAMENT_SELECT);
@@ -281,14 +485,14 @@ public class Window extends JFrame {
 			bh.add(deleteTournament);
 
 			jpanel.updateUI();
-	        if(nbLines == 0){
-	        	selectTournament.setEnabled(false);
-	        	deleteTournament.setEnabled(false);
-	        }else{
-	        	list.setSelectedIndex(0);
-	        }
+			if(nbLines == 0){
+				selectTournament.setEnabled(false);
+				deleteTournament.setEnabled(false);
+			}else{
+				list.setSelectedIndex(0);
+			}
 
-	        createTournament.addActionListener(e -> {
+			createTournament.addActionListener(e -> {
 				TournamentService.createTournament();
 				Window.this.tracerSelectTournament();
 				//String nt = JOptionPane.showInputDialog("Nom du tournament ?");
@@ -296,36 +500,27 @@ public class Window extends JFrame {
 				//view.Window.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 			});
 
-	        deleteTournament.addActionListener(e -> {
+			deleteTournament.addActionListener(e -> {
 				TournamentService.deleteTournament(Window.this.list.getSelectedValue());
 				Window.this.tracerSelectTournament();
 
 
 			});
-	        selectTournament.addActionListener(arg0 -> {
+			selectTournament.addActionListener(arg0 -> {
 				String nt = Window.this.list.getSelectedValue();
-				Window.this.tournament = new Tournament(nt);
-				//Window.this.tracerSelectTournament();
+				Window.this.tournament = toS.getTournamentFromName(nt);
+				//view.Window.this.detracer_select_tournoi();
 				Window.this.tracerDetailsTournament();
 				Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
 
-<<<<<<< HEAD
-=======
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					String nt = Window.this.list.getSelectedValue();
-					Window.this.tournament = toS.getTournamentFromName(nt);
-					//view.Window.this.detracer_select_tournoi();
-					Window.this.tracerDetailsTournament();
-					Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
-
-				}
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 			});
-	        window.show(c,CONSTANTS.B_TOURNAMENT);
+			window.show(c,CONSTANTS.B_TOURNAMENT);
 		}
 	}
 
+	/**
+	 * Tracer details tournament.
+	 */
 	public void tracerDetailsTournament(){
 		if(tournament == null){
 			return ;
@@ -374,6 +569,9 @@ public class Window extends JFrame {
 		window.show(c,CONSTANTS.DETAILS);
 	}
 
+	/**
+	 * Tracer tournoi equipes.
+	 */
 	public void tracer_tournoi_equipes(){
 		if(tournament == null){
 			return ;
@@ -408,16 +606,16 @@ public class Window extends JFrame {
 
 				}
 				public String getColumnName(int col) {
-				        if(col == 0){
-				        	return CONSTANTS.TEAM_NUMBER;
-				        }else if(col == 1){
-				        	return CONSTANTS.PLAYER_1;
-				        }else if(col == 2){
-				        	return CONSTANTS.PLAYER_2;
-				        }else{
-				        	return CONSTANTS.MISSING;
-				        }
-				 }
+					if(col == 0){
+						return CONSTANTS.TEAM_NUMBER;
+					}else if(col == 1){
+						return CONSTANTS.PLAYER_1;
+					}else if(col == 2){
+						return CONSTANTS.PLAYER_2;
+					}else{
+						return CONSTANTS.MISSING;
+					}
+				}
 				@Override
 				public int getRowCount() {
 					if(tournament == null)return 0;
@@ -433,27 +631,17 @@ public class Window extends JFrame {
 					return y > 0;
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Team e = teS.getTeam(rowIndex, tournament);
-<<<<<<< HEAD
-					/*if( columnIndex == 0){
-
-					}else */
-					if( columnIndex == 1){
-						e.setTeam1((String) aValue);
-					}else if( columnIndex == 2){
-						e.setTeam2((String) aValue);
-=======
+					Team te = teS.getTeam(rowIndex, tournament);
 					switch (columnIndex){
 						case 1:
-							e.setTeam1((String) aValue);
+							te.setTeam1((String) aValue);
 							break;
 						case 2:
-							e.setTeam2((String) aValue);
+							te.setTeam2((String) aValue);
 						default:
 							break;
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 					}
-					teS.updatePlayersTeams(rowIndex, tournament);
+					teS.updatePlayersTeams(te, tournament);
 					fireTableDataChanged();
 				}
 			};
@@ -480,7 +668,7 @@ public class Window extends JFrame {
 			});
 			delTeams.addActionListener(e -> {
 				if(Window.this.jtTeams.getSelectedRow() != -1){
-					toS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
+					teS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
 				}
 				confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
 				modelTeams.fireTableDataChanged();
@@ -489,34 +677,10 @@ public class Window extends JFrame {
 				}
 			});
 			confirmTeams.addActionListener(e -> {
-				toS.generateGames(tournament);
+				gS.generateGames(tournament);
 				Window.this.updateButtons();
 				Window.this.traceTournamentGames();
 
-<<<<<<< HEAD
-=======
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(Window.this.jtTeams.getSelectedRow() != -1){
-						teS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
-					}
-					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
-					modelTeams.fireTableDataChanged();
-					if(teS.getNbTeams(tournament) > 0){
-						jtTeams.getSelectionModel().setSelectionInterval(0, 0);
-					}
-				}
-			});
-			confirmTeams.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					gS.generateGames(tournament);
-					Window.this.updateButtons();
-					Window.this.traceTournamentGames();
-
-				}
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 			});
 			if(teS.getNbTeams(tournament) > 0){
 				jtTeams.getSelectionModel().setSelectionInterval(0, 0);
@@ -540,6 +704,9 @@ public class Window extends JFrame {
 
 	}
 
+	/**
+	 * Tracer rounds tournament.
+	 */
 	public void tracerRoundsTournament(){
 
 
@@ -596,33 +763,14 @@ public class Window extends JFrame {
 			pRounds.add(bt);
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_END_PLEASE));
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_MAX));
-<<<<<<< HEAD
 			addRounds.addActionListener(arg0 -> {
 				// TODO Auto-generated method stub
-				toS.addRound(tournament);
+				gS.addRound(tournament);
 				Window.this.tracerRoundsTournament();
 			});
 			delRounds.addActionListener(e -> {
-				toS.deleteRound();
+				gS.deleteRound();
 				Window.this.tracerRoundsTournament();
-=======
-			addRounds.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					gS.addRound(tournament);
-					Window.this.tracerRoundsTournament();
-				}
-			});
-			delRounds.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					gS.deleteRound();
-					Window.this.tracerRoundsTournament();
-				}
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 			});
 		}
 		if(to.size() == 0){
@@ -633,10 +781,7 @@ public class Window extends JFrame {
 			delRounds.setEnabled( gS.getNbRounds(tournament) > 1);
 
 
-			if(!canAdd || gS.getNbRounds(tournament)  >= teS.getNbTeams(tournament)-1 ){
-				addRounds.setEnabled(false);
-			}else
-				addRounds.setEnabled(true);
+			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
 
 			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
 
@@ -646,6 +791,9 @@ public class Window extends JFrame {
 		//tours_ajouter.setEnabled(peutajouter);
 	}
 
+	/**
+	 * Trace tournament games.
+	 */
 	public void traceTournamentGames(){
 		if(tournament == null){
 			return ;
@@ -666,56 +814,34 @@ public class Window extends JFrame {
 			c.add(pGame,CONSTANTS.B_GAMES);
 
 			modelGame = new AbstractTableModel() {
-//				private static final long serialVersionUID = 1L;
+				//				private static final long serialVersionUID = 1L;
 				@Override
 				public Object getValueAt(int arg0, int arg1) {
-<<<<<<< HEAD
 					return switch (arg1) {
-						case 0 -> toS.getGame(arg0).getNumRounds();
-						case 1 -> toS.getGame(arg0).getTeam1();
-						case 2 -> toS.getGame(arg0).getTeam2();
-						case 3 -> toS.getGame(arg0).getScore1();
-						case 4 -> toS.getGame(arg0).getScore2();
+						case 0 -> gS.getGame(arg0).getNumRounds();
+						case 1 -> gS.getGame(arg0).getTeam1();
+						case 2 -> gS.getGame(arg0).getTeam2();
+						case 3 -> gS.getGame(arg0).getScore1();
+						case 4 -> gS.getGame(arg0).getScore2();
 						default -> null;
 					};
-=======
-					Object r=null;
-					switch(arg1){
-					case 0:
-						r= gS.getGame(arg0).getNumRounds();
-					break;
-					case 1:
-						r= gS.getGame(arg0).getTeam1();
-					break;
-					case 2:
-						r= gS.getGame(arg0).getTeam2();
-					break;
-					case 3:
-						r= gS.getGame(arg0).getScore1();
-					break;
-					case 4:
-						r= gS.getGame(arg0).getScore2();
-					break;
-					}
-					return r;
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 
 				}
 				public String getColumnName(int col) {
-				        if(col == 0){
-				        	return CONSTANTS.ROUND;
-				        }else if(col == 1){
-				        	return CONSTANTS.TEAM_1;
-				        }else if(col == 2){
-				        	return CONSTANTS.TEAM_2;
-				        }else if(col == 3){
-				        	return CONSTANTS.SCORE_TEAM_1;
-				        }else if(col == 4){
-				        	return CONSTANTS.SCORE_TEAM_2;
-				        }else{
-				        	return CONSTANTS.MISSING;
-				        }
-				 }
+					if(col == 0){
+						return CONSTANTS.ROUND;
+					}else if(col == 1){
+						return CONSTANTS.TEAM_1;
+					}else if(col == 2){
+						return CONSTANTS.TEAM_2;
+					}else if(col == 3){
+						return CONSTANTS.SCORE_TEAM_1;
+					}else if(col == 4){
+						return CONSTANTS.SCORE_TEAM_2;
+					}else{
+						return CONSTANTS.MISSING;
+					}
+				}
 				@Override
 				public int getRowCount() {
 					// TODO Auto-generated method stub
@@ -732,18 +858,11 @@ public class Window extends JFrame {
 					return y > 2 && gS.getGame(x).getNumRounds() == gS.getNbRounds(tournament);
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-<<<<<<< HEAD
-					Game m = toS.getGame(rowIndex);
+					Game m = gS.getGame(rowIndex);
 //					if( columnIndex == 0){
 //
 //					}else
-					if( columnIndex == 3){
-=======
-					Game m = gS.getGame(rowIndex);
-					if( columnIndex == 0){
-
-					}else if( columnIndex == 3){
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
+						if( columnIndex == 3){
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore1(sco);
@@ -795,16 +914,14 @@ public class Window extends JFrame {
 	}
 
 
+	/**
+	 * Trace tournament results.
+	 */
 	public void traceTournamentResults(){
 		if(tournament == null){
 			return ;
 		}
-<<<<<<< HEAD
-
 		ArrayList< Object> to = new ArrayList<>();
-=======
-		ArrayList< Object> to =new ArrayList<Object>();
->>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 		ArrayList<Object> v;
 		try {
 			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournament.getIdTournament() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournament.getIdTournament() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.tournament.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.tournament.getIdTournament() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
@@ -861,6 +978,9 @@ public class Window extends JFrame {
 
 	}
 
+	/**
+	 * Update game status.
+	 */
 	private void updateGameStatus(){
 		int total, ended;
 		try {

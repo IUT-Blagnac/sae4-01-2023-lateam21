@@ -19,8 +19,8 @@ public interface GameIDAO extends IDAO<Game>{
      * @return the nb games ended
      */
 
-    public int getNbRounds(Tournament t);
+    int getNbRounds(Tournament t);
 
-    public int getNbGamesEnded(Tournament t);
+    int getNbGamesEnded(Tournament t);
 
 }
