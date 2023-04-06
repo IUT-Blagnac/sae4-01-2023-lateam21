@@ -4,10 +4,12 @@ import view.Window;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Connection;  
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.DriverManager;  
 import java.sql.SQLException;
-import java.sql.Statement;  
+import java.sql.Statement;
+import java.util.Properties;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -40,18 +42,22 @@ public class Belote {
 	 * The constant connect.
 	 */
 	private static Connection connect = null;
+	private Properties properties = new Properties();
 
 	/**
 	 * Instantiates a new Belote.
 	 */
 	private Belote(){
+		String beloteFile = System.getProperty("user.dir") + "\\jBelote";
+		String createFile = System.getProperty("user.dir") + "\\create.sql";
+		String dataBaseConfigFile = "/database.properties";
 		try{
-			String dos = System.getProperty("user.dir");
-			String beloteFile = dos + "\\jBelote";
-			String createFile = dos + "\\create.sql";
 			Class.forName("org.hsqldb.jdbcDriver");
-			connect = DriverManager.getConnection(url+ beloteFile + "\\belote",user,pwd);
-			System.out.println("Dossier de stockage:" + beloteFile);
+			this.loadConfig(dataBaseConfigFile);
+			this.connect = DriverManager.getConnection(properties.getProperty("DBURL")+ beloteFile + "\\" + properties.getProperty("DBName"),
+					properties.getProperty("DBUser"),
+					properties.getProperty("DBPassword"));
+//			System.out.println("Dossier de stockage:" + beloteFile);
 			if( !new File(beloteFile).isDirectory() ){
 				new File(beloteFile).mkdir();
 			}
@@ -92,7 +98,7 @@ public class Belote {
 			throw new RuntimeException(e);
 		}
 
-		Window f = new Window(statement);
+		Window f = new Window();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -125,6 +131,20 @@ public class Belote {
 			}
 		}finally{
 			if (st != null) st.close();
+		}
+	}
+
+	/**
+	 * Importe un fichier SQL dans la base de données.
+	 * @param dataBaseConfigFile : chemin du fichier SQL.
+	 * @throws FileNotFoundException si le fichier SQL n'est pas trouvé.
+	 */
+	private void loadConfig(String dataBaseConfigFile) {
+		try {
+			InputStream inputStream = this.getClass().getResourceAsStream(dataBaseConfigFile);
+			properties.load(inputStream);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
 		}
 	}
 }

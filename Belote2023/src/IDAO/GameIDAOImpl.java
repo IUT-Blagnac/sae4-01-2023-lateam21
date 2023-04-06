@@ -47,7 +47,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     public int getNbGames(Tournament t) {
         int result = 0;
         try {
-            PreparedStatement ps = connection.prepareStatement("Select count(*) from Match m WHERE m.id_tournoi=? GROUP BY id_tournoi ;");
+            PreparedStatement ps = connection.prepareStatement("Select count(*) from Matchs m WHERE m.id_tournoi=? GROUP BY id_tournoi ;");
             ps.setInt(1, t.getIdTournament());
             ResultSet rs = ps.executeQuery();
             rs.next();

@@ -325,12 +325,9 @@ public class Window extends JFrame {
 
 	/**
 	 * Instantiates a new Window.
-	 *
-	 * @param st the st
 	 */
-	public Window(Statement st){
-		
-		s = st;
+	public Window(){
+
 		this.setTitle(CONSTANTS.TITLE);
 		setSize(800,400);
 		this.setVisible(true);
@@ -591,7 +588,7 @@ public class Window extends JFrame {
 			stateDetails.setText(tournament.getStatusName());
 			roundNbDetails.setText(Integer.toString(gS.getNbRounds(tournament)));
 		}else{
-			traceDetails = true;
+			traceDetails = false;
 			JPanel p = new JPanel();
 			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 			p.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_DETAILS));
