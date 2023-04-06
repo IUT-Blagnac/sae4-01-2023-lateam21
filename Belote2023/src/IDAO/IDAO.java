@@ -8,20 +8,6 @@ import java.util.List;
  */
 public interface IDAO<T> {
     /**
-     * Add.
-     *
-     * @param obj the obj
-     */
-    public void add(T obj);
-
-    /**
-     * Delete.
-     *
-     * @param id the id
-     */
-    public void delete (int id);
-
-    /**
      * Gets one.
      *
      * @param id the id

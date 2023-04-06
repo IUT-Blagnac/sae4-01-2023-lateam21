@@ -31,7 +31,7 @@ public class Tournament {
 	/**
 	 * Instantiates a new Tournament.
 	 *
-	 * @param nt the nt
+	 * @param name the name
 	 */
 	public Tournament(String name){
 		this.idTournament = 0;
@@ -81,8 +81,8 @@ public class Tournament {
 		this.NomTournoi = nt;*/
 	}
 
-	public Tournament(String name, int nbGames, int satut){
-		this.idTournament = 0;
+	public Tournament(int id, String name, int nbGames, int satut){
+		this.idTournament = id;
 		this.nbGames = nbGames;
 		this.nameTournament = name;
 		this.status = satut;

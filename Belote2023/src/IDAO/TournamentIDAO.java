@@ -34,13 +34,6 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      */
     public void updateTournament(Tournament t);
 
-    /**
-     * Gets nb rounds.
-     *
-     * @param t the t
-     * @return the nb rounds
-     */
-    public int getNbRounds(Tournament t);
 
 
     /**
