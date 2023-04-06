@@ -694,17 +694,17 @@ public class Window extends JFrame {
 					return y > 0;
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Team e = teS.getTeam(rowIndex, tournament);
+					Team te = teS.getTeam(rowIndex, tournament);
 					switch (columnIndex){
 						case 1:
-							e.setTeam1((String) aValue);
+							te.setTeam1((String) aValue);
 							break;
 						case 2:
-							e.setTeam2((String) aValue);
+							te.setTeam2((String) aValue);
 						default:
 							break;
 					}
-					teS.updatePlayersTeams(rowIndex, tournament);
+					teS.updatePlayersTeams(te, tournament);
 					fireTableDataChanged();
 				}
 			};

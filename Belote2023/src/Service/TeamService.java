@@ -55,24 +55,14 @@ public class TeamService {
 
     /**
      * Update teams.
-     *
-     * @param index the index
      * @param t     the t
      */
-    public void updatePlayersTeams(int index, Tournament t){
-        try {
-            String req = "UPDATE equipes SET nom_j1 = '" + tools.mysql_real_escape_string(getTeam(index, t).getTeam1()) + "', nom_j2 = '" + tools.mysql_real_escape_string(getTeam(index, t).getTeam2()) + "' WHERE id_equipe = " + getTeam(index, t).getId() + ";";
-            System.out.println(req);
-            st.executeUpdate(req);
-            updateTeams(t);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+    public void updatePlayersTeams(Team te, Tournament t){
+        int idTeam = te.getId();
+        String pT1 = tools.mysql_real_escape_string(te.getTeam1());
+        String pT2 = tools.mysql_real_escape_string(te.getTeam2());
+        idaoTeam.updatePlayersTeam(idTeam, pT1, pT2, t);
+        updateTeams(t);
     }
 
 

@@ -77,9 +77,7 @@ public 	class Team {
 	 *
 	 * @param team1 the team 1
 	 */
-	public void setTeam1(String team1) {
-		this.team1 = team1;
-	}
+	public void setTeam1(String team1) {this.team1 = team1;}
 
 	/**
 	 * Sets team 2.

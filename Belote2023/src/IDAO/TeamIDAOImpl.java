@@ -154,7 +154,15 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
     }
 
     @Override
-    public void updatePlayersTeam(Tournament t, int posTeam) {
+    public void updatePlayersTeam(int idTeam, String pTeam1, String pTeam2, Tournament t) {
+        try {
+            Statement st = connection.createStatement();
+            String req = "UPDATE equipes SET nom_j1 = '" + pTeam1 + "', nom_j2 = '" + pTeam2 + "' WHERE id_tournoi = " +t.getIdTournament() + "and id_equipe = "+idTeam+";";
+            st.executeUpdate(req);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

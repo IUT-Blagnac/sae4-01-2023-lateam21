@@ -31,6 +31,6 @@ public interface TeamIDAO extends IDAO<Team>{
 
     public void deleteTeam(Tournament t, int posTeam);
 
-    public void updatePlayersTeam(Tournament t, int posTeam);
+    public void updatePlayersTeam(int posTeam, String pTeam1, String pTeam2, Tournament t);
 
 }
