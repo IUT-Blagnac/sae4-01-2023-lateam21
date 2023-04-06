@@ -4,6 +4,7 @@ import models.CONSTANTS;
 import models.Team;
 import models.Tournament;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,25 +37,6 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
         return CONSTANTS.instance;
     }
 
-    /**
-     * Add.
-     *
-     * @param obj the obj
-     */
-    @Override
-    public void add(Team obj) {
-
-    }
-
-    /**
-     * Delete.
-     *
-     * @param id the id
-     */
-    @Override
-    public void delete(int id) {
-
-    }
 
     /**
      * Gets one.
@@ -63,9 +45,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      * @return the one
      */
     @Override
-    public Team getOne(int id) {
-        return null;
-    }
+    public Team getOne(int id) {return null;}
 
     /**
      * Gets all.
@@ -75,6 +55,23 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
     @Override
     public List<Team> getAll() {
         return null;
+    }
+
+    @Override
+    public Team getOneTeamFromTournament(int idTeam, Tournament t) {
+        Team te = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM equipes where id_tournoi = ? and id_equipe = ?");
+            ps.setInt(1,t.getIdTournament());
+            ps.setInt(2, idTeam);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                te = new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return te;
     }
 
     /**
@@ -119,5 +116,42 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             throw new RuntimeException(e);
         }
         return listIdTeamsTournament;
+    }
+
+    @Override
+    public void addTeam(Tournament t, int pos) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (?, ? , ?,'\"Joueur 1\"', '\"Joueur 2\"');");
+            ps.setInt(1, pos);
+            ps.setInt(2, pos);
+            ps.setInt(3,t.getIdTournament());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteTeam(Tournament t, int posTeam) {
+        try {
+            int nbTeam;
+            Statement st = connection.createStatement();
+            PreparedStatement ps = connection.prepareStatement("SELECT num_equipe FROM equipes WHERE id_equipe = ?");
+            ps.setInt(1,posTeam);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            nbTeam = rs.getInt(1);
+            rs.close();
+            st.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + t.getIdTournament()+ " AND id_equipe = " + posTeam);
+            st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + t.getIdTournament() + " AND num_equipe > " + nbTeam);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updatePlayersTeam(Tournament t, int posTeam) {
+
     }
 }

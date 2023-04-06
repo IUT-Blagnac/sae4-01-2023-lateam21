@@ -43,25 +43,6 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         return TournamentIDAOImpl.instance;
     }
 
-    /**
-     * Add.
-     *
-     * @param obj the obj
-     */
-    @Override
-    public void add(Tournament obj) {
-
-    }
-
-    /**
-     * Delete.
-     *
-     * @param id the id
-     */
-    @Override
-    public void delete(int id) {
-
-    }
 
     /**
      * Delete tournament.
@@ -165,26 +146,6 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
 
     }
 
-    /**
-     * Gets nb rounds.
-     *
-     * @param t the t
-     * @return the nb rounds
-     */
-    @Override
-    public int getNbRounds(Tournament t) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi= ? ; ");
-            ps.setInt(1, t.getIdTournament());
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            System.out.println(e.getMessage());
-            return -1;
-        }
-    }
 
 
     /**

@@ -28,16 +28,6 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     }
 
     @Override
-    public void add(Game obj) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
-    @Override
     public Game getOne(int id) {
         return null;
     }
@@ -57,7 +47,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     public int getNbGames(Tournament t) {
         int result;
         try {
-            PreparedStatement ps = connection.prepareStatement("Select count(*) from Match m WHERE m.id_tournoi=? GROUP BY id_tournoi ;");
+            PreparedStatement ps = connection.prepareStatement("Select count(*) from Matchs m WHERE m.id_tournoi=? GROUP BY id_tournoi ;");
             ps.setInt(1, t.getIdTournament());
             ResultSet rs = ps.executeQuery();
             rs.next();
@@ -89,5 +79,26 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    /**
+     * Gets nb rounds.
+     *
+     * @param t the t
+     * @return the nb rounds
+     */
+    @Override
+    public int getNbRounds(Tournament t) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi= ? ; ");
+            ps.setInt(1, t.getIdTournament());
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e.getMessage());
+            return -1;
+        }
     }
 }

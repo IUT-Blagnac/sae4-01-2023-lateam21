@@ -4,6 +4,7 @@ import IDAO.TournamentIDAOImpl;
 import models.Game;
 import models.Team;
 import models.Tournament;
+import resources.Tools;
 //import view.TournoiView;
 
 import javax.swing.*;
@@ -17,11 +18,28 @@ import java.util.Vector;
 public class TournamentService {
     //attibuts classe controller
     private final ArrayList<Team> dataTeams = null;
+<<<<<<< HEAD
     private ArrayList<Game> dataGames = null;
+=======
+    /**
+     * The Ideqs.
+     */
+>>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
     private final ArrayList<Integer>ideqs  = null;
     static TournamentIDAOImpl idaoTournoi = TournamentIDAOImpl.getInstance();
     Statement st;
+<<<<<<< HEAD
     private Tournament tournament;
+=======
+    /**
+     * The Tournament.
+     */
+    Tournament tournament;
+    static Tools tools;
+    /**
+     * The Ts.
+     */
+>>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
     private final TeamService ts = new TeamService();
 
     public TournamentService(){
@@ -32,14 +50,18 @@ public class TournamentService {
         return tournament.getStatus();
     }
 
+<<<<<<< HEAD
     public int getNbRounds(Tournament tournament){
         return idaoTournoi.getNbRounds(tournament);
     }
+=======
+>>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 
     public Vector<String> getTournamentsName(){
         return idaoTournoi.getAllTournamentsNames();
     }
 
+<<<<<<< HEAD
     public Game getGame(int index){
         if(dataGames == null) updateGame();
         return dataGames.get(index);
@@ -201,6 +223,16 @@ public class TournamentService {
         }
     }
 
+=======
+    public Tournament getTournamentFromName(String nt){return idaoTournoi.getOne(nt);}
+
+
+    /**
+     * Delete tournament.
+     *
+     * @param nom the nom
+     */
+>>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
     public static void deleteTournament(String nom){
         idaoTournoi.deleteTournament(nom);
     }
@@ -216,7 +248,7 @@ public class TournamentService {
             return 1;
         }else{
             try {
-                nameNewTournament =  mysqlRealEscapeString(nameNewTournament);
+                nameNewTournament =  tools.mysql_real_escape_string(nameNewTournament);
                 if(nameNewTournament.length() < 3){
                     JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
                     return 2;
@@ -242,6 +274,7 @@ public class TournamentService {
         return 0;
     }
 
+<<<<<<< HEAD
     public void updateTeams(int index, Tournament t){
         try {
             String req = "UPDATE equipes SET nom_j1 = '" + mysqlRealEscapeString(ts.getTeam(index, t).getTeam1()) + "', nom_j2 = '" + mysqlRealEscapeString(ts.getTeam(index, t).getTeam2()) + "' WHERE id_equipe = " + ts.getTeam(index, t).getId() + ";";
@@ -354,4 +387,6 @@ public class TournamentService {
         }
         return retour;
     }
+=======
+>>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 }

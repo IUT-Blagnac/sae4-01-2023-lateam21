@@ -72,6 +72,7 @@ public class Tournament {
 		this.NomTournoi = nt;*/
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Instantiates a new Tournament.
 	 *
@@ -81,6 +82,10 @@ public class Tournament {
 	 */
 	public Tournament(String name, int nbGames, int satut){
 		this.idTournament = 0;
+=======
+	public Tournament(int id, String name, int nbGames, int satut){
+		this.idTournament = id;
+>>>>>>> b7aafcd5b2f9eda817af8194475b4b529cfad6af
 		this.nbGames = nbGames;
 		this.nameTournament = name;
 		this.status = satut;
