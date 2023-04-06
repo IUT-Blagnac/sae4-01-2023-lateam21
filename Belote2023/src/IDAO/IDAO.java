@@ -12,14 +12,14 @@ public interface IDAO<T> {
      *
      * @param obj the obj
      */
-    public void add(T obj);
+    void add(T obj);
 
     /**
      * Delete.
      *
      * @param id the id
      */
-    public void delete (int id);
+    void delete (int id);
 
     /**
      * Gets one.
@@ -27,12 +27,12 @@ public interface IDAO<T> {
      * @param id the id
      * @return the one
      */
-    public T getOne(int id);
+    T getOne(int id);
 
     /**
      * Gets all.
      *
      * @return the all
      */
-    public List<T> getAll();
+    List<T> getAll();
 }

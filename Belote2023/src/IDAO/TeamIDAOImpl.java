@@ -21,7 +21,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
     /**
      * Instantiates a new Team idao.
      */
-    private TeamIDAOImpl(){super();};
+    private TeamIDAOImpl(){super();}
 
     /**
      * Gets instance.

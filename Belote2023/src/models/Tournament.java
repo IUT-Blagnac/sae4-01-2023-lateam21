@@ -1,5 +1,4 @@
 package models;
-
 /**
  * The type Tournament.
  */
@@ -31,7 +30,7 @@ public class Tournament {
 	/**
 	 * Instantiates a new Tournament.
 	 *
-	 * @param nt the nt
+	 * @param name the name
 	 */
 	public Tournament(String name){
 		this.idTournament = 0;
@@ -39,22 +38,22 @@ public class Tournament {
 		this.nameTournament = name;
 		this.status = 0;
 
-		statusName = "Inconnu";
+		statusName = CONSTANTS.NULL;
 		switch(this.status){
 			//case 0:
 			//	statuttnom = "Configuration du tournoi";
 			//break;
 			case 0:
-				statusName = "Inscription des joueurs";
+				statusName = CONSTANTS.PLAYERS_SIGNED;
 				break;
 			case 1:
-				statusName = "Génération des matchs";
+				statusName = CONSTANTS.GAMES_GENERATED;
 				break;
 			case 2:
-				statusName = "Matchs en cours";
+				statusName = CONSTANTS.GAMES_IN_PROGRESS;
 				break;
 			case 3:
-				statusName = "Terminé";
+				statusName = CONSTANTS.ENDED;
 				break;
 
 		}
@@ -66,7 +65,7 @@ public class Tournament {
 				return ;
 			}
 			this.statut = rs.getInt("statut");
-			
+
 			this.id_tournoi = rs.getInt("id_tournoi");
 			rs.close();
 
@@ -92,16 +91,17 @@ public class Tournament {
 			//	statuttnom = "Configuration du tournoi";
 			//break;
 			case 0:
-				statusName = "Inscription des joueurs";
+
+				statusName = CONSTANTS.PLAYERS_SIGNED;
 				break;
 			case 1:
-				statusName = "Génération des matchs";
+				statusName = CONSTANTS.GAMES_GENERATED;
 				break;
 			case 2:
-				statusName = "Matchs en cours";
+				statusName = CONSTANTS.GAMES_IN_PROGRESS;
 				break;
 			case 3:
-				statusName = "Terminé";
+				statusName = CONSTANTS.ENDED;
 				break;
 
 		}

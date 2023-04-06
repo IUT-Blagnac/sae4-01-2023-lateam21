@@ -15,7 +15,7 @@ public interface TeamIDAO extends IDAO<Team>{
      * @param t the t
      * @return the teams tournament
      */
-    public ArrayList<Team> getTeamsTournament(Tournament t);
+    ArrayList<Team> getTeamsTournament(Tournament t);
 
     /**
      * Gets id teams tournament.
@@ -23,5 +23,5 @@ public interface TeamIDAO extends IDAO<Team>{
      * @param t the t
      * @return the id teams tournament
      */
-    public ArrayList<Integer> getIdTeamsTournament(Tournament t);
+    ArrayList<Integer> getIdTeamsTournament(Tournament t);
 }

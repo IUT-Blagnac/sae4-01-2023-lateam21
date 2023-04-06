@@ -32,7 +32,7 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      *
      * @param t the t
      */
-    public void updateTournament(Tournament t);
+    void updateTournament(Tournament t);
 
     /**
      * Gets nb rounds.
@@ -40,7 +40,7 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      * @param t the t
      * @return the nb rounds
      */
-    public int getNbRounds(Tournament t);
+    int getNbRounds(Tournament t);
 
 
     /**
@@ -48,15 +48,15 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      *
      * @return the all names
      */
-    public ArrayList<String> getAllNames();
+    ArrayList<String> getAllNames();
 
-    public Vector<String> getAllTournamentsNames();
+    Vector<String> getAllTournamentsNames();
 
     /**
      * Create tournament.
      *
      * @param nom the nom
      */
-    public void createTournament(String nom);
+    void createTournament(String nom);
 
 }

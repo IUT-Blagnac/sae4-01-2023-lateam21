@@ -10,7 +10,7 @@ public interface GameIDAO extends IDAO<Game>{
      * @param t the t
      * @return the nb games
      */
-    public int getNbGames(Tournament t);
+    int getNbGames(Tournament t);
 
     /**
      * Gets nb games ended.
@@ -18,5 +18,5 @@ public interface GameIDAO extends IDAO<Game>{
      * @param t the t
      * @return the nb games ended
      */
-    public int getNbGamesEnded(Tournament t);
+    int getNbGamesEnded(Tournament t);
 }

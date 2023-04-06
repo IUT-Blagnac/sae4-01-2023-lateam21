@@ -22,11 +22,11 @@ public 	class Team {
 	/**
 	 * The Id.
 	 */
-	private int id;
+	private final int id;
 	/**
 	 * The Num.
 	 */
-	private int num;
+	private final int num;
 	/**
 	 * The Team 1.
 	 */

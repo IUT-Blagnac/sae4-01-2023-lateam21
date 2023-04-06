@@ -21,7 +21,7 @@ public class TournamentService {
      * The Data teams.
      */
 //attibuts classe controller
-    private ArrayList<Team> dataTeams = null;
+    private final ArrayList<Team> dataTeams = null;
     /**
      * The Data games.
      */
@@ -29,7 +29,7 @@ public class TournamentService {
     /**
      * The Ideqs.
      */
-    private ArrayList<Integer>ideqs  = null;
+    private final ArrayList<Integer>ideqs  = null;
     /**
      * The Idao tournoi.
      */
@@ -45,7 +45,7 @@ public class TournamentService {
     /**
      * The Ts.
      */
-    private TeamService ts = new TeamService();
+    private final TeamService ts = new TeamService();
 
     /**
      * Instantiates a new Tournament service.
@@ -277,7 +277,7 @@ public class TournamentService {
      * @return the int
      */
     public static int createTournament(){
-        String nameNewTournament = (String)JOptionPane.showInputDialog(
+        String nameNewTournament = JOptionPane.showInputDialog(
                 null,
                 "Entrez le nom du tournoi",
                 "Nom du tournoi",
@@ -448,9 +448,8 @@ public class TournamentService {
                 listPlayers[0] = temp;
             }
             i       = 0;
-            stop = false; //? On a un break apres - donc je pense que on pourait simplement faire while(true)
             vg = new Vector<Game>();
-            while(!stop){
+            while(true){
                 if (listPlayers[i] == -1 || listPlayers[nbPlayers - 1  - i] == -1){
                     // Nombre impair de joueur, le joueur n'a pas d'adversaire
                 }else{
@@ -460,7 +459,6 @@ public class TournamentService {
                 i+= increment;
                 if(i >= nbPlayers / 2){
                     if(increment == 1){
-                        stop = true;
                         break;
                     }else{
                         increment = -2;
@@ -468,7 +466,6 @@ public class TournamentService {
                             i = ((i > nbPlayers / 2) ? i - 3 : --i) ;
                         }
                         if ((i < 1) && (increment == -2)){
-                            stop = true;
                             break;
                         }
                     }
