@@ -67,13 +67,13 @@ public class TeamService {
     /**
      * Update teams.
      *
-     * @param tournament the tournament
+     * @param t the tournament
      */
-    public void updateTeams(Tournament tournament){
-        dateTeam = new ArrayList<Team>();
-        idTeam = new ArrayList<Integer>();
-        dateTeam = idaoTeam.getTeamsTournament(tournament);
-        idTeam = idaoTeam.getIdTeamsTournament(tournament);
+    public void updateTeams(Tournament t){
+        dateTeam = new ArrayList<>();
+        idTeam = new ArrayList<>();
+        dateTeam = idaoTeam.getTeamsTournament(t);
+        idTeam = idaoTeam.getIdTeamsTournament(t);
     }
 
     /**
@@ -90,7 +90,8 @@ public class TeamService {
             }
         }
         try {
-            st.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+a_aj+", "+ tournament.getIdTournament() + ",'\"Joueur 1\"', '\"Joueur 2\"');");
+
+            st.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+a_aj+", "+ t.getIdTournament() + ",'\"Joueur 1\"', '\"Joueur 2\"');");
             updateTeams(t);
         } catch (SQLException e) {
             // TODO Auto-generated catch block

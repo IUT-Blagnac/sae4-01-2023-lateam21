@@ -11,65 +11,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Vector;
 
-/**
- * The type Tournament service.
- */
 public class TournamentService {
-    /**
-     * The Data teams.
-     */
-//attibuts classe controller
+    //attibuts classe controller
     private final ArrayList<Team> dataTeams = null;
-    /**
-     * The Data games.
-     */
     private ArrayList<Game> dataGames = null;
-    /**
-     * The Ideqs.
-     */
     private final ArrayList<Integer>ideqs  = null;
-    /**
-     * The Idao tournoi.
-     */
     static TournamentIDAOImpl idaoTournoi = TournamentIDAOImpl.getInstance();
-    /**
-     * The St.
-     */
     Statement st;
-    /**
-     * The Tournament.
-     */
     private Tournament tournament;
-    /**
-     * The Ts.
-     */
     private final TeamService ts = new TeamService();
 
-    /**
-     * Instantiates a new Tournament service.
-     */
     public TournamentService(){
         super();
     }
 
-    /**
-     * Gets tournament status.
-     *
-     * @param tournament the tournament
-     * @return the tournament status
-     */
     public int getTournamentStatus(Tournament tournament) {
         return tournament.getStatus();
     }
 
-    /**
-     * Get nb rounds int.
-     *
-     * @param tournament the tournament
-     * @return the int
-     */
     public int getNbRounds(Tournament tournament){
         return idaoTournoi.getNbRounds(tournament);
     }
@@ -78,26 +40,17 @@ public class TournamentService {
         return idaoTournoi.getAllTournamentsNames();
     }
 
-    /**
-     * Get game game.
-     *
-     * @param index the index
-     * @return the game
-     */
     public Game getGame(int index){
         if(dataGames == null) updateGame();
         return dataGames.get(index);
     }
 
 
-    /**
-     * Update game.
-     */
     public void updateGame(){
-        dataGames = new ArrayList<Game>();
+        dataGames = new ArrayList<>();
         try {
             ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ tournament.getIdTournament() + ";");
-            while(rs.next()) dataGames.add(new Game(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
+            while(rs.next()) dataGames.add(new Game(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"), rs.getString("termine").equals("oui")));
             //public models.Game(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
             rs.close();
         } catch (SQLException e) {
@@ -106,11 +59,6 @@ public class TournamentService {
         }
     }
 
-    /**
-     * Generate games.
-     *
-     * @param t the t
-     */
     public void generateGames(Tournament t){
         int nbt = 1;
 
@@ -139,12 +87,6 @@ public class TournamentService {
         }
     }
 
-    /**
-     * Add round boolean.
-     *
-     * @param t the t
-     * @return the boolean
-     */
     public boolean addRound(Tournament t){
         // Recherche du nombre de tours actuel
         int nbRoundsBefore;
@@ -190,7 +132,7 @@ public class TournamentService {
                 rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + tournament.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + tournament.getIdTournament() + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
 
 
-                ArrayList<Integer> ordreeq= new ArrayList<Integer>();
+                ArrayList<Integer> ordreeq= new ArrayList<>();
                 while(rs.next()){
                     ordreeq.add(rs.getInt("equipe"));
                     System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
@@ -236,9 +178,6 @@ public class TournamentService {
         return true;
     }
 
-    /**
-     * Delete round.
-     */
     public void deleteRound(){
         int nbRoundsBefore; //? Ici je pense que on pourrait mettre ca en parametre
 
@@ -262,20 +201,10 @@ public class TournamentService {
         }
     }
 
-    /**
-     * Delete tournament.
-     *
-     * @param nom the nom
-     */
     public static void deleteTournament(String nom){
         idaoTournoi.deleteTournament(nom);
     }
 
-    /**
-     * Create tournament int.
-     *
-     * @return the int
-     */
     public static int createTournament(){
         String nameNewTournament = JOptionPane.showInputDialog(
                 null,
@@ -283,7 +212,7 @@ public class TournamentService {
                 "Nom du tournoi",
                 JOptionPane.PLAIN_MESSAGE);
 
-        if(nameNewTournament == null || nameNewTournament == ""){
+        if(nameNewTournament == null || nameNewTournament.equals("")){
             return 1;
         }else{
             try {
@@ -296,7 +225,7 @@ public class TournamentService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            if(nameNewTournament == ""){
+            if(Objects.equals(nameNewTournament, "")){
                 JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
                 return 2;
             }else{
@@ -313,21 +242,12 @@ public class TournamentService {
         return 0;
     }
 
-    /**
-     * Update teams.
-     *
-     * @param index the index
-     * @param t     the t
-     */
     public void updateTeams(int index, Tournament t){
         try {
             String req = "UPDATE equipes SET nom_j1 = '" + mysqlRealEscapeString(ts.getTeam(index, t).getTeam1()) + "', nom_j2 = '" + mysqlRealEscapeString(ts.getTeam(index, t).getTeam2()) + "' WHERE id_equipe = " + ts.getTeam(index, t).getId() + ";";
             System.out.println(req);
             st.executeUpdate(req);
             ts.updateTeams(t);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -335,11 +255,6 @@ public class TournamentService {
 
     }
 
-    /**
-     * Update game.
-     *
-     * @param index the index
-     */
     public void updateGame(int index){
         String hasEnded = (getGame(index).getScore1() > 0 || getGame(index).getScore2() > 0) ? "oui":"non";
         System.out.println(hasEnded);
@@ -353,12 +268,6 @@ public class TournamentService {
         updateGame();
     }
 
-    /**
-     * Delete team.
-     *
-     * @param ideq the ideq
-     * @param t    the t
-     */
     public void deleteTeam(int ideq, Tournament t){
         try {
             int nbTeam;
@@ -375,16 +284,7 @@ public class TournamentService {
         }
     }
 
-    /**
-     * Mysql real escape string string.
-     *
-     * @param str the str
-     * @return the string
-     * @throws Exception the exception
-     */
-    public static String mysqlRealEscapeString(String str)
-            throws Exception
-    {
+    public static String mysqlRealEscapeString(String str) {
         if (str == null) {
             return null;
         }
@@ -403,13 +303,6 @@ public class TournamentService {
 
     }
 
-    /**
-     * Get games to do vector.
-     *
-     * @param nbPlayers the nb players
-     * @param nbRounds  the nb rounds
-     * @return the vector
-     */
     public static Vector<Vector<Game>> getGamesToDo(int nbPlayers, int nbRounds){
         if( nbRounds  >= nbPlayers){
             System.out.println("Erreur tours < equipes");
@@ -432,10 +325,9 @@ public class TournamentService {
             }
         }
 
-        boolean stop;
         int     i, increment  = 1, temp;
 
-        Vector<Vector<Game>> retour = new Vector<Vector<Game>>(); //?
+        Vector<Vector<Game>> retour = new Vector<>(); //?
 
         Vector<Game> vg;
 
@@ -448,29 +340,16 @@ public class TournamentService {
                 listPlayers[0] = temp;
             }
             i       = 0;
-            vg = new Vector<Game>();
-            while(true){
-                if (listPlayers[i] == -1 || listPlayers[nbPlayers - 1  - i] == -1){
+            vg = new Vector<>();
+            do {
+                if (listPlayers[i] == -1 || listPlayers[nbPlayers - 1 - i] == -1) {
                     // Nombre impair de joueur, le joueur n'a pas d'adversaire
-                }else{
-                    vg.add(new Game(i,listPlayers[i], listPlayers[nbPlayers - 1  - i],0,0,0,false));
+                } else {
+                    vg.add(new Game(i, listPlayers[i], listPlayers[nbPlayers - 1 - i], 0, 0, 0, false));
                 }
 
-                i+= increment;
-                if(i >= nbPlayers / 2){
-                    if(increment == 1){
-                        break;
-                    }else{
-                        increment = -2;
-                        if( i > nbPlayers / 2){
-                            i = ((i > nbPlayers / 2) ? i - 3 : --i) ;
-                        }
-                        if ((i < 1) && (increment == -2)){
-                            break;
-                        }
-                    }
-                }
-            }
+                i += increment;
+            } while (i < nbPlayers / 2);
             retour.add(vg);
         }
         return retour;

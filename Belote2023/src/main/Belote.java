@@ -1,5 +1,6 @@
 package main;
 
+import models.CONSTANTS;
 import view.Window;
 
 import java.io.File;
@@ -14,36 +15,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
-/**
- * The type Belote.
- */
 public class Belote {
 
 
-	/**
-	 * The Db.
-	 */
 	private final String db ="";
-	/**
-	 * The Url.
-	 */
 	private final String url = "jdbc:hsqldb:file:";
-	/**
-	 * The User.
-	 */
 	private final String user = "sa";
-	/**
-	 * The Pwd.
-	 */
 	private final String pwd = "";
-	/**
-	 * The constant connect.
-	 */
 	private static Connection connect = null;
 
-	/**
-	 * Instantiates a new Belote.
-	 */
 	private Belote(){
 		try{
 			String dos = System.getProperty("user.dir");
@@ -59,7 +39,7 @@ public class Belote {
 		}catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}catch(SQLException e){
-			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
+			JOptionPane.showMessageDialog(null, CONSTANTS.SQL_CONNECTION_ERROR);
 			System.out.println(e.getMessage());
 			System.exit(0);
 		} catch (FileNotFoundException e) {
@@ -67,25 +47,15 @@ public class Belote {
 		}
 	}
 
-	/**
-	 * Get unique instance belote connection.
-	 *
-	 * @return the connection
-	 */
 	public static Connection getUniqueInstanceBelote(){
 		if(connect==null)
 			new Belote();
 		return connect;
 	}
 
-	/**
-	 * The entry point of application.
-	 *
-	 * @param args the input arguments
-	 */
 	public static void main(String[] args) {
 		Connection connect = getUniqueInstanceBelote();
-		Statement statement = null;
+		Statement statement;
 		try {
 			statement = connect.createStatement();
 		} catch (SQLException e) {
@@ -97,14 +67,6 @@ public class Belote {
 	}
 
 
-	/**
-	 * Import sql.
-	 *
-	 * @param conn the connection
-	 * @param in   the in
-	 * @throws SQLException          the sql exception
-	 * @throws FileNotFoundException the file not found exception
-	 */
 	public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
 	{
 		Scanner s = new Scanner(in);

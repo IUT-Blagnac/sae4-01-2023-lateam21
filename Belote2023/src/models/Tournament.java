@@ -1,4 +1,5 @@
 package models;
+
 /**
  * The type Tournament.
  */
@@ -39,23 +40,14 @@ public class Tournament {
 		this.status = 0;
 
 		statusName = CONSTANTS.NULL;
-		switch(this.status){
+		switch (this.status) {
 			//case 0:
 			//	statuttnom = "Configuration du tournoi";
 			//break;
-			case 0:
-				statusName = CONSTANTS.PLAYERS_SIGNED;
-				break;
-			case 1:
-				statusName = CONSTANTS.GAMES_GENERATED;
-				break;
-			case 2:
-				statusName = CONSTANTS.GAMES_IN_PROGRESS;
-				break;
-			case 3:
-				statusName = CONSTANTS.ENDED;
-				break;
-
+			case 0 -> statusName = CONSTANTS.PLAYERS_SIGNED;
+			case 1 -> statusName = CONSTANTS.GAMES_GENERATED;
+			case 2 -> statusName = CONSTANTS.GAMES_IN_PROGRESS;
+			case 3 -> statusName = CONSTANTS.ENDED;
 		}
 		/*st = s;
 
@@ -80,30 +72,27 @@ public class Tournament {
 		this.NomTournoi = nt;*/
 	}
 
+	/**
+	 * Instantiates a new Tournament.
+	 *
+	 * @param name    the name
+	 * @param nbGames the nb games
+	 * @param satut   the satut
+	 */
 	public Tournament(String name, int nbGames, int satut){
 		this.idTournament = 0;
 		this.nbGames = nbGames;
 		this.nameTournament = name;
 		this.status = satut;
 
-		switch(this.status){
+		switch (this.status) {
 			//case 0:
 			//	statuttnom = "Configuration du tournoi";
 			//break;
-			case 0:
-
-				statusName = CONSTANTS.PLAYERS_SIGNED;
-				break;
-			case 1:
-				statusName = CONSTANTS.GAMES_GENERATED;
-				break;
-			case 2:
-				statusName = CONSTANTS.GAMES_IN_PROGRESS;
-				break;
-			case 3:
-				statusName = CONSTANTS.ENDED;
-				break;
-
+			case 0 -> statusName = CONSTANTS.PLAYERS_SIGNED;
+			case 1 -> statusName = CONSTANTS.GAMES_GENERATED;
+			case 2 -> statusName = CONSTANTS.GAMES_IN_PROGRESS;
+			case 3 -> statusName = CONSTANTS.ENDED;
 		}
 	}
 

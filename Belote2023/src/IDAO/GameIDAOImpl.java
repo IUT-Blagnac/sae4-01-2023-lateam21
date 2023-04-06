@@ -16,7 +16,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         super();
     }
 
-    public final static GameIDAOImpl getInstance() {
+    public static GameIDAOImpl getInstance() {
         if (GameIDAOImpl.instance == null) {
             synchronized(GameIDAOImpl.class) {
                 if (GameIDAOImpl.instance == null) {
@@ -55,7 +55,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
      */
     @Override
     public int getNbGames(Tournament t) {
-        int result = 0;
+        int result;
         try {
             PreparedStatement ps = connection.prepareStatement("Select count(*) from Match m WHERE m.id_tournoi=? GROUP BY id_tournoi ;");
             ps.setInt(1, t.getIdTournament());
@@ -77,7 +77,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
      */
     @Override
     public int getNbGamesEnded(Tournament t) {
-        int result = 0;
+        int result;
         try {
             PreparedStatement ps = connection.prepareStatement("Select count(*) from matchs m  WHERE m.id_tournoi = ?  AND m.termine='oui' ");
             ps.setInt(1, t.getIdTournament());

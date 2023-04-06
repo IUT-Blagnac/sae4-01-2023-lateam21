@@ -1,5 +1,6 @@
 package IDAO;
 
+import models.CONSTANTS;
 import models.Team;
 import models.Tournament;
 
@@ -13,10 +14,6 @@ import java.util.List;
  * The type Team idao.
  */
 public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
-    /**
-     * The constant instance.
-     */
-    private static TeamIDAOImpl instance = null;
 
     /**
      * Instantiates a new Team idao.
@@ -28,15 +25,15 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      *
      * @return the instance
      */
-    public final static TeamIDAOImpl getInstance() {
-        if(TeamIDAOImpl.instance==null){
+    public static TeamIDAOImpl getInstance() {
+        if(CONSTANTS.instance==null){
             synchronized(TeamIDAOImpl.class) {
-                if (TeamIDAOImpl.instance == null) {
-                    TeamIDAOImpl.instance = new TeamIDAOImpl();
+                if (CONSTANTS.instance == null) {
+                    CONSTANTS.instance = new TeamIDAOImpl();
                 }
             }
         }
-        return TeamIDAOImpl.instance;
+        return CONSTANTS.instance;
     }
 
     /**
@@ -88,12 +85,12 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      */
     @Override
     public ArrayList<Team> getTeamsTournament(Tournament t) {
-        ArrayList<Team> listTeamsTournament = new ArrayList<Team>();
+        ArrayList<Team> listTeamsTournament = new ArrayList<>();
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
             while(rs.next()){
-                listTeamsTournament.add(new Team(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
+                listTeamsTournament.add(new Team(rs.getInt(CONSTANTS.BD_ID_EQUIPE),rs.getInt(CONSTANTS.BD_NUM_EQUIPE), rs.getString(CONSTANTS.BD_NOM_J_1), rs.getString(CONSTANTS.BD_NOM_J_2)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -110,12 +107,12 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      */
     @Override
     public ArrayList<Integer> getIdTeamsTournament(Tournament t) {
-        ArrayList<Integer> listIdTeamsTournament = new ArrayList<Integer>();
+        ArrayList<Integer> listIdTeamsTournament = new ArrayList<>();
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
             while(rs.next()){
-                listIdTeamsTournament.add(rs.getInt("num_equipe"));
+                listIdTeamsTournament.add(rs.getInt(CONSTANTS.BD_NUM_EQUIPE));
             }
             rs.close();
         } catch (SQLException e) {

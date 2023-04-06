@@ -1,5 +1,7 @@
 package models;
 
+import IDAO.TeamIDAOImpl;
+
 public abstract class CONSTANTS {
 
 
@@ -32,6 +34,15 @@ public abstract class CONSTANTS {
     public static final String BD_TMATCHS = "tmatchs";
     public static final String BD_TERMINES = "termines";
 
+
+    public static final String BD_ID_EQUIPE = "id_equipe";
+    public static final String BD_NUM_EQUIPE = "num_equipe";
+    public static final String BD_NOM_J_1 = "nom_j1";
+    public static final String BD_NOM_J_2 = "nom_j2";
+    public static final String BD_ID_TOURNOI = "id_tournoi";
+    public static final String BD_NB_MATCHS = "nb_matchs";
+    public static final String BD_STATUT = "statut";
+    public static final String BD_NOM_TOURNOI = "nom_tournoi";
 
     public static final String LABEL_TOURNAMENT_LIST = "Liste des tournois";
     public static final String LABEL_TOURNAMENT_DETAILS = "Détail du tournoi";
@@ -97,5 +108,15 @@ public abstract class CONSTANTS {
 
 
     public static final String GAMES_ENDED = " matchs terminés";
+
+    public static final String TOURNAMENT_DELETE = "ID du tournoi � supprimer:";
+    public static final String ERROR_DELETE = "Erreur suppression : ";
+    public static final String ERROR_UNKNOWN = "Erreur inconnue";
+
+    public static final String SQL_CONNECTION_ERROR = "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.";
+    /**
+     * The constant instance.
+     */
+    public static TeamIDAOImpl instance = null;
 }
 
