@@ -23,19 +23,19 @@ public class Belote {
 	/**
 	 * The Db.
 	 */
-	private String db ="";
+	private final String db ="";
 	/**
 	 * The Url.
 	 */
-	private String url = "jdbc:hsqldb:file:";
+	private final String url = "jdbc:hsqldb:file:";
 	/**
 	 * The User.
 	 */
-	private String user = "sa";
+	private final String user = "sa";
 	/**
 	 * The Pwd.
 	 */
-	private String pwd = "";
+	private final String pwd = "";
 	/**
 	 * The constant connect.
 	 */

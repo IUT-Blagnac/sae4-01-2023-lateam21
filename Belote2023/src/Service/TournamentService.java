@@ -22,11 +22,11 @@ public class TournamentService {
      * The Data teams.
      */
 //attibuts classe controller
-    private ArrayList<Team> dataTeams = null;
+    private final ArrayList<Team> dataTeams = null;
     /**
      * The Ideqs.
      */
-    private ArrayList<Integer>ideqs  = null;
+    private final ArrayList<Integer>ideqs  = null;
     /**
      * The Idao tournoi.
      */
@@ -43,7 +43,7 @@ public class TournamentService {
     /**
      * The Ts.
      */
-    private TeamService ts = new TeamService();
+    private final TeamService ts = new TeamService();
 
     /**
      * Instantiates a new Tournament service.
@@ -85,7 +85,7 @@ public class TournamentService {
      * @return the int
      */
     public static int createTournament(){
-        String nameNewTournament = (String)JOptionPane.showInputDialog(
+        String nameNewTournament = JOptionPane.showInputDialog(
                 null,
                 "Entrez le nom du tournoi",
                 "Nom du tournoi",
@@ -120,6 +120,5 @@ public class TournamentService {
         }
         return 0;
     }
-
 
 }

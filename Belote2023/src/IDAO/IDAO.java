@@ -13,12 +13,12 @@ public interface IDAO<T> {
      * @param id the id
      * @return the one
      */
-    public T getOne(int id);
+    T getOne(int id);
 
     /**
      * Gets all.
      *
      * @return the all
      */
-    public List<T> getAll();
+    List<T> getAll();
 }

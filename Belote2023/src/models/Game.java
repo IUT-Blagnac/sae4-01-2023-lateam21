@@ -7,26 +7,31 @@ public class Game {
 	/**
 	 * The Id match.
 	 */
-	private int idMatch, /**
+	private final int idMatch;
+    private final int /**
 	 * The Team 1.
 	 */
-	team1, /**
+	team1;
+    private final int /**
 	 * The Team 2.
 	 */
-	team2, /**
+	team2;
+    private int /**
 	 * The Score 1.
 	 */
-	score1, /**
+	score1;
+    private int /**
 	 * The Score 2.
 	 */
-	score2, /**
+	score2;
+    private final int /**
 	 * The Num rounds.
 	 */
 	numRounds;
 	/**
 	 * The Has ended.
 	 */
-	private boolean hasEnded;
+	private final boolean hasEnded;
 
 	/**
 	 * Instantiates a new Game.
