@@ -1,5 +1,6 @@
 package IDAO;
 
+import models.CONSTANTS;
 import models.Team;
 import models.Tournament;
 
@@ -14,10 +15,6 @@ import java.util.List;
  * The type Team idao.
  */
 public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
-    /**
-     * The constant instance.
-     */
-    private static TeamIDAOImpl instance = null;
 
     /**
      * Instantiates a new Team idao.
@@ -29,15 +26,15 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      *
      * @return the instance
      */
-    public final static TeamIDAOImpl getInstance() {
-        if(TeamIDAOImpl.instance==null){
+    public static TeamIDAOImpl getInstance() {
+        if(CONSTANTS.instance==null){
             synchronized(TeamIDAOImpl.class) {
-                if (TeamIDAOImpl.instance == null) {
-                    TeamIDAOImpl.instance = new TeamIDAOImpl();
+                if (CONSTANTS.instance == null) {
+                    CONSTANTS.instance = new TeamIDAOImpl();
                 }
             }
         }
-        return TeamIDAOImpl.instance;
+        return CONSTANTS.instance;
     }
 
 
@@ -85,12 +82,12 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      */
     @Override
     public ArrayList<Team> getTeamsTournament(Tournament t) {
-        ArrayList<Team> listTeamsTournament = new ArrayList<Team>();
+        ArrayList<Team> listTeamsTournament = new ArrayList<>();
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
             while(rs.next()){
-                listTeamsTournament.add(new Team(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
+                listTeamsTournament.add(new Team(rs.getInt(CONSTANTS.BD_ID_EQUIPE),rs.getInt(CONSTANTS.BD_NUM_EQUIPE), rs.getString(CONSTANTS.BD_NOM_J_1), rs.getString(CONSTANTS.BD_NOM_J_2)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -107,11 +104,12 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
      */
     @Override
     public ArrayList<Integer> getIdTeamsTournament(Tournament t) {
-        ArrayList<Integer> listIdTeamsTournament = new ArrayList<Integer>();
+        ArrayList<Integer> listIdTeamsTournament = new ArrayList<>();
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
             while(rs.next()){
+<<<<<<< HEAD
                 listIdTeamsTournament.add(rs.getInt("id_equipe"));
             }
             rs.close();
@@ -129,6 +127,9 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes;");
             while(rs.next()){
                 listIdTeamsTournament.add(rs.getInt(1));
+=======
+                listIdTeamsTournament.add(rs.getInt(CONSTANTS.BD_NUM_EQUIPE));
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
             }
             rs.close();
         } catch (SQLException e) {
@@ -145,6 +146,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             ps.setInt(2, pos);
             ps.setInt(3,t.getIdTournament());
             ps.executeUpdate();
+            //ICI METTRE UN UPDATE???
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -170,15 +172,25 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
     }
 
     @Override
+<<<<<<< HEAD
     public void updatePlayersTeam(int idTeam, String pTeam1, String pTeam2, Tournament t) {
+=======
+    public void updatePlayersTeam(int idTeam, String pTeam1, String pTeam2, Tournament t){
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
         try {
             Statement st = connection.createStatement();
             String req = "UPDATE equipes SET nom_j1 = '" + pTeam1 + "', nom_j2 = '" + pTeam2 + "' WHERE id_tournoi = " +t.getIdTournament() + "and id_equipe = "+idTeam+";";
             st.executeUpdate(req);
+<<<<<<< HEAD
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+=======
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

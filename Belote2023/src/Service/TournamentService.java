@@ -1,17 +1,14 @@
 package Service;
 
 import IDAO.TournamentIDAOImpl;
-import models.Game;
 import models.Team;
 import models.Tournament;
 import resources.Tools;
-//import view.TournoiView;
 
 import javax.swing.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -39,7 +36,6 @@ public class TournamentService {
      * The Tournament.
      */
     Tournament tournament;
-    static Tools tools;
     /**
      * The Ts.
      */
@@ -91,11 +87,11 @@ public class TournamentService {
                 "Nom du tournoi",
                 JOptionPane.PLAIN_MESSAGE);
 
-        if(nameNewTournament == null || nameNewTournament == ""){
+        if(nameNewTournament == null || nameNewTournament.equals("")){
             return 1;
         }else{
             try {
-                nameNewTournament =  tools.mysql_real_escape_string(nameNewTournament);
+                nameNewTournament =  Tools.mysql_real_escape_string(nameNewTournament);
                 if(nameNewTournament.length() < 3){
                     JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
                     return 2;
@@ -104,7 +100,7 @@ public class TournamentService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            if(nameNewTournament == ""){
+            if(Objects.equals(nameNewTournament, "")){
                 JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
                 return 2;
             }else{

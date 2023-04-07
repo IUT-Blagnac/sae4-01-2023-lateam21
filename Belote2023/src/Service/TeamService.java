@@ -1,14 +1,14 @@
-package Service;
 
-import IDAO.TeamIDAOImpl;
-import models.Team;
-import models.Tournament;
-import resources.Tools;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+        package Service;
+
+        import IDAO.TeamIDAOImpl;
+        import models.Team;
+        import models.Tournament;
+        import resources.Tools;
+
+        import java.sql.Statement;
+        import java.util.ArrayList;
 
 /**
  * The type Team service.
@@ -30,7 +30,6 @@ public class TeamService {
      * The Tournament.
      */
     Tournament tournament;
-    private Tools tools;
     /**
      * The Idao team.
      */
@@ -47,20 +46,37 @@ public class TeamService {
      * @param tournament the tournament
      */
     public void updateTeams(Tournament tournament){
+<<<<<<< HEAD
         dataTeamTournament = new ArrayList<Team>();
         idTeam = new ArrayList<Integer>();
         dataTeamTournament = idaoTeam.getTeamsTournament(tournament);
         idTeam = idaoTeam.getAllIdTeams();
+=======
+        dataTeam = new ArrayList<>();
+        idTeam = new ArrayList<>();
+        dataTeam = idaoTeam.getTeamsTournament(tournament);
+        idTeam = idaoTeam.getIdTeamsTournament(tournament);
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
     }
 
     /**
      * Update teams.
+<<<<<<< HEAD
+=======
+     *
+     * @param te    the Team
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
      * @param t     the t
      */
     public void updatePlayersTeams(Team te, Tournament t){
         int idTeam = te.getId();
+<<<<<<< HEAD
         String pT1 = tools.mysql_real_escape_string(te.getTeam1());
         String pT2 = tools.mysql_real_escape_string(te.getTeam2());
+=======
+        String pT1 = Tools.mysql_real_escape_string(te.getTeam1());
+        String pT2 = Tools.mysql_real_escape_string(te.getTeam2());
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
         idaoTeam.updatePlayersTeam(idTeam, pT1, pT2, t);
         updateTeams(t);
     }

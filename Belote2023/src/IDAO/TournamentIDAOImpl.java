@@ -1,5 +1,6 @@
 package IDAO;
 
+import models.CONSTANTS;
 import models.Tournament;
 
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      *
      * @return the instance
      */
-    public final static TournamentIDAOImpl getInstance() {
+    public static TournamentIDAOImpl getInstance() {
         if (TournamentIDAOImpl.instance == null) {
             synchronized(TournamentIDAOImpl.class) {
                 if (TournamentIDAOImpl.instance == null) {
@@ -59,17 +60,17 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             rs.next();
             idTournamentDelete = rs.getInt(1);
             rs.close();
-            System.out.println("ID du tournoi � supprimer:" + idTournamentDelete);
+            System.out.println(CONSTANTS.TOURNAMENT_DELETE + idTournamentDelete);
             st.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idTournamentDelete);
             st.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idTournamentDelete);
             st.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idTournamentDelete);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            System.out.println("Erreur suppression : " + e.getMessage());
+            System.out.println(CONSTANTS.ERROR_DELETE + e.getMessage());
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            System.out.println("Erreur inconnue");
+            System.out.println(CONSTANTS.ERROR_UNKNOWN);
         }
     }
 
@@ -98,10 +99,18 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             ps.setString(1, nomT);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
+<<<<<<< HEAD
                 t = new Tournament(nomT);
                 t.setIdTournament(rs.getInt("id_tournoi"));
                 t.setNbGames(rs.getInt("nb_matchs"));
                 t.setStatus(rs.getInt("statut"));
+=======
+                t = new Tournament("");
+                t.setIdTournament(rs.getInt(CONSTANTS.BD_ID_TOURNOI));
+                t.setNbGames(rs.getInt(CONSTANTS.BD_NB_MATCHS));
+                t.setNameTournament(nomT);
+                t.setStatus(rs.getInt(CONSTANTS.BD_STATUT));
+>>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -116,16 +125,16 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      */
     @Override
     public List<Tournament> getAll() {
-        List<Tournament> T = new ArrayList<Tournament>();
+        List<Tournament> T = new ArrayList<>();
         Tournament t = null;
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
             while(rs.next()){
-                t.setIdTournament(rs.getInt("id_tournoi"));
-                t.setNbGames(rs.getInt("nb_matchs"));
-                t.setNameTournament("nom_tournoi");
-                t.setStatus(rs.getInt("statut"));
+                t.setIdTournament(rs.getInt(CONSTANTS.BD_ID_TOURNOI));
+                t.setNbGames(rs.getInt(CONSTANTS.BD_NB_MATCHS));
+                t.setNameTournament(CONSTANTS.BD_NOM_TOURNOI);
+                t.setStatus(rs.getInt(CONSTANTS.BD_STATUT));
                 T.add(t);
             }
         } catch (SQLException e) {
@@ -153,7 +162,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      */
     @Override
     public ArrayList<String> getAllNames() {
-        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> names = new ArrayList<>();
         String nameT;
         try {
             Statement statement = connection.createStatement();
@@ -170,13 +179,13 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
 
     @Override
     public Vector<String> getAllTournamentsNames() {
-        Vector<String> names = new Vector<String>();
+        Vector<String> names = new Vector<>();
         String nameT;
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
             while(rs.next()){
-                nameT = rs.getString("nom_tournoi");
+                nameT = rs.getString(CONSTANTS.BD_NOM_TOURNOI);
                 names.add(nameT);
             }
         } catch (SQLException e) {
