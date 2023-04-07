@@ -15,15 +15,14 @@ import java.util.Vector;
  * The type Tournament service.
  */
 public class TournamentService {
-    /**
-     * The Data teams.
-     */
 //attibuts classe controller
-    private final ArrayList<Team> dataTeams = null;
     /**
-     * The Ideqs.
+     * The Data tournaments.
      */
-    private final ArrayList<Integer>ideqs  = null;
+    private static ArrayList<Tournament> dataTournaments;
+
+    private static ArrayList<Integer> idTournaments;
+
     /**
      * The Idao tournoi.
      */
@@ -73,6 +72,7 @@ public class TournamentService {
      */
     public static void deleteTournament(String nom){
         idaoTournoi.deleteTournament(nom);
+        updateTournaments();
     }
 
     /**
@@ -80,7 +80,8 @@ public class TournamentService {
      *
      * @return the int
      */
-    public static int createTournament(){
+    public void createTournament(){
+        this.updateTournaments();
         String nameNewTournament = JOptionPane.showInputDialog(
                 null,
                 "Entrez le nom du tournoi",
@@ -88,13 +89,12 @@ public class TournamentService {
                 JOptionPane.PLAIN_MESSAGE);
 
         if(nameNewTournament == null || nameNewTournament.equals("")){
-            return 1;
+            JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom vide.");
         }else{
             try {
                 nameNewTournament =  Tools.mysql_real_escape_string(nameNewTournament);
                 if(nameNewTournament.length() < 3){
                     JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
-                    return 2;
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -102,19 +102,27 @@ public class TournamentService {
             }
             if(Objects.equals(nameNewTournament, "")){
                 JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
-                return 2;
             }else{
                 Tournament T = idaoTournoi.getOne(nameNewTournament);
                 if(T!=null){
                     JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Un tournament du m�me nom existe d�j�");
-                    return 2;
                 }
-                System.out.println("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+nameNewTournament+"', 0)");
-                idaoTournoi.createTournament(nameNewTournament);
-                //s2.executeUpdate("INSERT INTO tournois (id")
+                int id_tournoi=0;
+                for(int id : idTournaments){
+                    if(idTournaments.contains(id)){
+                        id_tournoi++;
+                    }
+                }
+                idaoTournoi.createTournament(id_tournoi, nameNewTournament);
             }
         }
-        return 0;
+    }
+
+    public static void updateTournaments(){
+        dataTournaments = new ArrayList<>();
+        idTournaments = new ArrayList<>();
+        dataTournaments = idaoTournoi.getAll();
+        idTournaments = idaoTournoi.getAllIds();
     }
 
 }

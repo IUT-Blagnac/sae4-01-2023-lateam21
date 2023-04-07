@@ -8,8 +8,7 @@ import models.Tournament;
 import javax.swing.table.AbstractTableModel;
 
 public class TeamTable extends AbstractTableModel {
-    private static final long serialVersionUID = 1L;
-    private final Tournament tournament;
+    private Tournament tournament;
     private TeamService teS = new TeamService();
 
     public TeamTable(Tournament tournament) {

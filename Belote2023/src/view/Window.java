@@ -51,6 +51,10 @@ public class Window extends JFrame {
 	 */
 	@Serial
 	private static final long serialVersionUID = 1L;
+	/**
+	 * The Tournament.
+	 */
+	private Tournament tournament;
 
 	/**
 	 * The C.
@@ -304,10 +308,6 @@ public class Window extends JFrame {
 	 * The Idao.
 	 */
 	private final TournamentIDAOImpl idaoTournament = TournamentIDAOImpl.getInstance();
-	/**
-	 * The Tournament.
-	 */
-	private Tournament tournament = null;
 
 	/**
 	 * The Ts.
@@ -363,6 +363,7 @@ public class Window extends JFrame {
 		c = new JPanel(window);
 		content.add(c,BorderLayout.CENTER);
 		bTournament.addActionListener(arg0 -> tracerSelectTournament());
+//		bTournament.addActionListener(e-> tournament=null);
 		bRounds.addActionListener(arg0 -> tracerRoundsTournament());
 		bParams.addActionListener(arg0 -> tracerDetailsTournament());
 		bTeams.addActionListener(e -> tracer_tournoi_equipes());
@@ -406,7 +407,6 @@ public class Window extends JFrame {
 					bTeams.setEnabled(true);
 					bGames.setEnabled(gS.getNbRounds(tournament) > 0);
 					bRounds.setEnabled(true);
-
 					int total=gS.getNbGames(tournament), ended=gS.getNbEndedGames(tournament);
 					bResults.setEnabled(total == ended && total > 0);
 					bParams.setEnabled(true);
@@ -427,7 +427,7 @@ public class Window extends JFrame {
 		int nbLines = tournamentNames.size();
 		if(traceTournament){
 			list.setListData(tournamentNames);
-
+			toS.updateTournaments();
 	        if(nbLines == 0){
 	        	selectTournament.setEnabled(false);
 	        	deleteTournament.setEnabled(false);
@@ -539,6 +539,7 @@ public class Window extends JFrame {
 		if(traceTeams){
 			teS.updateTeams(tournament);
 			modelTeams.fireTableDataChanged();
+			jtTeams.repaint();
 		}else{
 			traceTeams = true;
 			pTeams = new JPanel();

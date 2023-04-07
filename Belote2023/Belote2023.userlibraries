@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: com.miglayout:miglayout-core:11.0">
+    <archive path="C:/Users/ruben/.m2/repository/com/miglayout/miglayout-core/11.0/miglayout-core-11.0.jar" />
+  </library>
+  <library name="Maven: com.miglayout:miglayout-swing:11.0">
+    <archive path="C:/Users/ruben/.m2/repository/com/miglayout/miglayout-swing/11.0/miglayout-swing-11.0.jar" />
+  </library>
+  <library name="Maven: org.hsqldb:hsqldb:2.7.1">
+    <archive path="C:/Users/ruben/.m2/repository/org/hsqldb/hsqldb/2.7.1/hsqldb-2.7.1.jar" />
+  </library>
+</eclipse-userlibraries>
+

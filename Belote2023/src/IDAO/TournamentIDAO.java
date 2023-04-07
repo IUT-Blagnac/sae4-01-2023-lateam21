@@ -27,6 +27,8 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      */
     Tournament getOne(String nomT);
 
+    ArrayList<Integer> getAllIds();
+
     /**
      * Update tournament.
      *
@@ -49,6 +51,6 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      *
      * @param nom the nom
      */
-    void createTournament(String nom);
+    void createTournament(int id, String nom);
 
 }

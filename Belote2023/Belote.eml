@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_17" jdk="17" jdk_type="JavaSDK">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<levels>
+		<level name="Maven: com.miglayout:miglayout-swing:11.0" value="project"/>
+		<level name="Maven: com.miglayout:miglayout-core:11.0" value="project"/>
+		<level name="Maven: org.hsqldb:hsqldb:2.7.1" value="project"/>
+	</levels>
+</component>

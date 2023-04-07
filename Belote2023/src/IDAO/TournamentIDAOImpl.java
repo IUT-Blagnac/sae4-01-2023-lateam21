@@ -1,5 +1,6 @@
 package IDAO;
 
+import models.CONSTANTS;
 import models.Tournament;
 
 import java.sql.PreparedStatement;
@@ -92,13 +93,12 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      */
     @Override
     public Tournament getOne(String nomT) {
-        Tournament t = null;
+        Tournament t = new Tournament(nomT);
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM tournois where nom_tournoi = ?");
             ps.setString(1, nomT);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                t = new Tournament(nomT);
                 t.setIdTournament(rs.getInt("id_tournoi"));
                 t.setNbGames(rs.getInt("nb_matchs"));
                 t.setStatus(rs.getInt("statut"));
@@ -109,15 +109,30 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         return t;
     }
 
+    @Override
+    public ArrayList<Integer> getAllIds() {
+        ArrayList<Integer> T = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT id_tournoi FROM tournois");
+            while(rs.next()){
+                T.add(rs.getInt(CONSTANTS.BD_ID_TOURNOI));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return T;
+    }
+
     /**
      * Gets all.
      *
      * @return the all
      */
     @Override
-    public List<Tournament> getAll() {
-        List<Tournament> T = new ArrayList<Tournament>();
-        Tournament t = null;
+    public ArrayList<Tournament> getAll() {
+        ArrayList<Tournament> T = new ArrayList<>();
+        Tournament t = new Tournament("");
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
@@ -191,10 +206,11 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      * @param nom the nom
      */
     @Override
-    public void createTournament(String nom) {
+    public void createTournament(int id, String nom) {
         try {
-            PreparedStatement ps = connection.prepareStatement( "INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, ?, 0)");
-            ps.setString(1,nom);
+            PreparedStatement ps = connection.prepareStatement( "INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (?, 0, ?, 0)");
+            ps.setInt(1, id);
+            ps.setString(2,nom);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
