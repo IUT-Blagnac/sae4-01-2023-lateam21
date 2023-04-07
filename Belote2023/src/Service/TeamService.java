@@ -102,7 +102,7 @@ public class TeamService {
     public void addTeam(Tournament t){
         int posEquipe=0; //initialize position of new team in the database
         for(int i : idTeam){
-            if(idTeam.contains(i)){
+            if(idTeam.contains(posEquipe)){
                 posEquipe++;
             }
         }

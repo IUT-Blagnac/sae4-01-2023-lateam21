@@ -536,12 +536,12 @@ public class Window extends JFrame {
 			return ;
 		}
 		updateButtons();
-		if(traceTeams){
+//		if(traceTeams){
 			teS.updateTeams(tournament);
-			modelTeams.fireTableDataChanged();
-			jtTeams.repaint();
-		}else{
-			traceTeams = true;
+//			modelTeams.fireTableDataChanged();
+//			jtTeams.repaint();
+//		}else{
+//			traceTeams = true;
 			pTeams = new JPanel();
 			layoutTeams = new BoxLayout(pTeams, BoxLayout.Y_AXIS);
 			pTeams.setLayout(layoutTeams);
@@ -588,7 +588,7 @@ public class Window extends JFrame {
 			bt.add(confirmTeams);
 			pTeams.add(bt);
 			pTeams.add(new JLabel(CONSTANTS.LABEL_TEAMS_ODD));
-		}
+//		}
 		if(tournament.getStatus() != 0){
 			addTeams.setEnabled(false);
 			delTeams.setEnabled(false);
