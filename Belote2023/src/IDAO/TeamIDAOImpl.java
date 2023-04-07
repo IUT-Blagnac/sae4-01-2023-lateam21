@@ -109,7 +109,6 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
             while(rs.next()){
-<<<<<<< HEAD
                 listIdTeamsTournament.add(rs.getInt("id_equipe"));
             }
             rs.close();
@@ -127,9 +126,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes;");
             while(rs.next()){
                 listIdTeamsTournament.add(rs.getInt(1));
-=======
                 listIdTeamsTournament.add(rs.getInt(CONSTANTS.BD_NUM_EQUIPE));
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
             }
             rs.close();
         } catch (SQLException e) {
@@ -164,7 +161,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             nbTeam = rs.getInt(1);
             rs.close();
             st.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + t.getIdTournament()+ " AND id_equipe = " + posTeam);
-//            st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + t.getIdTournament() + " AND num_equipe > " + nbTeam);
+//          st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + t.getIdTournament() + " AND num_equipe > " + nbTeam);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -172,25 +169,15 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
     }
 
     @Override
-<<<<<<< HEAD
-    public void updatePlayersTeam(int idTeam, String pTeam1, String pTeam2, Tournament t) {
-=======
     public void updatePlayersTeam(int idTeam, String pTeam1, String pTeam2, Tournament t){
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
         try {
             Statement st = connection.createStatement();
             String req = "UPDATE equipes SET nom_j1 = '" + pTeam1 + "', nom_j2 = '" + pTeam2 + "' WHERE id_tournoi = " +t.getIdTournament() + "and id_equipe = "+idTeam+";";
             st.executeUpdate(req);
-<<<<<<< HEAD
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-=======
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
