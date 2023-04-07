@@ -48,7 +48,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
             ps.setInt(1, t.getIdTournament());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                game = new Game(rs.getInt("id_match"), rs.getInt(CONSTANTS.TEAM_1), rs.getInt(CONSTANTS.TEAM_2),
+                game = new Game(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"),
                         rs.getInt("score1"), rs.getInt("score2"),rs.getInt(CONSTANTS.BD_NUM_TOUR), rs.getString("termine").equals("oui"));
                 listGames.add(game);
             }

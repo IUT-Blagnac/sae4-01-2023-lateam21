@@ -51,7 +51,7 @@ public class TeamService {
         dataTeamTournament = new ArrayList<>();
         idTeam = new ArrayList<>();
         dataTeamTournament = idaoTeam.getTeamsTournament(tournament);
-        idTeam = idaoTeam.getIdTeamsTournament(tournament);
+        idTeam = idaoTeam.getAllIdTeams();
     }
 
     /**
@@ -102,7 +102,7 @@ public class TeamService {
     public void addTeam(Tournament t){
         int posEquipe=0; //initialize position of new team in the database
         for(int i : idTeam){
-            if(idTeam.contains(posEquipe)){
+            if(idTeam.contains(i)){
                 posEquipe++;
             }
         }

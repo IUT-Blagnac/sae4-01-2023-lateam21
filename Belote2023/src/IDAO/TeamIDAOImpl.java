@@ -125,8 +125,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes;");
             while(rs.next()){
-                listIdTeamsTournament.add(rs.getInt(1));
-                listIdTeamsTournament.add(rs.getInt(CONSTANTS.BD_NUM_EQUIPE));
+                listIdTeamsTournament.add(rs.getInt(CONSTANTS.BD_ID_EQUIPE));
             }
             rs.close();
         } catch (SQLException e) {
@@ -143,7 +142,6 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             ps.setInt(2, pos);
             ps.setInt(3,t.getIdTournament());
             ps.executeUpdate();
-            //ICI METTRE UN UPDATE???
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
