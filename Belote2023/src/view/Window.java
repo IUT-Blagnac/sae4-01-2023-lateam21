@@ -362,36 +362,12 @@ public class Window extends JFrame {
 		window = new CardLayout(); //? fen? and c?
 		c = new JPanel(window);
 		content.add(c,BorderLayout.CENTER);
-		bTournament.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tracerSelectTournament();
-			}
-		});
-		bRounds.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tracerRoundsTournament();
-			}
-		});
-		bParams.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tracerDetailsTournament();
-			}
-		});
-		bTeams.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tracer_tournoi_equipes();
-			}
-		});
-		bGames.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				traceTournamentGames();
-			}
-		});
-		bResults.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				traceTournamentResults();
-			}
-		});
+		bTournament.addActionListener(arg0 -> tracerSelectTournament());
+		bRounds.addActionListener(arg0 -> tracerRoundsTournament());
+		bParams.addActionListener(arg0 -> tracerDetailsTournament());
+		bTeams.addActionListener(e -> tracer_tournoi_equipes());
+		bGames.addActionListener(e -> traceTournamentGames());
+		bResults.addActionListener(arg0 -> traceTournamentResults());
 		tracerSelectTournament();
 	}
 
@@ -504,29 +480,20 @@ public class Window extends JFrame {
 	        }else{
 	        	list.setSelectedIndex(0);
 	        }
-	        createTournament.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					toS.createTournament();
-					Window.this.tracerSelectTournament();
-				}
+	        createTournament.addActionListener(e -> {
+				toS.createTournament();
+				Window.this.tracerSelectTournament();
 			});
-	        deleteTournament.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					toS.deleteTournament(Window.this.list.getSelectedValue());
-					Window.this.tracerSelectTournament();
-				}
+	        deleteTournament.addActionListener(e -> {
+				toS.deleteTournament(Window.this.list.getSelectedValue());
+				Window.this.tracerSelectTournament();
 			});
-	        selectTournament.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					String nt = Window.this.list.getSelectedValue();
-					Window.this.tournament = toS.getTournamentFromName(nt);
-					Window.this.tracerDetailsTournament();
-					Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
+	        selectTournament.addActionListener(arg0 -> {
+				String nt = Window.this.list.getSelectedValue();
+				Window.this.tournament = toS.getTournamentFromName(nt);
+				Window.this.tracerDetailsTournament();
+				Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
 
-				}
 			});
 	        window.show(c,CONSTANTS.B_TOURNAMENT);
 		}
@@ -589,37 +556,28 @@ public class Window extends JFrame {
 			addTeams = new JButton(CONSTANTS.B_TEAM_ADD);
 			delTeams = new JButton(CONSTANTS.B_TEAM_DEL);
 			confirmTeams = new JButton(CONSTANTS.B_TEAM_CONFIRM);
-			addTeams.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					teS.addTeam(tournament);
-					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0);
-					modelTeams.fireTableDataChanged();
-					if(teS.getNbTeams(tournament) > 0){
-						jtTeams.getSelectionModel().setSelectionInterval(0, 0);
-					}
+			addTeams.addActionListener(arg0 -> {
+				teS.addTeam(tournament);
+				confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0);
+				modelTeams.fireTableDataChanged();
+				if(teS.getNbTeams(tournament) > 0){
+					jtTeams.getSelectionModel().setSelectionInterval(0, 0);
 				}
 			});
-			delTeams.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(Window.this.jtTeams.getSelectedRow() != -1){
-						teS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
-					}
-					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
-					modelTeams.fireTableDataChanged();
-					if(teS.getNbTeams(tournament) > 0){
-						jtTeams.getSelectionModel().setSelectionInterval(0, 0);
-					}
+			delTeams.addActionListener(e -> {
+				if(Window.this.jtTeams.getSelectedRow() != -1){
+					teS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
+				}
+				confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
+				modelTeams.fireTableDataChanged();
+				if(teS.getNbTeams(tournament) > 0){
+					jtTeams.getSelectionModel().setSelectionInterval(0, 0);
 				}
 			});
-			confirmTeams.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					gS.generateGames(tournament);
-					Window.this.updateButtons();
-					Window.this.traceTournamentGames();
-				}
+			confirmTeams.addActionListener(e -> {
+				gS.generateGames(tournament);
+				Window.this.updateButtons();
+				Window.this.traceTournamentGames();
 			});
 			if(teS.getNbTeams(tournament) > 0){
 				jtTeams.getSelectionModel().setSelectionInterval(0, 0);
@@ -683,20 +641,14 @@ public class Window extends JFrame {
 			pRounds.add(bt);
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_END_PLEASE));
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_MAX));
-			addRounds.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					gS.addRound(tournament);
-					Window.this.tracerRoundsTournament();
-				}
+			addRounds.addActionListener(arg0 -> {
+				// TODO Auto-generated method stub
+				gS.addRound(tournament);
+				Window.this.tracerRoundsTournament();
 			});
-			delRounds.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					gS.deleteRound();
-					Window.this.tracerRoundsTournament();
-				}
+			delRounds.addActionListener(e -> {
+				gS.deleteRound();
+				Window.this.tracerRoundsTournament();
 			});
 		}
 		if(to.size() == 0){
@@ -711,7 +663,6 @@ public class Window extends JFrame {
 			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
 		}
 		window.show(c,CONSTANTS.LABEL_ROUNDS);
-		//tours_ajouter.setEnabled(peutajouter);
 	}
 
 	/**
