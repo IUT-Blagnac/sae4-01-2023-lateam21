@@ -27,6 +27,8 @@ public interface TeamIDAO extends IDAO<Team>{
 
     public ArrayList<Integer> getIdTeamsTournament(Tournament t);
 
+    public ArrayList<Integer> getAllIdTeams();
+
     public void addTeam(Tournament t, int pos);
 
     public void deleteTeam(Tournament t, int posTeam);

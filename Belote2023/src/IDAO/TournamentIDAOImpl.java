@@ -98,10 +98,9 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             ps.setString(1, nomT);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                t = new Tournament("");
+                t = new Tournament(nomT);
                 t.setIdTournament(rs.getInt("id_tournoi"));
                 t.setNbGames(rs.getInt("nb_matchs"));
-                t.setNameTournament(nomT);
                 t.setStatus(rs.getInt("statut"));
             }
         } catch (SQLException e) {

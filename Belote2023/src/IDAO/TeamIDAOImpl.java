@@ -110,9 +110,25 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
         ArrayList<Integer> listIdTeamsTournament = new ArrayList<Integer>();
         try {
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
+            ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes WHERE id_tournoi = " + t.getIdTournament() + " ORDER BY num_equipe;");
             while(rs.next()){
-                listIdTeamsTournament.add(rs.getInt("num_equipe"));
+                listIdTeamsTournament.add(rs.getInt("id_equipe"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listIdTeamsTournament;
+    }
+
+    @Override
+    public ArrayList<Integer> getAllIdTeams() {
+        ArrayList<Integer> listIdTeamsTournament = new ArrayList<Integer>();
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT id_equipe FROM equipes;");
+            while(rs.next()){
+                listIdTeamsTournament.add(rs.getInt(1));
             }
             rs.close();
         } catch (SQLException e) {
@@ -146,7 +162,7 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
             nbTeam = rs.getInt(1);
             rs.close();
             st.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + t.getIdTournament()+ " AND id_equipe = " + posTeam);
-            st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + t.getIdTournament() + " AND num_equipe > " + nbTeam);
+//            st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + t.getIdTournament() + " AND num_equipe > " + nbTeam);
 
         } catch (SQLException e) {
             e.printStackTrace();

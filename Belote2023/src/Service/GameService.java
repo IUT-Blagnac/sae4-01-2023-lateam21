@@ -24,6 +24,10 @@ public class GameService {
 
     public GameService(){super();}
 
+    public Vector<Object> getSomeVarFromGamesFromTournament(Tournament t){
+        return idaoGame.getSomeVarFromGamesFromTournament(t);
+    }
+
     /**
      * Get nb games int.
      *
@@ -50,17 +54,17 @@ public class GameService {
      *
      * @param index the index
      */
-    public void updateGame(int index){
-        String hasEnded = (getGame(index).getScore1() > 0 || getGame(index).getScore2() > 0) ? "oui":"non";
+    public void updateGame(int index, Tournament t){
+        String hasEnded = (getGame(index, t).getScore1() > 0 || getGame(index, t).getScore2() > 0) ? "oui":"non";
         System.out.println(hasEnded);
-        String req="UPDATE matchs SET equipe1='" + getGame(index).getTeam1() + "', equipe2='" + getGame(index).getTeam2() + "',  score1='" + getGame(index).getScore1() + "',  score2='" + getGame(index).getScore2() + "', termine='" + hasEnded + "' WHERE id_match = " + getGame(index).getIdMatch() + ";";
+        String req="UPDATE matchs SET equipe1='" + getGame(index, t).getTeam1() + "', equipe2='" + getGame(index, t).getTeam2() + "',  score1='" + getGame(index, t).getScore1() + "',  score2='" + getGame(index, t).getScore2() + "', termine='" + hasEnded + "' WHERE id_match = " + getGame(index, t).getIdMatch() + ";";
         try {
             st.executeUpdate(req);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        updateGame();
+        updateGames(t);
     }
 
     /**
@@ -69,8 +73,8 @@ public class GameService {
      * @param index the index
      * @return the game
      */
-    public Game getGame(int index){
-        if(dataGames == null) updateGame();
+    public Game getGame(int index, Tournament t){
+        if(dataGames == null) updateGames(t);
         return dataGames.get(index);
     }
 
@@ -78,17 +82,8 @@ public class GameService {
     /**
      * Update game.
      */
-    public void updateGame(){
-        dataGames = new ArrayList<Game>();
-        try {
-            ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ tournament.getIdTournament() + ";");
-            while(rs.next()) dataGames.add(new Game(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
-            //public models.Game(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
-            rs.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            System.out.println(e.getMessage());
-        }
+    public void updateGames(Tournament t){
+        dataGames = idaoGame.getGamesFromTournament(t);
     }
 
 
@@ -100,30 +95,11 @@ public class GameService {
      */
     public void generateGames(Tournament t){
         int nbt = 1;
-
         System.out.println("Nombre d'équipes : " + teS.getNbTeams(t));
         System.out.println("Nombre de tours  : " + nbt);
-        String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
         Vector<Vector<Game>> ms;
-        ms = getGamesToDo(teS.getNbTeams(t), nbt); //?
-        int z = 1;
-        char v = ' ';
-        for(Vector<Game> vect :ms){
-            for(Game m:vect){
-                req += v + "(NULL," + tournament.getIdTournament() + ", " + z + ", "+ m.getTeam1() + ", " + m.getTeam2() + ", 'non')";
-                v = ',';
-            }
-            req += "\n";
-            z++;
-        }
-        System.out.println(req);
-        try{
-            st.executeUpdate(req);
-            st.executeUpdate("UPDATE tournois SET statut=2 WHERE id_tournoi=" + tournament.getIdTournament() + ";");
-            tournament.setStatus(2);
-        }catch(SQLException e){
-            System.out.println("Erreur validation �quipes : " + e.getMessage());
-        }
+        ms = getGamesToDo(teS.getNbTeams(t), nbt);
+        idaoGame.createGame(ms, t);
     }
 
     /**

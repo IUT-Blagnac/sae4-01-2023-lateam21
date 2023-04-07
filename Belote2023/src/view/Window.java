@@ -8,6 +8,7 @@ import models.CONSTANTS;
 import models.Team;
 import models.Game;
 import models.Tournament;
+import models.tables.TeamTable;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -60,10 +61,6 @@ public class Window extends JFrame {
 	 */
 	Statement s;
 
-	/**
-	 * The Gt.
-	 */
-	private JTextArea gt;
 	/**
 	 * The Tournament list.
 	 */
@@ -327,48 +324,35 @@ public class Window extends JFrame {
 	 * Instantiates a new Window.
 	 */
 	public Window(){
-
 		this.setTitle(CONSTANTS.TITLE);
 		setSize(800,400);
 		this.setVisible(true);
 		this.setLocationRelativeTo(this.getParent());
-		
-		
 		JPanel content = new JPanel();
 		content.setLayout(new BorderLayout());
 		this.setContentPane(content);
-		
-		
 		JPanel pTop = new JPanel();
 		content.add(pTop,BorderLayout.NORTH);
-		
 		pTop.add(selectState = new JLabel());
 		this.setStatusSelect(CONSTANTS.STATUS_SELECT_NULL);
-		
 		JPanel pLeft = new JPanel();
 		pLeft.setBackground(Color.RED);
 		pLeft.setPreferredSize(new Dimension(130,0));
 		content.add(pLeft,BorderLayout.WEST);
-		
-		
 		bTournament = new JButton(CONSTANTS.B_TOURNAMENT);
 		bParams = new JButton(CONSTANTS.B_PARAMS);
 		bTeams = new JButton(CONSTANTS.B_TEAMS);
 		bRounds = new JButton(CONSTANTS.LABEL_ROUNDS);
 		bGames = new JButton(CONSTANTS.B_GAMES);
 		bResults = new JButton(CONSTANTS.B_RESULTS);
-		
-		
 		int buttonWidth = 100;
 		int buttonHeight = 30;
-		
 		bTournament.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bParams.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bTeams.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bRounds.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bGames.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bResults.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
-		
 		pLeft.add(bTournament);
 		pLeft.add(bParams);
 		pLeft.add(bTeams);
@@ -377,9 +361,7 @@ public class Window extends JFrame {
 		pLeft.add(bResults);
 		window = new CardLayout(); //? fen? and c?
 		c = new JPanel(window);
-		
 		content.add(c,BorderLayout.CENTER);
-		
 		bTournament.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				tracerSelectTournament();
@@ -410,7 +392,6 @@ public class Window extends JFrame {
 				traceTournamentResults();
 			}
 		});
-		
 		tracerSelectTournament();
 	}
 
@@ -435,7 +416,7 @@ public class Window extends JFrame {
 			bResults.setEnabled(false);
 			bParams.setEnabled(false);
 		}else{
-			switch(toS.getTournamentStatus(tournament)){
+			switch(tournament.getStatus()){
 				case 0:
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
@@ -462,14 +443,12 @@ public class Window extends JFrame {
 	 * Tracer select tournament.
 	 */
 	public void tracerSelectTournament(){
-
-//		lt = null;
+		tournament = null;
 		updateButtons();
-		tournamentNames = new Vector<String>();
+		tournamentNames = new Vector<>();
        	this.setStatusSelect(CONSTANTS.STATUS_SELECT_TOURNAMENT);
 		tournamentNames = toS.getTournamentsName();
 		int nbLines = tournamentNames.size();
-
 		if(traceTournament){
 			list.setListData(tournamentNames);
 
@@ -482,89 +461,68 @@ public class Window extends JFrame {
 	        	list.setSelectedIndex(0);
 	        }
 			window.show(c,CONSTANTS.B_TOURNAMENT);
-
-
 		}else{
 		    traceTournament = true;
 			JPanel jpanel = new JPanel();
-
 			jpanel.setLayout(new BoxLayout(jpanel, BoxLayout.Y_AXIS));
 			c.add(jpanel,CONSTANTS.B_TOURNAMENT);
-			gt = new JTextArea(CONSTANTS.SIGNATURE);
+			JTextArea gt = new JTextArea(CONSTANTS.SIGNATURE);
 			gt.setAlignmentX(Component.CENTER_ALIGNMENT);
 			gt.setEditable(false);
 			jpanel.add(gt);
-
 			// Recherche de la liste des tournois
 			tournamentList = new JPanel();
 
 			jpanel.add(tournamentList);
 
-			list = new JList<String>(tournamentNames);
+			list = new JList<>(tournamentNames);
 			list.setAlignmentX(Component.LEFT_ALIGNMENT);
 			list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-			//list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		    list.setVisibleRowCount(-1);
 		    JScrollPane listScroller = new JScrollPane(list);
 	        listScroller.setPreferredSize(new Dimension(250, 180));
-	        //listScroller.setAlignmentX(LEFT_ALIGNMENT);
 
 	        label = new JLabel(CONSTANTS.LABEL_TOURNAMENT_LIST);
 	        label.setLabelFor(list);
 	        label.setAlignmentX(Component.LEFT_ALIGNMENT);
 			jpanel.add(label);
-	        //c.add(Box.createRigidArea(new Dimension(0,0)));
 			jpanel.add(listScroller);
 			jpanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-
-
 	        Box bh = Box.createHorizontalBox();
 			jpanel.add(bh);
-			createTournament = new JButton(CONSTANTS.B_TOURNAMENT_NEW);
-			selectTournament = new JButton(CONSTANTS.B_TOURNAMENT_SELECT);
-			deleteTournament = new JButton(CONSTANTS.B_TOURNAMENT_DEL);
-			bh.add(createTournament);
-			bh.add(selectTournament);
-			bh.add(deleteTournament);
-
-			jpanel.updateUI();
+				createTournament = new JButton(CONSTANTS.B_TOURNAMENT_NEW);
+				selectTournament = new JButton(CONSTANTS.B_TOURNAMENT_SELECT);
+				deleteTournament = new JButton(CONSTANTS.B_TOURNAMENT_DEL);
+				bh.add(createTournament);
+				bh.add(selectTournament);
+				bh.add(deleteTournament);
+				jpanel.updateUI();
 	        if(nbLines == 0){
 	        	selectTournament.setEnabled(false);
 	        	deleteTournament.setEnabled(false);
 	        }else{
 	        	list.setSelectedIndex(0);
 	        }
-
 	        createTournament.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TournamentService.createTournament();
+					toS.createTournament();
 					Window.this.tracerSelectTournament();
-					//String nt = JOptionPane.showInputDialog("Nom du tournament ?");
-					//ResultSet rs = view.Window.this.s.executeQuery("SELECT)
-					//view.Window.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 				}
 			});
-
 	        deleteTournament.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TournamentService.deleteTournament(Window.this.list.getSelectedValue());
+					toS.deleteTournament(Window.this.list.getSelectedValue());
 					Window.this.tracerSelectTournament();
-
-
 				}
 			});
 	        selectTournament.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					String nt = Window.this.list.getSelectedValue();
 					Window.this.tournament = toS.getTournamentFromName(nt);
-					//view.Window.this.detracer_select_tournoi();
 					Window.this.tracerDetailsTournament();
 					Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
 
@@ -581,47 +539,25 @@ public class Window extends JFrame {
 		if(tournament == null){
 			return ;
 		}
-		updateButtons(); //?
-
-		if(traceDetails){
-			nameDetails.setText(tournament.getNom());
-			stateDetails.setText(tournament.getStatusName());
-			roundNbDetails.setText(Integer.toString(gS.getNbRounds(tournament)));
-		}else{
-			traceDetails = false;
-			JPanel p = new JPanel();
-			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-			p.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_DETAILS));
-			c.add(p,CONSTANTS.DETAILS);
-
-			JPanel tab = new JPanel( new GridLayout(4,2));
-			nameDetails = new JLabel(tournament.getNom());
-			tab.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_NAME));
-			tab.add(nameDetails);
-
-			stateDetails = new JLabel(tournament.getStatusName());
-			tab.add(new JLabel(CONSTANTS.LABEL_STATUS));
-			tab.add(stateDetails);
-
-
-			roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
-			tab.add(new JLabel("Nombre de tours:"));
-
-			roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
-			tab.add(new JLabel(CONSTANTS.LABEL_ROUNDS_NUM));
-
-			tab.add(roundNbDetails);
-			//detailt_nbtours.setPreferredSize(new Dimension(40,40));
-
-			p.add(tab);
-
-			//detailt_enregistrer = new JButton("Enregistrer");
-			//p.add(Box.createHorizontalGlue());
-			//p.add(detailt_enregistrer);
-			p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			//p.add(new JLabel("  e"));
-			//tab.setPreferredSize(new Dimension(-1, 200));
-		}
+		updateButtons();
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+		p.add(new JLabel("Détail du tournoi"));
+		c.add(p, CONSTANTS.DETAILS);
+		JPanel tab = new JPanel( new GridLayout(4,2));
+		nameDetails = new JLabel(tournament.getNom());
+		tab.add(new JLabel("Nom du tournoi"));
+		tab.add(nameDetails);
+		stateDetails = new JLabel(tournament.getStatusName());
+		tab.add(new JLabel(CONSTANTS.LABEL_STATUS));
+		tab.add(stateDetails);
+		roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
+		tab.add(new JLabel("Nombre de tours:"));
+		roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
+		tab.add(new JLabel(CONSTANTS.LABEL_ROUNDS_NUM));
+		tab.add(roundNbDetails);
+		p.add(tab);
+		p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 		window.show(c,CONSTANTS.DETAILS);
 	}
 
@@ -645,96 +581,26 @@ public class Window extends JFrame {
 			pTeams.add(descTeams);
 			pTeams.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			c.add(pTeams,CONSTANTS.B_TEAMS);
-
-			modelTeams = new AbstractTableModel() {
-
-
-				//private static final long serialVersionUID = 1L;
-
-				@Override
-				public Object getValueAt(int arg0, int arg1) {
-					Object r=null;
-					switch(arg1){
-					case 0:
-						r= teS.getTeam(arg0, tournament).getNum();
-					break;
-					case 1:
-						r= teS.getTeam(arg0, tournament).getTeam1();
-					break;
-					case 2:
-						r= teS.getTeam(arg0, tournament).getTeam2();
-					break;
-					}
-					return r;
-
-				}
-				public String getColumnName(int col) {
-				        if(col == 0){
-				        	return CONSTANTS.TEAM_NUMBER;
-				        }else if(col == 1){
-				        	return CONSTANTS.PLAYER_1;
-				        }else if(col == 2){
-				        	return CONSTANTS.PLAYER_2;
-				        }else{
-				        	return CONSTANTS.MISSING;
-				        }
-				 }
-				@Override
-				public int getRowCount() {
-					if(tournament == null)return 0;
-					return teS.getNbTeams(tournament);
-				}
-
-				@Override
-				public int getColumnCount() {
-					return 3;
-				}
-				public boolean isCellEditable(int x, int y){
-					if(tournament.getStatus() != 0) return false;
-					return y > 0;
-				}
-				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Team te = teS.getTeam(rowIndex, tournament);
-					switch (columnIndex){
-						case 1:
-							te.setTeam1((String) aValue);
-							break;
-						case 2:
-							te.setTeam2((String) aValue);
-						default:
-							break;
-					}
-					teS.updatePlayersTeams(te, tournament);
-					fireTableDataChanged();
-				}
-			};
+			modelTeams = new TeamTable(tournament); //Teams AbstractTableModel
 			jtTeams = new JTable(modelTeams);
 			jsTeams = new JScrollPane(jtTeams);
 			pTeams.add(jsTeams);
-			//jt.setPreferredSize(getMaximumSize());
-
 			JPanel bt    = new JPanel();
 			addTeams = new JButton(CONSTANTS.B_TEAM_ADD);
 			delTeams = new JButton(CONSTANTS.B_TEAM_DEL);
 			confirmTeams = new JButton(CONSTANTS.B_TEAM_CONFIRM);
-
 			addTeams.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					teS.addTeam(tournament);
-					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
+					confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0);
 					modelTeams.fireTableDataChanged();
 					if(teS.getNbTeams(tournament) > 0){
 						jtTeams.getSelectionModel().setSelectionInterval(0, 0);
-
 					}
-
-
 				}
 			});
 			delTeams.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(Window.this.jtTeams.getSelectedRow() != -1){
@@ -748,13 +614,11 @@ public class Window extends JFrame {
 				}
 			});
 			confirmTeams.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gS.generateGames(tournament);
 					Window.this.updateButtons();
 					Window.this.traceTournamentGames();
-
 				}
 			});
 			if(teS.getNbTeams(tournament) > 0){
@@ -776,40 +640,27 @@ public class Window extends JFrame {
 			confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0) ;
 		}
 		window.show(c,CONSTANTS.B_TEAMS);
-
 	}
 
 	/**
 	 * Tracer rounds tournament.
 	 */
 	public void tracerRoundsTournament(){
-
-
 		if(tournament == null){
 			return ;
 		}
 		updateButtons();
-		ArrayList< Object> to =new ArrayList<Object>();
-		ArrayList<Object> v;
+		Vector< Vector<Object>> to =new Vector<>();
+		Vector<Object> v;
 		boolean canAdd = true;
-		try {
-			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournament.getIdTournament() + " GROUP BY m.num_tour,m.id_tournoi;");
-			while(rs.next()){
-				v = new ArrayList<Object>();
-				v.add(rs.getInt(CONSTANTS.BD_NUM_TOUR));
-				v.add(rs.getInt(CONSTANTS.BD_TMATCHS));
-				v.add(rs.getString(CONSTANTS.BD_TERMINES));
-				to.add(v);
-				canAdd = canAdd && rs.getInt(CONSTANTS.BD_TMATCHS) == rs.getInt(CONSTANTS.BD_TERMINES);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		ArrayList<String> columnNames = new ArrayList<String>();
+		v = gS.getSomeVarFromGamesFromTournament(tournament);
+		to.add(v);
+		canAdd = canAdd && v.get(1) == v.get(2);
+		Vector<String> columnNames = new Vector<>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_ROUND_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_PLAYED);
-		tRounds = new JTable((TableModel) to, (TableColumnModel) columnNames);
+		tRounds = new JTable(to,columnNames);
 		if(traceRounds){
 			jsRounds.setViewportView(tRounds);
 		}else{
@@ -821,25 +672,18 @@ public class Window extends JFrame {
 			pRounds.add(descRounds);
 			pRounds.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			c.add(pRounds,CONSTANTS.LABEL_ROUNDS);
-
-
-
 			jsRounds = new JScrollPane();
 			jsRounds.setViewportView(tRounds);
 			pRounds.add(jsRounds);
-
-			JPanel bt    = new JPanel();
+			JPanel bt = new JPanel();
 			addRounds = new JButton(CONSTANTS.B_ROUND_ADD);
 			delRounds = new JButton(CONSTANTS.B_ROUND_DEL);
-			//tours_rentrer   = new JButton("Rentrer les scores du tour s�lectionn�");
 			bt.add(addRounds);
 			bt.add(delRounds);
-			//bt.add(tours_rentrer);
 			pRounds.add(bt);
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_END_PLEASE));
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_MAX));
 			addRounds.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
@@ -848,7 +692,6 @@ public class Window extends JFrame {
 				}
 			});
 			delRounds.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gS.deleteRound();
@@ -860,19 +703,13 @@ public class Window extends JFrame {
 			delRounds.setEnabled(false);
 			addRounds.setEnabled(true);
 		}else{
-
 			delRounds.setEnabled( gS.getNbRounds(tournament) > 1);
-
-
 			if(!canAdd || gS.getNbRounds(tournament)  >= teS.getNbTeams(tournament)-1 ){
 				addRounds.setEnabled(false);
 			}else
 				addRounds.setEnabled(true);
-
 			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
-
 		}
-
 		window.show(c,CONSTANTS.LABEL_ROUNDS);
 		//tours_ajouter.setEnabled(peutajouter);
 	}
@@ -886,9 +723,9 @@ public class Window extends JFrame {
 		}
 		updateButtons();
 		if(traceGames){
-			gS.updateGame();
+			gS.updateGames(tournament);
 			modelGame.fireTableDataChanged();
-			updateGameStatus();
+			updateGameStatus(tournament);
 		}else{
 			traceGames = true;
 			pGame = new JPanel();
@@ -906,19 +743,19 @@ public class Window extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= gS.getGame(arg0).getNumRounds();
+						r= gS.getGame(arg0, tournament).getNumRounds();
 					break;
 					case 1:
-						r= gS.getGame(arg0).getTeam1();
+						r= gS.getGame(arg0, tournament).getTeam1();
 					break;
 					case 2:
-						r= gS.getGame(arg0).getTeam2();
+						r= gS.getGame(arg0, tournament).getTeam2();
 					break;
 					case 3:
-						r= gS.getGame(arg0).getScore1();
+						r= gS.getGame(arg0, tournament).getScore1();
 					break;
 					case 4:
-						r= gS.getGame(arg0).getScore2();
+						r= gS.getGame(arg0, tournament).getScore2();
 					break;
 					}
 					return r;
@@ -952,17 +789,17 @@ public class Window extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y){
-					return y > 2 && gS.getGame(x).getNumRounds() == gS.getNbRounds(tournament);
+					return y > 2 && gS.getGame(x, tournament).getNumRounds() == gS.getNbRounds(tournament);
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Game m = gS.getGame(rowIndex);
+					Game m = gS.getGame(rowIndex, tournament);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 3){
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore1(sco);
-							gS.updateGame(rowIndex);
+							gS.updateGame(rowIndex, tournament);
 
 						}catch(Exception e){
 							return ;
@@ -972,7 +809,7 @@ public class Window extends JFrame {
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore2(sco);
-							gS.updateGame(rowIndex);
+							gS.updateGame(rowIndex, tournament);
 
 						}catch(Exception e){
 							return ;
@@ -980,7 +817,7 @@ public class Window extends JFrame {
 					}
 
 					fireTableDataChanged();
-					Window.this.updateGameStatus();
+					Window.this.updateGameStatus(tournament);
 					Window.this.updateButtons();
 				}
 			};
@@ -998,7 +835,7 @@ public class Window extends JFrame {
 			confirmGame.setEnabled(false);
 
 			pGame.add(bottomGame);
-			updateGameStatus();
+			updateGameStatus(tournament);
 		}
 
 		window.show(c, CONSTANTS.B_GAMES);
@@ -1077,18 +914,8 @@ public class Window extends JFrame {
 	/**
 	 * Update game status.
 	 */
-	private void updateGameStatus(){
-		int total=-1, ended=-1;
-		try {
-			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournament.getIdTournament() +" GROUP by id_tournoi ;");
-			rs.next();
-			total    = rs.getInt(1);
-			ended = rs.getInt(2);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return ;
-		}
+	private void updateGameStatus(Tournament t){
+		int total=gS.getNbGames(t), ended=-gS.getNbEndedGames(t);
 		stateGame.setText(ended + "/" + total + CONSTANTS.GAMES_ENDED);
 		confirmGame.setEnabled(total == ended);
 	}

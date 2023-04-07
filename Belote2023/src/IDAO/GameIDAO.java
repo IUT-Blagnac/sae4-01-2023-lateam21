@@ -3,7 +3,14 @@ package IDAO;
 import models.Game;
 import models.Tournament;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 public interface GameIDAO extends IDAO<Game>{
+
+    ArrayList<Game> getGamesFromTournament (Tournament t);
+    Vector<Object> getSomeVarFromGamesFromTournament(Tournament t);
+
     /**
      * Gets nb games.
      *
@@ -19,8 +26,10 @@ public interface GameIDAO extends IDAO<Game>{
      * @return the nb games ended
      */
 
-    public int getNbRounds(Tournament t);
+    int getNbRounds(Tournament t);
 
-    public int getNbGamesEnded(Tournament t);
+    int getNbGamesEnded(Tournament t);
+
+    void createGame(Vector<Vector<Game>> Matches, Tournament t);
 
 }

@@ -17,7 +17,7 @@ public class TeamService {
     /**
      * The Data team.
      */
-    private ArrayList<Team> dataTeam;
+    private ArrayList<Team> dataTeamTournament;
     /**
      * The Id team.
      */
@@ -47,10 +47,10 @@ public class TeamService {
      * @param tournament the tournament
      */
     public void updateTeams(Tournament tournament){
-        dataTeam = new ArrayList<Team>();
+        dataTeamTournament = new ArrayList<Team>();
         idTeam = new ArrayList<Integer>();
-        dataTeam = idaoTeam.getTeamsTournament(tournament);
-        idTeam = idaoTeam.getIdTeamsTournament(tournament);
+        dataTeamTournament = idaoTeam.getTeamsTournament(tournament);
+        idTeam = idaoTeam.getAllIdTeams();
     }
 
     /**
@@ -75,7 +75,7 @@ public class TeamService {
      */
     public Team getTeam(int index, Tournament t){
         updateTeams(t);
-        return dataTeam.get(index);
+        return dataTeamTournament.get(index);
 
     }
 
@@ -87,7 +87,7 @@ public class TeamService {
      */
     public int getNbTeams(Tournament t){
         updateTeams(t);
-        return dataTeam.size();
+        return dataTeamTournament.size();
     }
 
 
@@ -98,10 +98,9 @@ public class TeamService {
      */
     public void addTeam(Tournament t){
         int posEquipe=0; //initialize position of new team in the database
-        for (int i = 1; i <= this.dataTeam.size(); i++){//loop searching and giving position to new team in database
-            if(!idTeam.contains(i)){
-                posEquipe=i;
-                break;
+        for(int i : idTeam){
+            if(idTeam.contains(posEquipe)){
+                posEquipe++;
             }
         }
         idaoTeam.addTeam(t,posEquipe); //adding team in database
