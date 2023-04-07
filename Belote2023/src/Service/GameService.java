@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Vector;
 
 public class GameService {
@@ -83,22 +82,8 @@ public class GameService {
     /**
      * Update game.
      */
-<<<<<<< HEAD
     public void updateGames(Tournament t){
         dataGames = idaoGame.getGamesFromTournament(t);
-=======
-    public void updateGame(){
-        dataGames = new ArrayList<>();
-        try {
-            ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ tournament.getIdTournament() + ";");
-            while(rs.next()) dataGames.add(new Game(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"), Objects.equals(rs.getString("termine"), "oui")));
-            //public models.Game(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
-            rs.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            System.out.println(e.getMessage());
-        }
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
     }
 
 
@@ -112,33 +97,9 @@ public class GameService {
         int nbt = 1;
         System.out.println("Nombre d'équipes : " + teS.getNbTeams(t));
         System.out.println("Nombre de tours  : " + nbt);
-<<<<<<< HEAD
         Vector<Vector<Game>> ms;
         ms = getGamesToDo(teS.getNbTeams(t), nbt);
         idaoGame.createGame(ms, t);
-=======
-        StringBuilder req = new StringBuilder("INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
-        Vector<Vector<Game>> ms;
-        ms = getGamesToDo(teS.getNbTeams(t), nbt); //?
-        int z = 1;
-        char v = ' ';
-        for(Vector<Game> vect :ms){
-            for(Game m:vect){
-                req.append(v).append("(NULL,").append(tournament.getIdTournament()).append(", ").append(z).append(", ").append(m.getTeam1()).append(", ").append(m.getTeam2()).append(", 'non')");
-                v = ',';
-            }
-            req.append("\n");
-            z++;
-        }
-        System.out.println(req);
-        try{
-            st.executeUpdate(req.toString());
-            st.executeUpdate("UPDATE tournois SET statut=2 WHERE id_tournoi=" + tournament.getIdTournament() + ";");
-            tournament.setStatus(2);
-        }catch(SQLException e){
-            System.out.println("Erreur validation �quipes : " + e.getMessage());
-        }
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
     }
 
     /**
@@ -170,17 +131,17 @@ public class GameService {
 
             ms = getGamesToDo(teS.getNbTeams(t), nbRoundsBefore+1).lastElement();
 
-            StringBuilder req = new StringBuilder("INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
+            String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
             char v = ' ';
             for(Game m:ms){
-                req.append(v).append("(NULL,").append(tournament.getIdTournament()).append(", ").append(nbRoundsBefore + 1).append(", ").append(m.getTeam1()).append(", ").append(m.getTeam2()).append(", 'non')");
+                req += v + "(NULL," + tournament.getIdTournament() + ", " + (nbRoundsBefore + 1) + ", "+ m.getTeam1() + ", " + m.getTeam2() + ", 'non')";
                 v = ',';
             }
-            req.append("\n");
+            req += "\n";
 
             //System.out.println(req);
             try{
-                st.executeUpdate(req.toString());
+                st.executeUpdate(req);
             }catch(SQLException e){
                 System.out.println("Erreur ajout tour : " + e.getMessage());
             }
@@ -192,7 +153,7 @@ public class GameService {
                 rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + tournament.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + tournament.getIdTournament() + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
 
 
-                ArrayList<Integer> ordreeq= new ArrayList<>();
+                ArrayList<Integer> ordreeq= new ArrayList<Integer>();
                 while(rs.next()){
                     ordreeq.add(rs.getInt("equipe"));
                     System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
@@ -200,7 +161,7 @@ public class GameService {
                 System.out.println("Taille"+ordreeq.size());
                 int i;
                 boolean fini;
-                StringBuilder req = new StringBuilder("INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
+                String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
                 char v = ' ';
                 while(ordreeq.size() > 1){
                     System.out.println("Taille " + ordreeq.size());
@@ -220,7 +181,7 @@ public class GameService {
 
                         }else{
                             fini = true;
-                            req.append(v).append("(NULL,").append(tournament.getIdTournament()).append(", ").append(nbRoundsBefore + 1).append(", ").append(ordreeq.get(0)).append(", ").append(ordreeq.get(i)).append(", 'non')");
+                            req += v + "(NULL," + tournament.getIdTournament() + ", " + (nbRoundsBefore + 1) + ", "+  ordreeq.get(0) + ", " +  ordreeq.get(i) + ", 'non')";
                             System.out.println(ordreeq.get(0) + ", " +  ordreeq.get(i));
                             ordreeq.remove(0);
                             ordreeq.remove(i-1);
@@ -229,7 +190,7 @@ public class GameService {
                     }while(!fini);
                 }
                 System.out.println(req);
-                st.executeUpdate(req.toString());
+                st.executeUpdate(req);
             } catch (SQLException e) {
 
                 e.printStackTrace();
@@ -293,9 +254,10 @@ public class GameService {
             }
         }
 
+        boolean stop;
         int     i, increment  = 1, temp;
 
-        Vector<Vector<Game>> retour = new Vector<>(); //?
+        Vector<Vector<Game>> retour = new Vector<Vector<Game>>(); //?
 
         Vector<Game> vg;
 
@@ -308,14 +270,32 @@ public class GameService {
                 listPlayers[0] = temp;
             }
             i       = 0;
-            vg = new Vector<>();
-            do {
-                if (listPlayers[i] != -1 && listPlayers[nbPlayers - 1 - i] != -1) {
-                    vg.add(new Game(i, listPlayers[i], listPlayers[nbPlayers - 1 - i], 0, 0, 0, false));
+            stop = false; //? On a un break apres - donc je pense que on pourait simplement faire while(true)
+            vg = new Vector<Game>();
+            while(!stop){
+                if (listPlayers[i] == -1 || listPlayers[nbPlayers - 1  - i] == -1){
+                    // Nombre impair de joueur, le joueur n'a pas d'adversaire
+                }else{
+                    vg.add(new Game(i,listPlayers[i], listPlayers[nbPlayers - 1  - i],0,0,0,false));
                 }
 
-                i += increment;
-            } while (i < nbPlayers / 2);
+                i+= increment;
+                if(i >= nbPlayers / 2){
+                    if(increment == 1){
+                        stop = true;
+                        break;
+                    }else{
+                        increment = -2;
+                        if( i > nbPlayers / 2){
+                            i = ((i > nbPlayers / 2) ? i - 3 : --i) ;
+                        }
+                        if ((i < 1) && (increment == -2)){
+                            stop = true;
+                            break;
+                        }
+                    }
+                }
+            }
             retour.add(vg);
         }
         return retour;

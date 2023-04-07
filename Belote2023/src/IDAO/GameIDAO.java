@@ -29,10 +29,7 @@ public interface GameIDAO extends IDAO<Game>{
     int getNbRounds(Tournament t);
 
     int getNbGamesEnded(Tournament t);
-<<<<<<< HEAD
 
     void createGame(Vector<Vector<Game>> Matches, Tournament t);
-=======
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 
 }

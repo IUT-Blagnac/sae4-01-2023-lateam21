@@ -5,22 +5,41 @@ import Service.GameService;
 import Service.TeamService;
 import Service.TournamentService;
 import models.CONSTANTS;
-import models.Game;
 import models.Team;
+import models.Game;
 import models.Tournament;
 import models.tables.TeamTable;
 
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 
 /**
@@ -280,7 +299,7 @@ public class Window extends JFrame {
 	/**
 	 * The Select state.
 	 */
-	private JLabel selectState;
+	private JLabel selectState = null;
 	/**
 	 * The Idao.
 	 */
@@ -309,7 +328,6 @@ public class Window extends JFrame {
 		setSize(800,400);
 		this.setVisible(true);
 		this.setLocationRelativeTo(this.getParent());
-<<<<<<< HEAD
 		JPanel content = new JPanel();
 		content.setLayout(new BorderLayout());
 		this.setContentPane(content);
@@ -317,56 +335,24 @@ public class Window extends JFrame {
 		content.add(pTop,BorderLayout.NORTH);
 		pTop.add(selectState = new JLabel());
 		this.setStatusSelect(CONSTANTS.STATUS_SELECT_NULL);
-=======
-
-
-		JPanel content = new JPanel();
-		content.setLayout(new BorderLayout());
-		this.setContentPane(content);
-
-
-		JPanel pTop = new JPanel();
-		content.add(pTop,BorderLayout.NORTH);
-
-		pTop.add(selectState = new JLabel());
-		this.setStatusSelect(CONSTANTS.STATUS_SELECT_NULL);
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		JPanel pLeft = new JPanel();
 		pLeft.setBackground(Color.RED);
 		pLeft.setPreferredSize(new Dimension(130,0));
 		content.add(pLeft,BorderLayout.WEST);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		bTournament = new JButton(CONSTANTS.B_TOURNAMENT);
 		bParams = new JButton(CONSTANTS.B_PARAMS);
 		bTeams = new JButton(CONSTANTS.B_TEAMS);
 		bRounds = new JButton(CONSTANTS.LABEL_ROUNDS);
 		bGames = new JButton(CONSTANTS.B_GAMES);
 		bResults = new JButton(CONSTANTS.B_RESULTS);
-<<<<<<< HEAD
 		int buttonWidth = 100;
 		int buttonHeight = 30;
-=======
-
-
-		int buttonWidth = 100;
-		int buttonHeight = 30;
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		bTournament.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bParams.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bTeams.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bRounds.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bGames.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
 		bResults.setPreferredSize(new Dimension(buttonWidth,buttonHeight));
-<<<<<<< HEAD
-=======
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		pLeft.add(bTournament);
 		pLeft.add(bParams);
 		pLeft.add(bTeams);
@@ -375,7 +361,6 @@ public class Window extends JFrame {
 		pLeft.add(bResults);
 		window = new CardLayout(); //? fen? and c?
 		c = new JPanel(window);
-<<<<<<< HEAD
 		content.add(c,BorderLayout.CENTER);
 		bTournament.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -407,18 +392,6 @@ public class Window extends JFrame {
 				traceTournamentResults();
 			}
 		});
-=======
-
-		content.add(c,BorderLayout.CENTER);
-
-		bTournament.addActionListener(arg0 -> tracerSelectTournament());
-		bRounds.addActionListener(arg0 -> tracerRoundsTournament());
-		bParams.addActionListener(arg0 -> tracerDetailsTournament());
-		bTeams.addActionListener(e -> tracer_tournoi_equipes());
-		bGames.addActionListener(e -> traceTournamentGames());
-		bResults.addActionListener(arg0 -> traceTournamentResults());
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		tracerSelectTournament();
 	}
 
@@ -443,29 +416,25 @@ public class Window extends JFrame {
 			bResults.setEnabled(false);
 			bParams.setEnabled(false);
 		}else{
-<<<<<<< HEAD
 			switch(tournament.getStatus()){
 				case 0:
-=======
-			switch (toS.getTournamentStatus(tournament)) {
-				case 0 -> {
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
 					bGames.setEnabled(false);
 					bRounds.setEnabled(false);
 					bResults.setEnabled(false);
 					bParams.setEnabled(true);
-				}
-				case 2 -> {
+					break;
+				case 2:
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
 					bGames.setEnabled(gS.getNbRounds(tournament) > 0);
 					bRounds.setEnabled(true);
-					int total = gS.getNbGames(tournament), ended = gS.getNbEndedGames(tournament);
+
+					int total=gS.getNbGames(tournament), ended=gS.getNbEndedGames(tournament);
 					bResults.setEnabled(total == ended && total > 0);
 					bParams.setEnabled(true);
-				}
+					break;
 			}
 		}
 	}
@@ -477,27 +446,23 @@ public class Window extends JFrame {
 		tournament = null;
 		updateButtons();
 		tournamentNames = new Vector<>();
-<<<<<<< HEAD
        	this.setStatusSelect(CONSTANTS.STATUS_SELECT_TOURNAMENT);
-=======
-		this.setStatusSelect(CONSTANTS.STATUS_SELECT_TOURNAMENT);
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		tournamentNames = toS.getTournamentsName();
 		int nbLines = tournamentNames.size();
 		if(traceTournament){
 			list.setListData(tournamentNames);
 
-			if(nbLines == 0){
-				selectTournament.setEnabled(false);
-				deleteTournament.setEnabled(false);
-			}else{
-				selectTournament.setEnabled(true);
-				deleteTournament.setEnabled(true);
-				list.setSelectedIndex(0);
-			}
+	        if(nbLines == 0){
+	        	selectTournament.setEnabled(false);
+	        	deleteTournament.setEnabled(false);
+	        }else{
+	        	selectTournament.setEnabled(true);
+	        	deleteTournament.setEnabled(true);
+	        	list.setSelectedIndex(0);
+	        }
 			window.show(c,CONSTANTS.B_TOURNAMENT);
 		}else{
-			traceTournament = true;
+		    traceTournament = true;
 			JPanel jpanel = new JPanel();
 			jpanel.setLayout(new BoxLayout(jpanel, BoxLayout.Y_AXIS));
 			c.add(jpanel,CONSTANTS.B_TOURNAMENT);
@@ -513,23 +478,14 @@ public class Window extends JFrame {
 			list = new JList<>(tournamentNames);
 			list.setAlignmentX(Component.LEFT_ALIGNMENT);
 			list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-<<<<<<< HEAD
 		    list.setVisibleRowCount(-1);
 		    JScrollPane listScroller = new JScrollPane(list);
 	        listScroller.setPreferredSize(new Dimension(250, 180));
-=======
-			//list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-			list.setVisibleRowCount(-1);
-			JScrollPane listScroller = new JScrollPane(list);
-			listScroller.setPreferredSize(new Dimension(250, 180));
-			//listScroller.setAlignmentX(LEFT_ALIGNMENT);
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 
-			label = new JLabel(CONSTANTS.LABEL_TOURNAMENT_LIST);
-			label.setLabelFor(list);
-			label.setAlignmentX(Component.LEFT_ALIGNMENT);
+	        label = new JLabel(CONSTANTS.LABEL_TOURNAMENT_LIST);
+	        label.setLabelFor(list);
+	        label.setAlignmentX(Component.LEFT_ALIGNMENT);
 			jpanel.add(label);
-<<<<<<< HEAD
 			jpanel.add(listScroller);
 			jpanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
@@ -571,54 +527,8 @@ public class Window extends JFrame {
 					Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
 
 				}
-=======
-			//c.add(Box.createRigidArea(new Dimension(0,0)));
-			jpanel.add(listScroller);
-			jpanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-
-
-			Box bh = Box.createHorizontalBox();
-			jpanel.add(bh);
-			createTournament = new JButton(CONSTANTS.B_TOURNAMENT_NEW);
-			selectTournament = new JButton(CONSTANTS.B_TOURNAMENT_SELECT);
-			deleteTournament = new JButton(CONSTANTS.B_TOURNAMENT_DEL);
-			bh.add(createTournament);
-			bh.add(selectTournament);
-			bh.add(deleteTournament);
-
-			jpanel.updateUI();
-			if(nbLines == 0){
-				selectTournament.setEnabled(false);
-				deleteTournament.setEnabled(false);
-			}else{
-				list.setSelectedIndex(0);
-			}
-
-			createTournament.addActionListener(e -> {
-				TournamentService.createTournament();
-				Window.this.tracerSelectTournament();
-				//String nt = JOptionPane.showInputDialog("Nom du tournament ?");
-				//ResultSet rs = view.Window.this.s.executeQuery("SELECT)
-				//view.Window.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 			});
-
-			deleteTournament.addActionListener(e -> {
-				TournamentService.deleteTournament(Window.this.list.getSelectedValue());
-				Window.this.tracerSelectTournament();
-
-
-			});
-			selectTournament.addActionListener(arg0 -> {
-				String nt = Window.this.list.getSelectedValue();
-				Window.this.tournament = toS.getTournamentFromName(nt);
-				//view.Window.this.detracer_select_tournoi();
-				Window.this.tracerDetailsTournament();
-				Window.this.setStatusSelect("models.Tournament \" " + nt + " \"");
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
-			});
-			window.show(c,CONSTANTS.B_TOURNAMENT);
+	        window.show(c,CONSTANTS.B_TOURNAMENT);
 		}
 	}
 
@@ -629,7 +539,6 @@ public class Window extends JFrame {
 		if(tournament == null){
 			return ;
 		}
-<<<<<<< HEAD
 		updateButtons();
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -649,49 +558,6 @@ public class Window extends JFrame {
 		tab.add(roundNbDetails);
 		p.add(tab);
 		p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-=======
-		updateButtons(); //?
-
-		if(traceDetails){
-			nameDetails.setText(tournament.getNom());
-			stateDetails.setText(tournament.getStatusName());
-			roundNbDetails.setText(Integer.toString(gS.getNbRounds(tournament)));
-		}else{
-			traceDetails = true;
-			JPanel p = new JPanel();
-			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-			p.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_DETAILS));
-			c.add(p,CONSTANTS.DETAILS);
-
-			JPanel tab = new JPanel( new GridLayout(4,2));
-			nameDetails = new JLabel(tournament.getNom());
-			tab.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_NAME));
-			tab.add(nameDetails);
-
-			stateDetails = new JLabel(tournament.getStatusName());
-			tab.add(new JLabel(CONSTANTS.LABEL_STATUS));
-			tab.add(stateDetails);
-
-
-			roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
-			tab.add(new JLabel("Nombre de tours:"));
-
-			roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
-			tab.add(new JLabel(CONSTANTS.LABEL_ROUNDS_NUM));
-
-			tab.add(roundNbDetails);
-			//detailt_nbtours.setPreferredSize(new Dimension(40,40));
-
-			p.add(tab);
-
-			//detailt_enregistrer = new JButton("Enregistrer");
-			//p.add(Box.createHorizontalGlue());
-			//p.add(detailt_enregistrer);
-			p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			//p.add(new JLabel("  e"));
-			//tab.setPreferredSize(new Dimension(-1, 200));
-		}
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		window.show(c,CONSTANTS.DETAILS);
 	}
 
@@ -715,66 +581,7 @@ public class Window extends JFrame {
 			pTeams.add(descTeams);
 			pTeams.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			c.add(pTeams,CONSTANTS.B_TEAMS);
-<<<<<<< HEAD
 			modelTeams = new TeamTable(tournament); //Teams AbstractTableModel
-=======
-
-			modelTeams = new AbstractTableModel() {
-
-
-				//private static final long serialVersionUID = 1L;
-
-				@Override
-				public Object getValueAt(int arg0, int arg1) {
-					return switch (arg1) {
-						case 0 -> teS.getTeam(arg0, tournament).getNum();
-						case 1 -> teS.getTeam(arg0, tournament).getTeam1();
-						case 2 -> teS.getTeam(arg0, tournament).getTeam2();
-						default -> null;
-					};
-
-				}
-				public String getColumnName(int col) {
-					if(col == 0){
-						return CONSTANTS.TEAM_NUMBER;
-					}else if(col == 1){
-						return CONSTANTS.PLAYER_1;
-					}else if(col == 2){
-						return CONSTANTS.PLAYER_2;
-					}else{
-						return CONSTANTS.MISSING;
-					}
-				}
-				@Override
-				public int getRowCount() {
-					if(tournament == null)return 0;
-					return teS.getNbTeams(tournament);
-				}
-
-				@Override
-				public int getColumnCount() {
-					return 3;
-				}
-				public boolean isCellEditable(int x, int y){
-					if(tournament.getStatus() != 0) return false;
-					return y > 0;
-				}
-				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Team te = teS.getTeam(rowIndex, tournament);
-					switch (columnIndex){
-						case 1:
-							te.setTeam1((String) aValue);
-							break;
-						case 2:
-							te.setTeam2((String) aValue);
-						default:
-							break;
-					}
-					teS.updatePlayersTeams(te, tournament);
-					fireTableDataChanged();
-				}
-			};
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 			jtTeams = new JTable(modelTeams);
 			jsTeams = new JScrollPane(jtTeams);
 			pTeams.add(jsTeams);
@@ -782,7 +589,6 @@ public class Window extends JFrame {
 			addTeams = new JButton(CONSTANTS.B_TEAM_ADD);
 			delTeams = new JButton(CONSTANTS.B_TEAM_DEL);
 			confirmTeams = new JButton(CONSTANTS.B_TEAM_CONFIRM);
-<<<<<<< HEAD
 			addTeams.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -814,35 +620,6 @@ public class Window extends JFrame {
 					Window.this.updateButtons();
 					Window.this.traceTournamentGames();
 				}
-=======
-
-			addTeams.addActionListener(arg0 -> {
-				teS.addTeam(tournament);
-				confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
-				modelTeams.fireTableDataChanged();
-				if(teS.getNbTeams(tournament) > 0){
-					jtTeams.getSelectionModel().setSelectionInterval(0, 0);
-
-				}
-
-
-			});
-			delTeams.addActionListener(e -> {
-				if(Window.this.jtTeams.getSelectedRow() != -1){
-					teS.deleteTeam(teS.getTeam(Window.this.jtTeams.getSelectedRow(), tournament).getId(), tournament);
-				}
-				confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0) ;
-				modelTeams.fireTableDataChanged();
-				if(teS.getNbTeams(tournament) > 0){
-					jtTeams.getSelectionModel().setSelectionInterval(0, 0);
-				}
-			});
-			confirmTeams.addActionListener(e -> {
-				gS.generateGames(tournament);
-				Window.this.updateButtons();
-				Window.this.traceTournamentGames();
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 			});
 			if(teS.getNbTeams(tournament) > 0){
 				jtTeams.getSelectionModel().setSelectionInterval(0, 0);
@@ -873,7 +650,6 @@ public class Window extends JFrame {
 			return ;
 		}
 		updateButtons();
-<<<<<<< HEAD
 		Vector< Vector<Object>> to =new Vector<>();
 		Vector<Object> v;
 		boolean canAdd = true;
@@ -881,25 +657,6 @@ public class Window extends JFrame {
 		to.add(v);
 		canAdd = canAdd && v.get(1) == v.get(2);
 		Vector<String> columnNames = new Vector<>();
-=======
-		ArrayList< Object> to = new ArrayList<>();
-		ArrayList<Object> v;
-		boolean canAdd = true;
-		try {
-			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournament.getIdTournament() + " GROUP BY m.num_tour,m.id_tournoi;");
-			while(rs.next()){
-				v = new ArrayList<>();
-				v.add(rs.getInt(CONSTANTS.BD_NUM_TOUR));
-				v.add(rs.getInt(CONSTANTS.BD_TMATCHS));
-				v.add(rs.getString(CONSTANTS.BD_TERMINES));
-				to.add(v);
-				canAdd = canAdd && rs.getInt(CONSTANTS.BD_TMATCHS) == rs.getInt(CONSTANTS.BD_TERMINES);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		ArrayList<String> columnNames = new ArrayList<>();
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		columnNames.add(CONSTANTS.COLUMN_ADD_ROUND_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_PLAYED);
@@ -926,7 +683,6 @@ public class Window extends JFrame {
 			pRounds.add(bt);
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_END_PLEASE));
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_MAX));
-<<<<<<< HEAD
 			addRounds.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -941,16 +697,6 @@ public class Window extends JFrame {
 					gS.deleteRound();
 					Window.this.tracerRoundsTournament();
 				}
-=======
-			addRounds.addActionListener(arg0 -> {
-				// TODO Auto-generated method stub
-				gS.addRound(tournament);
-				Window.this.tracerRoundsTournament();
-			});
-			delRounds.addActionListener(e -> {
-				gS.deleteRound();
-				Window.this.tracerRoundsTournament();
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 			});
 		}
 		if(to.size() == 0){
@@ -958,17 +704,10 @@ public class Window extends JFrame {
 			addRounds.setEnabled(true);
 		}else{
 			delRounds.setEnabled( gS.getNbRounds(tournament) > 1);
-<<<<<<< HEAD
 			if(!canAdd || gS.getNbRounds(tournament)  >= teS.getNbTeams(tournament)-1 ){
 				addRounds.setEnabled(false);
 			}else
 				addRounds.setEnabled(true);
-=======
-
-
-			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
-
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
 		}
 		window.show(c,CONSTANTS.LABEL_ROUNDS);
@@ -998,10 +737,9 @@ public class Window extends JFrame {
 			c.add(pGame,CONSTANTS.B_GAMES);
 
 			modelGame = new AbstractTableModel() {
-				//				private static final long serialVersionUID = 1L;
+//				private static final long serialVersionUID = 1L;
 				@Override
 				public Object getValueAt(int arg0, int arg1) {
-<<<<<<< HEAD
 					Object r=null;
 					switch(arg1){
 					case 0:
@@ -1021,33 +759,23 @@ public class Window extends JFrame {
 					break;
 					}
 					return r;
-=======
-					return switch (arg1) {
-						case 0 -> gS.getGame(arg0).getNumRounds();
-						case 1 -> gS.getGame(arg0).getTeam1();
-						case 2 -> gS.getGame(arg0).getTeam2();
-						case 3 -> gS.getGame(arg0).getScore1();
-						case 4 -> gS.getGame(arg0).getScore2();
-						default -> null;
-					};
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 
 				}
 				public String getColumnName(int col) {
-					if(col == 0){
-						return CONSTANTS.ROUND;
-					}else if(col == 1){
-						return CONSTANTS.TEAM_1;
-					}else if(col == 2){
-						return CONSTANTS.TEAM_2;
-					}else if(col == 3){
-						return CONSTANTS.SCORE_TEAM_1;
-					}else if(col == 4){
-						return CONSTANTS.SCORE_TEAM_2;
-					}else{
-						return CONSTANTS.MISSING;
-					}
-				}
+				        if(col == 0){
+				        	return CONSTANTS.ROUND;
+				        }else if(col == 1){
+				        	return CONSTANTS.TEAM_1;
+				        }else if(col == 2){
+				        	return CONSTANTS.TEAM_2;
+				        }else if(col == 3){
+				        	return CONSTANTS.SCORE_TEAM_1;
+				        }else if(col == 4){
+				        	return CONSTANTS.SCORE_TEAM_2;
+				        }else{
+				        	return CONSTANTS.MISSING;
+				        }
+				 }
 				@Override
 				public int getRowCount() {
 					// TODO Auto-generated method stub
@@ -1064,18 +792,10 @@ public class Window extends JFrame {
 					return y > 2 && gS.getGame(x, tournament).getNumRounds() == gS.getNbRounds(tournament);
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-<<<<<<< HEAD
 					Game m = gS.getGame(rowIndex, tournament);
 					if( columnIndex == 0){
 
 					}else if( columnIndex == 3){
-=======
-					Game m = gS.getGame(rowIndex);
-//					if( columnIndex == 0){
-//
-//					}else
-						if( columnIndex == 3){
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 						try{
 							int sco = Integer.parseInt((String)aValue);
 							m.setScore1(sco);
@@ -1134,12 +854,12 @@ public class Window extends JFrame {
 		if(tournament == null){
 			return ;
 		}
-		ArrayList< Object> to = new ArrayList<>();
+		ArrayList< Object> to =new ArrayList<Object>();
 		ArrayList<Object> v;
 		try {
 			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournament.getIdTournament() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournament.getIdTournament() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.tournament.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.tournament.getIdTournament() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
 			while(rs.next()){
-				v = new ArrayList<>();
+				v = new ArrayList<Object>();
 				v.add(rs.getInt(CONSTANTS.BD_GET_EQUIPE));
 				v.add(rs.getString(CONSTANTS.BD_GET_JOUEUR1));
 				v.add(rs.getString(CONSTANTS.BD_GET_JOUEUR2));
@@ -1151,7 +871,7 @@ public class Window extends JFrame {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		ArrayList<String> columnNames = new ArrayList<>();
+		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_TEAM_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_1);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_2);
@@ -1194,23 +914,8 @@ public class Window extends JFrame {
 	/**
 	 * Update game status.
 	 */
-<<<<<<< HEAD
 	private void updateGameStatus(Tournament t){
 		int total=gS.getNbGames(t), ended=-gS.getNbEndedGames(t);
-=======
-	private void updateGameStatus(){
-		int total, ended;
-		try {
-			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournament.getIdTournament() +" GROUP by id_tournoi ;");
-			rs.next();
-			total    = rs.getInt(1);
-			ended = rs.getInt(2);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return ;
-		}
->>>>>>> 8d1f87106bff3f2f4f34d09ac4e61bef91987daa
 		stateGame.setText(ended + "/" + total + CONSTANTS.GAMES_ENDED);
 		confirmGame.setEnabled(total == ended);
 	}
