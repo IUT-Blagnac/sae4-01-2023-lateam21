@@ -4,10 +4,9 @@ import models.Game;
 import models.Tournament;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Vector;
 
-public interface GameIDAO extends IDAO<Game>{
+public interface GameIDAO{
 
     Vector<Game> getGamesFromTournament (Tournament t);
     ResultSet getNbRoundsByMatchs(Tournament t);
@@ -35,8 +34,6 @@ public interface GameIDAO extends IDAO<Game>{
     void createGame(Vector<Vector<Game>> Matches, Tournament t);
 
     void updateGame(Game gm);
-
-    ArrayList<Integer> getAllIdGames();
 
     void addRounds(Tournament t);
 

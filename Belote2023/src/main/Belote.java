@@ -18,12 +18,6 @@ import javax.swing.JOptionPane;
 
 
 public class Belote {
-
-
-	private final String db ="";
-	private final String url = "jdbc:hsqldb:file:";
-	private final String user = "sa";
-	private final String pwd = "";
 	private static Connection connect = null;
 	private final Properties properties = new Properties();
 
@@ -37,7 +31,6 @@ public class Belote {
 			connect = DriverManager.getConnection(properties.getProperty("DBURL")+ beloteFile + "\\" + properties.getProperty("DBName"),
 					properties.getProperty("DBUser"),
 					properties.getProperty("DBPassword"));
-//			System.out.println("Dossier de stockage:" + beloteFile);
 			if( !new File(beloteFile).isDirectory() ){
 				new File(beloteFile).mkdir();
 			}
@@ -60,14 +53,7 @@ public class Belote {
 	}
 
 	public static void main(String[] args) {
-		Connection connect = getUniqueInstanceBelote();
-		Statement statement;
-		try {
-			statement = connect.createStatement();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-
+		getUniqueInstanceBelote();
 		Window f = new Window();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -77,22 +63,18 @@ public class Belote {
 	{
 		Scanner s = new Scanner(in);
 		s.useDelimiter("(;(\r)?\n)|(--\n)");
-		Statement st = null;
-		try{
-			st = conn.createStatement();
-			while (s.hasNext()){
+		try (Statement st = conn.createStatement()) {
+			while (s.hasNext()) {
 				String line = s.next();
-				if (line.startsWith("/*!") && line.endsWith("*/")){
+				if (line.startsWith("/*!") && line.endsWith("*/")) {
 					int i = line.indexOf(' ');
 					line = line.substring(i + 1, line.length() - " */".length());
 				}
-				if (line.trim().length() > 0){
+				if (line.trim().length() > 0) {
 					//System.out.println("Req:" + line);
 					st.execute(line);
 				}
 			}
-		}finally{
-			if (st != null) st.close();
 		}
 	}
 

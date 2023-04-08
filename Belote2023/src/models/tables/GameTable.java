@@ -4,7 +4,6 @@ import Service.GameService;
 import models.CONSTANTS;
 import models.Game;
 import models.Tournament;
-import view.Window;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -47,25 +46,14 @@ public class GameTable extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int arg0, int arg1) {
-        Object r=null;
-        switch(arg1){
-            case 0:
-                r= gS.getGame(arg0, tournament).getNumRounds();
-                break;
-            case 1:
-                r= gS.getGame(arg0, tournament).getTeam1();
-                break;
-            case 2:
-                r= gS.getGame(arg0, tournament).getTeam2();
-                break;
-            case 3:
-                r= gS.getGame(arg0, tournament).getScore1();
-                break;
-            case 4:
-                r= gS.getGame(arg0, tournament).getScore2();
-                break;
-        }
-        return r;
+        return switch (arg1) {
+            case 0 -> gS.getGame(arg0, tournament).getNumRounds();
+            case 1 -> gS.getGame(arg0, tournament).getTeam1();
+            case 2 -> gS.getGame(arg0, tournament).getTeam2();
+            case 3 -> gS.getGame(arg0, tournament).getScore1();
+            case 4 -> gS.getGame(arg0, tournament).getScore2();
+            default -> null;
+        };
     }
 
     public boolean isCellEditable(int x, int y){

@@ -2,13 +2,13 @@ package IDAO;
 
 import models.CONSTANTS;
 import models.Tournament;
+import view.Window;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -32,17 +32,12 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      *
      * @return the instance
      */
-    public final static TournamentIDAOImpl getInstance() {
+    public static TournamentIDAOImpl getInstance() {
         if (TournamentIDAOImpl.instance == null) {
-            synchronized(TournamentIDAOImpl.class) {
-                if (TournamentIDAOImpl.instance == null) {
-                    TournamentIDAOImpl.instance = new TournamentIDAOImpl();
-                }
-            }
+            TournamentIDAOImpl.instance = new TournamentIDAOImpl();
         }
         return TournamentIDAOImpl.instance;
     }
-
 
     /**
      * Delete tournament.
@@ -60,29 +55,20 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             rs.next();
             idTournamentDelete = rs.getInt(1);
             rs.close();
-            System.out.println("ID du tournoi � supprimer:" + idTournamentDelete);
+            System.out.println("ID du tournoi � supprimer:" + idTournamentDelete);//message dev
             st.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idTournamentDelete);
             st.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idTournamentDelete);
             st.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idTournamentDelete);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            System.out.println("Erreur suppression : " + e.getMessage());
+            Window.showError(CONSTANTS.ERROR_DELETE+e.getMessage());
+            System.out.println(CONSTANTS.ERROR_DELETE + e.getMessage());//message dev
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
+            Window.showError(CONSTANTS.ERROR_UNKNOWN);
             System.out.println("Erreur inconnue");
         }
-    }
-
-    /**
-     * Gets one.
-     *
-     * @param id the id
-     * @return the one
-     */
-    @Override
-    public Tournament getOne(int id) {
-        return null;
     }
 
     /**
@@ -100,9 +86,9 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 t = new Tournament(nomT);
-                t.setIdTournament(rs.getInt("id_tournoi"));
-                t.setNbGames(rs.getInt("nb_matchs"));
-                t.setStatus(rs.getInt("statut"));
+                t.setIdTournament(rs.getInt(CONSTANTS.BD_ID_TOURNOI));
+                t.setNbGames(rs.getInt(CONSTANTS.BD_NB_MATCHS));
+                t.setStatus(rs.getInt(CONSTANTS.BD_STATUT));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -118,31 +104,6 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             ResultSet rs = statement.executeQuery("SELECT id_tournoi FROM tournois");
             while(rs.next()){
                 T.add(rs.getInt(CONSTANTS.BD_ID_TOURNOI));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return T;
-    }
-
-    /**
-     * Gets all.
-     *
-     * @return the all
-     */
-    @Override
-    public ArrayList<Tournament> getAll() {
-        ArrayList<Tournament> T = new ArrayList<>();
-        Tournament t = new Tournament("");
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
-            while(rs.next()){
-                t.setIdTournament(rs.getInt("id_tournoi"));
-                t.setNbGames(rs.getInt("nb_matchs"));
-                t.setNameTournament("nom_tournoi");
-                t.setStatus(rs.getInt("statut"));
-                T.add(t);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -170,39 +131,15 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         }
     }
 
-
-
-    /**
-     * Gets all names.
-     *
-     * @return the all names
-     */
-    @Override
-    public ArrayList<String> getAllNames() {
-        ArrayList<String> names = new ArrayList<String>();
-        String nameT;
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
-            while(rs.next()){
-                nameT = rs.getString(1);
-                names.add(nameT);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return names;
-    }
-
     @Override
     public Vector<String> getAllTournamentsNames() {
-        Vector<String> names = new Vector<String>();
+        Vector<String> names = new Vector<>();
         String nameT;
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tournois");
             while(rs.next()){
-                nameT = rs.getString("nom_tournoi");
+                nameT = rs.getString(CONSTANTS.BD_NOM_TOURNOI);
                 names.add(nameT);
             }
         } catch (SQLException e) {
@@ -242,8 +179,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             ps.setInt(2, tournament.getIdTournament());
             ps.setInt(3, tournament.getIdTournament());
             ps.setInt(4, tournament.getIdTournament());
-            ResultSet rs = ps.executeQuery();
-            return rs;
+            return ps.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -265,7 +201,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             ps.setInt(3, to.getIdTournament());
             ps.setInt(4, to.getIdTournament());
             ResultSet rs = ps.executeQuery();
-            int  equipe = 0;
+            int  equipe;
             rs.next();
             equipe=rs.getInt(CONSTANTS.BD_GET_EQUIPE);
             result = String.valueOf(equipe);

@@ -1,13 +1,11 @@
 package Service;
 
 import IDAO.TournamentIDAOImpl;
-import models.Team;
 import models.Tournament;
 import resources.Tools;
 
 import javax.swing.*;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Vector;
@@ -16,30 +14,10 @@ import java.util.Vector;
  * The type Tournament service.
  */
 public class TournamentService {
-//attibuts classe controller
-    /**
-     * The Data tournaments.
-     */
-    private static ArrayList<Tournament> dataTournaments;
-
-    private static ArrayList<Integer> idTournaments;
-
     /**
      * The Idao tournoi.
      */
     static TournamentIDAOImpl idaoTournoi = TournamentIDAOImpl.getInstance();
-    /**
-     * The St.
-     */
-    Statement st;
-    /**
-     * The Tournament.
-     */
-    Tournament tournament;
-    /**
-     * The Ts.
-     */
-    private final TeamService ts = new TeamService();
 
     /**
      * Instantiates a new Tournament service.
@@ -48,18 +26,7 @@ public class TournamentService {
         super();
     }
 
-    /**
-     * Gets tournament status.
-     *
-     * @param tournament the tournament
-     * @return the tournament status
-     */
-    public int getTournamentStatus(Tournament tournament) {
-        return tournament.getStatus();
-    }
-
-
-    public Vector<String> getTournamentsName(){
+    public Vector<String> getTournamentsNames(){
         return idaoTournoi.getAllTournamentsNames();
     }
 
@@ -73,16 +40,13 @@ public class TournamentService {
      */
     public static void deleteTournament(String nom){
         idaoTournoi.deleteTournament(nom);
-        updateTournaments();
     }
 
     /**
      * Create tournament int.
      *
-     * @return the int
      */
     public void createTournament(){
-        this.updateTournaments();
         String nameNewTournament = JOptionPane.showInputDialog(
                 null,
                 "Entrez le nom du tournoi",
@@ -110,6 +74,7 @@ public class TournamentService {
                     JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Un tournament du m�me nom existe d�j�");
                 }
                 int id_tournoi=0;
+                ArrayList<Integer> idTournaments= getAllIDsTournaments();
                 for(int id : idTournaments){
                     if(idTournaments.contains(id_tournoi)){
                         id_tournoi++;
@@ -124,11 +89,8 @@ public class TournamentService {
         idaoTournoi.updateTournament(t);
     }
 
-    public static void updateTournaments(){
-        dataTournaments = new ArrayList<>();
-        idTournaments = new ArrayList<>();
-        dataTournaments = idaoTournoi.getAll();
-        idTournaments = idaoTournoi.getAllIds();
+    protected ArrayList<Integer> getAllIDsTournaments(){
+        return idaoTournoi.getAllIds();
     }
 
     public ResultSet getResultTournoi(Tournament tournament) {

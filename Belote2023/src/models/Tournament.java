@@ -41,35 +41,11 @@ public class Tournament {
 
 		statusName = CONSTANTS.NULL;
 		switch (this.status) {
-			//case 0:
-			//	statuttnom = "Configuration du tournoi";
-			//break;
 			case 0 -> statusName = CONSTANTS.PLAYERS_SIGNED;
 			case 1 -> statusName = CONSTANTS.GAMES_GENERATED;
 			case 2 -> statusName = CONSTANTS.GAMES_IN_PROGRESS;
 			case 3 -> statusName = CONSTANTS.ENDED;
 		}
-		/*st = s;
-
-		try {
-			ResultSet rs = s.executeQuery("SELECT * FROM tournois WHERE nom_tournoi = '" + Tournament.mysql_real_escape_string(nt) + "';");
-			if(!rs.next()){
-				return ;
-			}
-			this.statut = rs.getInt("statut");
-
-			this.id_tournoi = rs.getInt("id_tournoi");
-			rs.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur SQL: " + e.getMessage());
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.NomTournoi = nt;*/
 	}
 
 	/**
@@ -87,9 +63,6 @@ public class Tournament {
 		this.status = satut;
 
 		switch (this.status) {
-			//case 0:
-			//	statuttnom = "Configuration du tournoi";
-			//break;
 			case 0 -> statusName = CONSTANTS.PLAYERS_SIGNED;
 			case 1 -> statusName = CONSTANTS.GAMES_GENERATED;
 			case 2 -> statusName = CONSTANTS.GAMES_IN_PROGRESS;

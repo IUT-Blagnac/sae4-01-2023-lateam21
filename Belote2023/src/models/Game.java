@@ -18,7 +18,6 @@ public class Game {
 			numRound = _numRound;
 			hasEnded = _hasEnded;
 	}
-
 	public Game (int _t1, int _t2){
 		this.team1 = _t1;
 		this.team2 = _t2;
@@ -31,44 +30,31 @@ public class Game {
 				return "  " + team2 + " contre " + team1;
 			}
 		}
-
 	//getters setters
 	public int getTeam1() {
 		return team1;
 	}
-
 	public int getTeam2() {
 		return team2;
 	}
-
 	public int getIdMatch() {
 		return idMatch;
 	}
-
 	public int getNumRounds() {
 		return numRound;
 	}
-
 	public int getScore1() {
 		return score1;
 	}
-
 	public int getScore2() {
 		return score2;
 	}
-
 	public void setScore1(int sco) {
 		this.score1 = sco;
 	}
-
 	public void setScore2(int sco) {
 		this.score2 = sco;
 	}
-
-	public void setNumRound(int numRound) {
-		this.numRound = numRound;
-	}
-
 	public boolean isEnded() {
 		return hasEnded;
 	}

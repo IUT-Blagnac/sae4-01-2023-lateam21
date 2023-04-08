@@ -7,11 +7,7 @@ import models.Tournament;
 import view.Window;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
 import java.util.Vector;
 
 public class GameService {
@@ -22,7 +18,7 @@ public class GameService {
      * The Data games.
      */
     private Vector<Game> dataGames = null;
-    private ArrayList<Integer> idGames = null;
+
     public GameService(){super();}
     public ResultSet getNbRoundsByMatchs(Tournament t){
         return idaoGame.getNbRoundsByMatchs(t);
@@ -70,31 +66,14 @@ public class GameService {
         return dataGames.get(index);
     }
 
-//    public Vector<Game> getGames(Tournament to) {
-//        return idaoGame.getGamesFromTournament(to);
-//    }
 
     /**
      * Update game.
      */
     public void updateGames(Tournament t){
         dataGames = new Vector<>();
-        idGames = new ArrayList<>();
         dataGames = idaoGame.getGamesFromTournament(t);
-        idGames = idaoGame.getAllIdGames();
     }
-
-
-    private int setRandomID(){
-        Random rand = new Random();
-        int limite = 1000;
-        int id = rand.nextInt(limite);
-        if(idGames.contains(id)){
-            id = rand.nextInt(limite);
-        }
-        return id;
-    }
-
 
     /**
      * Generate games.
@@ -114,7 +93,6 @@ public class GameService {
      * Add round boolean.
      *
      * @param t the t
-     * @return the boolean
      */
     public void addRound(Tournament t){
         updateGames(t);
@@ -137,7 +115,6 @@ public class GameService {
             }catch (Exception e){
                 Window.showError("Erreur lors de l'insertion du match.");
                 System.out.println(e.getMessage()); // Message développeur
-                return;
             }
         }else{
             try{
@@ -145,7 +122,6 @@ public class GameService {
             }catch (Exception e){
                 Window.showError("Erreur lors de la récupération des matchs du tournoi.");
                 System.out.println(e.getMessage()); // Message développeur
-                return;
             }
         }
     }

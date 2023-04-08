@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class TeamTable extends AbstractTableModel {
     private Tournament tournament;
-    private TeamService teS = new TeamService();
+    private final TeamService teS = new TeamService();
 
     public TeamTable(Tournament to) {
         this.tournament = to;
@@ -40,19 +40,12 @@ public class TeamTable extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int arg0, int arg1) {
-        Object r=null;
-        switch(arg1){
-            case 0:
-                r= teS.getTeam(arg0, tournament).getNum();
-                break;
-            case 1:
-                r= teS.getTeam(arg0, tournament).getTeam1();
-                break;
-            case 2:
-                r= teS.getTeam(arg0, tournament).getTeam2();
-                break;
-        }
-        return r;
+        return switch (arg1) {
+            case 0 -> teS.getTeam(arg0, tournament).getNum();
+            case 1 -> teS.getTeam(arg0, tournament).getTeam1();
+            case 2 -> teS.getTeam(arg0, tournament).getTeam2();
+            default -> null;
+        };
     }
 
     public boolean isCellEditable(int x, int y){

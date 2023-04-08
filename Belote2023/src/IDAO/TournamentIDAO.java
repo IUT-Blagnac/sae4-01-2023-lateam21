@@ -11,7 +11,7 @@ import java.util.Vector;
 /**
  * The interface Tournament idao.
  */
-public interface TournamentIDAO extends IDAO<Tournament> {
+public interface TournamentIDAO{
 
     /**
      * Delete tournament.
@@ -43,7 +43,6 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      *
      * @return the all names
      */
-    ArrayList<String> getAllNames();
 
     Vector<String> getAllTournamentsNames();
 

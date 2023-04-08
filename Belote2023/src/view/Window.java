@@ -1,35 +1,17 @@
 package view;
 
-import IDAO.TournamentIDAOImpl;
 import Service.GameService;
 import Service.TeamService;
 import Service.TournamentService;
 import models.CONSTANTS;
-import models.Team;
-import models.Game;
 import models.Tournament;
 import models.tables.GameTable;
 import models.tables.TeamTable;
-
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Vector;
-
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
 
 /**
@@ -50,10 +32,6 @@ public class Window extends JFrame {
 	 * The C.
 	 */
 	public JPanel c;
-	/**
-	 * The S.
-	 */
-	Statement s;
 
 	/**
 	 * The Tournament list.
@@ -70,9 +48,9 @@ public class Window extends JFrame {
 	/**
 	 * The Label.
 	 */
-	private JLabel        label;
+	private JLabel label;
 	/**
-	 * The Create tournament.
+	 * The Button create tournament.
 	 */
 	private JButton createTournament;
 	/**
@@ -137,10 +115,6 @@ public class Window extends JFrame {
 	 * The Del rounds.
 	 */
 	private JButton delRounds;
-	/**
-	 * The Rentrer rounds.
-	 */
-	private JButton rentrerRounds;
 
 	/**
 	 * The Name details.
@@ -154,7 +128,6 @@ public class Window extends JFrame {
 	 * The Round nb details.
 	 */
 	private JLabel roundNbDetails;
-	//JButton                    saveDetails;
 
 	/**
 	 * The Model teams.
@@ -264,10 +237,7 @@ public class Window extends JFrame {
 	 * The Trace tournament.
 	 */
 	private boolean traceTournament = false;
-	/**
-	 * The Trace details.
-	 */
-	private boolean traceDetails = false;
+
 	/**
 	 * The Trace teams.
 	 */
@@ -293,11 +263,7 @@ public class Window extends JFrame {
 	/**
 	 * The Select state.
 	 */
-	private JLabel selectState = null;
-	/**
-	 * The Idao.
-	 */
-	private final TournamentIDAOImpl idaoTournament = TournamentIDAOImpl.getInstance();
+	private final JLabel selectState;
 
 	/**
 	 * The Ts.
@@ -383,24 +349,24 @@ public class Window extends JFrame {
 			bResults.setEnabled(false);
 			bParams.setEnabled(false);
 		}else{
-			switch(tournament.getStatus()){
-				case 0:
+			switch (tournament.getStatus()) {
+				case 0 -> {
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
 					bGames.setEnabled(false);
 					bRounds.setEnabled(false);
 					bResults.setEnabled(false);
 					bParams.setEnabled(true);
-					break;
-				case 2:
+				}
+				case 2 -> {
 					bTournament.setEnabled(true);
 					bTeams.setEnabled(true);
 					bGames.setEnabled(gS.getNbRounds(tournament) > 0);
 					bRounds.setEnabled(true);
-					int total=gS.getNbGames(tournament), ended=gS.getNbEndedGames(tournament);
+					int total = gS.getNbGames(tournament), ended = gS.getNbEndedGames(tournament);
 					bResults.setEnabled(total == ended && total > 0);
 					bParams.setEnabled(true);
-					break;
+				}
 			}
 		}
 	}
@@ -413,11 +379,10 @@ public class Window extends JFrame {
 		updateButtons();
 		tournamentNames = new Vector<>();
        	this.setStatusSelect(CONSTANTS.STATUS_SELECT_TOURNAMENT);
-		tournamentNames = toS.getTournamentsName();
+		tournamentNames = toS.getTournamentsNames();
 		int nbLines = tournamentNames.size();
 		if(traceTournament){
 			list.setListData(tournamentNames);
-			toS.updateTournaments();
 	        if(nbLines == 0){
 	        	selectTournament.setEnabled(false);
 	        	deleteTournament.setEnabled(false);
@@ -499,17 +464,17 @@ public class Window extends JFrame {
 		updateButtons();
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-		p.add(new JLabel("Détail du tournoi"));
+		p.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_DETAILS));
 		c.add(p, CONSTANTS.DETAILS);
 		JPanel tab = new JPanel( new GridLayout(4,2));
 		nameDetails = new JLabel(tournament.getNom());
-		tab.add(new JLabel("Nom du tournoi"));
+		tab.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_NAME));
 		tab.add(nameDetails);
 		stateDetails = new JLabel(tournament.getStatusName());
 		tab.add(new JLabel(CONSTANTS.LABEL_STATUS));
 		tab.add(stateDetails);
 		roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
-		tab.add(new JLabel("Nombre de tours:"));
+		tab.add(new JLabel(CONSTANTS.LABEL_ROUNDS_NUM));
 		roundNbDetails = new JLabel(Integer.toString(gS.getNbRounds(tournament)));
 		tab.add(new JLabel(CONSTANTS.LABEL_ROUNDS_NUM));
 		tab.add(roundNbDetails);
@@ -735,7 +700,7 @@ public class Window extends JFrame {
 			System.out.println(e.getMessage()); // Message développeur
 		}
 
-		Vector<String> columnNames = new Vector<String>();
+		Vector<String> columnNames = new Vector<>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_TEAM_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_1);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_2);

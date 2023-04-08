@@ -1,6 +1,5 @@
 package IDAO;
 
-import Service.GameService;
 import models.CONSTANTS;
 import models.Game;
 import models.Tournament;
@@ -11,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
@@ -31,15 +29,6 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         return GameIDAOImpl.instance;
     }
 
-    @Override
-    public Game getOne(int id) {
-        return null;
-    }
-
-    @Override
-    public List<Game> getAll() {
-        return null;
-    }
 
     @Override
     public Vector<Game> getGamesFromTournament(Tournament t) {
@@ -69,8 +58,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
                     "(Select count(*) from matchs m2 WHERE m2.id_tournoi = m.id_tournoi AND m2.num_tour=m.num_tour AND m2.termine='oui' ) as termines " +
                     "from matchs m WHERE m.id_tournoi="+ t.getIdTournament()
                     + " GROUP BY m.num_tour,m.id_tournoi";
-            ResultSet rs = st.executeQuery(req);
-            return rs;
+            return st.executeQuery(req);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -144,7 +132,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     @Override
     public void createGame(Vector<Vector<Game>> Matches, Tournament t) {
         try {
-            String req = null;
+            String req;
             int tour = 1;
             Statement st = connection.createStatement();
             for(Vector<Game> vect : Matches){
@@ -163,7 +151,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     @Override
     public void updateGame(Game gm) {
         String hasEnded = (gm.getScore1() > 0 || gm.getScore2() > 0) ? "oui":"non";
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = connection.prepareStatement("UPDATE matchs SET equipe1 = ?, equipe2 = ?,  score1 = ?,  score2 = ?, termine = ? WHERE id_match = ? ;");
             ps.setInt(1, gm.getTeam1());
@@ -179,27 +167,11 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     }
 
     @Override
-    public ArrayList<Integer> getAllIdGames() {
-        ArrayList<Integer> listIdTeamsTournament = new ArrayList<Integer>();
-        try {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id_match FROM matchs;");
-            while(rs.next()){
-                listIdTeamsTournament.add(rs.getInt(CONSTANTS.BD_ID_MATCH));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return listIdTeamsTournament;
-    }
-
-    @Override
     public void addRounds(Tournament t) {
         try {
             Statement st = connection.createStatement();
             int nbroundsav = getNbRounds(t);
-            ArrayList<Integer> teamOrder= new ArrayList<Integer>();
+            ArrayList<Integer> teamOrder= new ArrayList<>();
 
             //obtention de l'ordre des matchs
             ResultSet rs;
@@ -247,8 +219,7 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
             ps.setInt(2, team2);
             ps.setInt(3, team1);
             ps.setInt(4, team2);
-            ResultSet rs = ps.executeQuery();
-            return rs;
+            return ps.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

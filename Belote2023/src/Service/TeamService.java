@@ -6,8 +6,6 @@ import IDAO.TeamIDAOImpl;
 import models.Team;
 import models.Tournament;
 import resources.Tools;
-
-import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +17,7 @@ public class TeamService {
      */
     private ArrayList<Team> dataTeamTournament;
     /**
-     * The Id team.
+     * The id team.
      */
     private ArrayList<Integer> idTeam;
 
@@ -27,8 +25,6 @@ public class TeamService {
      * The Idao team.
      */
     static TeamIDAOImpl idaoTeam = TeamIDAOImpl.getInstance();
-
-    Tools tools;
 
     /**
      * Instantiates a new Team service.
@@ -59,15 +55,15 @@ public class TeamService {
      */
     public void updatePlayersTeams(Team te, Tournament t){
         int idTeam = te.getId();
-        String pT1 = tools.mysql_real_escape_string(te.getTeam1());
-        String pT2 = tools.mysql_real_escape_string(te.getTeam2());
+        String pT1 = Tools.mysql_real_escape_string(te.getTeam1());
+        String pT2 = Tools.mysql_real_escape_string(te.getTeam2());
         idaoTeam.updatePlayersTeam(idTeam, pT1, pT2, t);
         updateTeams(t);
     }
 
 
     /**
-     * Get team team.
+     * Get team.
      *
      * @param index the index
      * @param t     the t
