@@ -8,6 +8,7 @@ import models.CONSTANTS;
 import models.Team;
 import models.Game;
 import models.Tournament;
+import models.tables.GameTable;
 import models.tables.TeamTable;
 
 import java.awt.BorderLayout;
@@ -169,7 +170,7 @@ public class Window extends JFrame {
 	/**
 	 * The Model teams.
 	 */
-	private AbstractTableModel modelTeams;
+	private TeamTable modelTeams;
 	/**
 	 * The Add teams.
 	 */
@@ -206,7 +207,7 @@ public class Window extends JFrame {
 	/**
 	 * The Model game.
 	 */
-	private AbstractTableModel modelGame;
+	private GameTable modelGame;
 	/**
 	 * The Js game.
 	 */
@@ -536,12 +537,12 @@ public class Window extends JFrame {
 			return ;
 		}
 		updateButtons();
-//		if(traceTeams){
+		if(traceTeams){
 			teS.updateTeams(tournament);
-//			modelTeams.fireTableDataChanged();
-//			jtTeams.repaint();
-//		}else{
-//			traceTeams = true;
+			modelTeams.setTournament(tournament);
+			modelTeams.fireTableDataChanged();
+		}else{
+			traceTeams = true;
 			pTeams = new JPanel();
 			layoutTeams = new BoxLayout(pTeams, BoxLayout.Y_AXIS);
 			pTeams.setLayout(layoutTeams);
@@ -576,7 +577,9 @@ public class Window extends JFrame {
 				}
 			});
 			confirmTeams.addActionListener(e -> {
+				gS.updateGames(tournament);
 				gS.generateGames(tournament);
+				toS.updateTournament(tournament);
 				Window.this.updateButtons();
 				Window.this.traceTournamentGames();
 			});
@@ -588,7 +591,7 @@ public class Window extends JFrame {
 			bt.add(confirmTeams);
 			pTeams.add(bt);
 			pTeams.add(new JLabel(CONSTANTS.LABEL_TEAMS_ODD));
-//		}
+		}
 		if(tournament.getStatus() != 0){
 			addTeams.setEnabled(false);
 			delTeams.setEnabled(false);
@@ -611,10 +614,10 @@ public class Window extends JFrame {
 		updateButtons();
 		Vector< Vector<Object>> to =new Vector<>();
 		Vector<Object> v;
-		boolean canAdd = true;
+		boolean canAdd;
 		v = gS.getSomeVarFromGamesFromTournament(tournament);
 		to.add(v);
-		canAdd = canAdd && v.get(1) == v.get(2);
+		canAdd = v.get(1) == v.get(2);
 		Vector<String> columnNames = new Vector<>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_ROUND_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_NUMBER);
@@ -642,13 +645,13 @@ public class Window extends JFrame {
 			pRounds.add(bt);
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_END_PLEASE));
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_MAX));
-			addRounds.addActionListener(arg0 -> {
+			addRounds.addActionListener(e -> {
 				// TODO Auto-generated method stub
 				gS.addRound(tournament);
 				Window.this.tracerRoundsTournament();
 			});
 			delRounds.addActionListener(e -> {
-				gS.deleteRound();
+				gS.deleteRound(tournament);
 				Window.this.tracerRoundsTournament();
 			});
 		}
@@ -656,12 +659,8 @@ public class Window extends JFrame {
 			delRounds.setEnabled(false);
 			addRounds.setEnabled(true);
 		}else{
-			delRounds.setEnabled( gS.getNbRounds(tournament) > 1);
-			if(!canAdd || gS.getNbRounds(tournament)  >= teS.getNbTeams(tournament)-1 ){
-				addRounds.setEnabled(false);
-			}else
-				addRounds.setEnabled(true);
-			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1);
+			delRounds.setEnabled(gS.getNbRounds(tournament)>1);
+			addRounds.setEnabled(canAdd && gS.getNbRounds(tournament) < teS.getNbTeams(tournament) - 1 );
 		}
 		window.show(c,CONSTANTS.LABEL_ROUNDS);
 	}
@@ -675,9 +674,9 @@ public class Window extends JFrame {
 		}
 		updateButtons();
 		if(traceGames){
-			gS.updateGames(tournament);
-			modelGame.fireTableDataChanged();
+			modelGame.setTournament(tournament);
 			updateGameStatus(tournament);
+			updateButtons();
 		}else{
 			traceGames = true;
 			pGame = new JPanel();
@@ -688,114 +687,26 @@ public class Window extends JFrame {
 			pGame.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			c.add(pGame,CONSTANTS.B_GAMES);
 
-			modelGame = new AbstractTableModel() {
-//				private static final long serialVersionUID = 1L;
+			modelGame = new GameTable(tournament){
 				@Override
-				public Object getValueAt(int arg0, int arg1) {
-					Object r=null;
-					switch(arg1){
-					case 0:
-						r= gS.getGame(arg0, tournament).getNumRounds();
-					break;
-					case 1:
-						r= gS.getGame(arg0, tournament).getTeam1();
-					break;
-					case 2:
-						r= gS.getGame(arg0, tournament).getTeam2();
-					break;
-					case 3:
-						r= gS.getGame(arg0, tournament).getScore1();
-					break;
-					case 4:
-						r= gS.getGame(arg0, tournament).getScore2();
-					break;
-					}
-					return r;
-
-				}
-				public String getColumnName(int col) {
-				        if(col == 0){
-				        	return CONSTANTS.ROUND;
-				        }else if(col == 1){
-				        	return CONSTANTS.TEAM_1;
-				        }else if(col == 2){
-				        	return CONSTANTS.TEAM_2;
-				        }else if(col == 3){
-				        	return CONSTANTS.SCORE_TEAM_1;
-				        }else if(col == 4){
-				        	return CONSTANTS.SCORE_TEAM_2;
-				        }else{
-				        	return CONSTANTS.MISSING;
-				        }
-				 }
-				@Override
-				public int getRowCount() {
-					// TODO Auto-generated method stub
-					if(tournament == null)return 0;
-					return gS.getNbGames(tournament);
-				}
-
-				@Override
-				public int getColumnCount() {
-					// TODO Auto-generated method stub
-					return 5;
-				}
-				public boolean isCellEditable(int x, int y){
-					return y > 2 && gS.getGame(x, tournament).getNumRounds() == gS.getNbRounds(tournament);
-				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Game m = gS.getGame(rowIndex, tournament);
-					if( columnIndex == 0){
-
-					}else if( columnIndex == 3){
-						try{
-							int sco = Integer.parseInt((String)aValue);
-							m.setScore1(sco);
-							gS.updateGame(rowIndex, tournament);
-
-						}catch(Exception e){
-							return ;
-						}
-
-					}else if( columnIndex == 4){
-						try{
-							int sco = Integer.parseInt((String)aValue);
-							m.setScore2(sco);
-							gS.updateGame(rowIndex, tournament);
-
-						}catch(Exception e){
-							return ;
-						}
-					}
-
-					fireTableDataChanged();
+					super.setValueAt(aValue, rowIndex, columnIndex);
 					Window.this.updateGameStatus(tournament);
 					Window.this.updateButtons();
 				}
 			};
 			jtGame = new JTable(modelGame);
-
 			jsGame = new JScrollPane(jtGame);
 			pGame.add(jsGame);
-			//jt.setPreferredSize(getMaximumSize());
-
-			System.out.println(CONSTANTS.TRUC_2);
-
 			bottomGame = new JPanel();
 			bottomGame.add(stateGame = new JLabel(CONSTANTS.LABEL_GAMES_PLAYED));
 			bottomGame.add(confirmGame = new JButton(CONSTANTS.B_RESULTS_SHOW));
 			confirmGame.setEnabled(false);
-
 			pGame.add(bottomGame);
 			updateGameStatus(tournament);
+			confirmGame.addActionListener(e->traceTournamentResults());
 		}
-
 		window.show(c, CONSTANTS.B_GAMES);
-
-
-		window.show(c,CONSTANTS.B_GAMES);
-
-
 	}
 
 
@@ -806,68 +717,44 @@ public class Window extends JFrame {
 		if(tournament == null){
 			return ;
 		}
-		ArrayList< Object> to =new ArrayList<Object>();
-		ArrayList<Object> v;
-		try {
-			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournament.getIdTournament() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournament.getIdTournament() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.tournament.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.tournament.getIdTournament() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
-			while(rs.next()){
-				v = new ArrayList<Object>();
-				v.add(rs.getInt(CONSTANTS.BD_GET_EQUIPE));
-				v.add(rs.getString(CONSTANTS.BD_GET_JOUEUR1));
-				v.add(rs.getString(CONSTANTS.BD_GET_JOUEUR2));
-				v.add(rs.getInt(CONSTANTS.BD_GET_SCORE));
-				v.add(rs.getInt(CONSTANTS.BD_GET_MATCHS_GAGNES));
-				v.add(rs.getInt(CONSTANTS.BD_GET_MATCHS_JOUES));
-				to.add(v);
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		ArrayList<String> columnNames = new ArrayList<String>();
+		Vector<Vector<Object>> to =new Vector<>();
+		Vector<Object> listInfoGame;
+		listInfoGame = toS.getInfoTournoi(tournament);
+		to.add(listInfoGame);
+		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_TEAM_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_1);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_2);
 		columnNames.add(CONSTANTS.COLUMN_ADD_SCORE);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_WON);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_PLAYED);
-		jtResults = new JTable((TableModel) to, (TableColumnModel) columnNames);
+		jtResults = new JTable(to,columnNames);
 		jtResults.setAutoCreateRowSorter(true);
-
 		if(traceResults){
 			jsResults.setViewportView(jtResults);
 		}else{
 			traceResults = true;
 			pResults = new JPanel();
 			layoutResults = new BoxLayout(pResults, BoxLayout.Y_AXIS);
-
 			pResults.setLayout(layoutResults);
 			descResults = new JLabel(CONSTANTS.LABEL_TOURNAMENT_RESULTS);
 			pResults.add(descResults);
 			pResults.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			c.add(pResults,CONSTANTS.RESULTS);
-
 			jsResults = new JScrollPane(jtResults);
 			pResults.add(jsResults);
-			//jt.setPreferredSize(getMaximumSize());
-
 			bottomResults = new JPanel();
 			bottomResults.add(stateResults = new JLabel(CONSTANTS.LABEL_WINNER));
-
 			pResults.add(bottomResults);
 		}
-
-		window.show(c, CONSTANTS.RESULTS);
-
-
 		window.show(c,CONSTANTS.RESULTS);
-
 	}
 
 	/**
 	 * Update game status.
 	 */
 	private void updateGameStatus(Tournament t){
-		int total=gS.getNbGames(t), ended=-gS.getNbEndedGames(t);
+		int total=gS.getNbGames(t), ended=gS.getNbEndedGames(t);
 		stateGame.setText(ended + "/" + total + CONSTANTS.GAMES_ENDED);
 		confirmGame.setEnabled(total == ended);
 	}

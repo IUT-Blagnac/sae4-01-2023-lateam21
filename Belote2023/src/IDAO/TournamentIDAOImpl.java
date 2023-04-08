@@ -93,12 +93,13 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      */
     @Override
     public Tournament getOne(String nomT) {
-        Tournament t = new Tournament(nomT);
+        Tournament t = null;
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM tournois where nom_tournoi = ?");
             ps.setString(1, nomT);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
+                t = new Tournament(nomT);
                 t.setIdTournament(rs.getInt("id_tournoi"));
                 t.setNbGames(rs.getInt("nb_matchs"));
                 t.setStatus(rs.getInt("statut"));
@@ -156,7 +157,17 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
      */
     @Override
     public void updateTournament(Tournament t) {
-
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM tournois where id_tournoi = ?");
+            ps.setInt(1, t.getIdTournament());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                t.setNbGames(rs.getInt(CONSTANTS.BD_NB_MATCHS));
+                t.setStatus(rs.getInt(CONSTANTS.BD_STATUT));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -215,6 +226,36 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Vector<Object> getResultTournament(Tournament tournament) {
+        Vector<Object> resultTournament = new Vector<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = ?) as joueur1, " +
+                    "(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = ?) as joueur2, " +
+                    "SUM(score) as score, " +
+                    "(SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, " +
+                    "(SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM " +
+                    "(select equipe1 as equipe,score1 as score from matchs where id_tournoi=? UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=?) " +
+                    "GROUP BY equipe ORDER BY matchs_gagnes DESC;");
+            ps.setInt(1, tournament.getIdTournament());
+            ps.setInt(2, tournament.getIdTournament());
+            ps.setInt(3, tournament.getIdTournament());
+            ps.setInt(4, tournament.getIdTournament());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                resultTournament.add(rs.getInt(CONSTANTS.BD_GET_EQUIPE));
+                resultTournament.add(rs.getString(CONSTANTS.BD_GET_JOUEUR1));
+                resultTournament.add(rs.getString(CONSTANTS.BD_GET_JOUEUR2));
+                resultTournament.add(rs.getInt(CONSTANTS.BD_GET_SCORE));
+                resultTournament.add(rs.getInt(CONSTANTS.BD_GET_MATCHS_GAGNES));
+                resultTournament.add(rs.getInt(CONSTANTS.BD_GET_MATCHS_JOUES));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return resultTournament;
     }
 
 }

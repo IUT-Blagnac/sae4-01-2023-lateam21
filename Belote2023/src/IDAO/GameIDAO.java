@@ -30,6 +30,13 @@ public interface GameIDAO extends IDAO<Game>{
 
     int getNbGamesEnded(Tournament t);
 
-    void createGame(Vector<Vector<Game>> Matches, Tournament t);
+    void createGame(Vector<Game> Matches, Tournament t, int id);
 
+    void updateGame(Game gm);
+
+    ArrayList<Integer> getAllIdGames();
+
+    void addRounds(Tournament t);
+
+    void deleteRound(Tournament t);
 }

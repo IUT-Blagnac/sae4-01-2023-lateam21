@@ -95,6 +95,7 @@ public class TournamentService {
                 nameNewTournament =  Tools.mysql_real_escape_string(nameNewTournament);
                 if(nameNewTournament.length() < 3){
                     JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
+                    return;
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -109,13 +110,17 @@ public class TournamentService {
                 }
                 int id_tournoi=0;
                 for(int id : idTournaments){
-                    if(idTournaments.contains(id)){
+                    if(idTournaments.contains(id_tournoi)){
                         id_tournoi++;
                     }
                 }
                 idaoTournoi.createTournament(id_tournoi, nameNewTournament);
             }
         }
+    }
+
+    public void updateTournament(Tournament t){
+        idaoTournoi.updateTournament(t);
     }
 
     public static void updateTournaments(){
@@ -125,4 +130,7 @@ public class TournamentService {
         idTournaments = idaoTournoi.getAllIds();
     }
 
+    public Vector<Object> getInfoTournoi(Tournament tournament) {
+        return idaoTournoi.getResultTournament(tournament);
+    }
 }

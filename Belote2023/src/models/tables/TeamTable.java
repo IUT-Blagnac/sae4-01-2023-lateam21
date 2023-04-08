@@ -11,8 +11,8 @@ public class TeamTable extends AbstractTableModel {
     private Tournament tournament;
     private TeamService teS = new TeamService();
 
-    public TeamTable(Tournament tournament) {
-        this.tournament = tournament;
+    public TeamTable(Tournament to) {
+        this.tournament = to;
     }
 
     @Override
@@ -73,5 +73,9 @@ public class TeamTable extends AbstractTableModel {
         }
         teS.updatePlayersTeams(te, tournament);
         fireTableDataChanged();
+    }
+
+    public void setTournament(Tournament to) {
+        this.tournament = to;
     }
 }

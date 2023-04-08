@@ -53,4 +53,5 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      */
     void createTournament(int id, String nom);
 
+    Vector<Object> getResultTournament(Tournament tournament);
 }
