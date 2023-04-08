@@ -22,14 +22,7 @@ public class TeamService {
      * The Id team.
      */
     private ArrayList<Integer> idTeam;
-    /**
-     * The St.
-     */
-    Statement st;
-    /**
-     * The Tournament.
-     */
-    Tournament tournament;
+
     /**
      * The Idao team.
      */
@@ -52,6 +45,10 @@ public class TeamService {
         idTeam = new ArrayList<>();
         dataTeamTournament = idaoTeam.getTeamsTournament(tournament);
         idTeam = idaoTeam.getAllIdTeams();
+    }
+
+    public ArrayList<Team> getTeamsTournament(Tournament to) {
+        return idaoTeam.getTeamsTournament(to);
     }
 
     /**

@@ -26,18 +26,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -560,6 +549,7 @@ public class Window extends JFrame {
 			confirmTeams = new JButton(CONSTANTS.B_TEAM_CONFIRM);
 			addTeams.addActionListener(arg0 -> {
 				teS.addTeam(tournament);
+				teS.updateTeams(tournament);
 				confirmTeams.setEnabled(teS.getNbTeams(tournament) > 0 && teS.getNbTeams(tournament) % 2 == 0);
 				modelTeams.fireTableDataChanged();
 				if(teS.getNbTeams(tournament) > 0){
@@ -577,7 +567,6 @@ public class Window extends JFrame {
 				}
 			});
 			confirmTeams.addActionListener(e -> {
-				gS.updateGames(tournament);
 				gS.generateGames(tournament);
 				toS.updateTournament(tournament);
 				Window.this.updateButtons();
@@ -612,12 +601,23 @@ public class Window extends JFrame {
 			return ;
 		}
 		updateButtons();
-		Vector< Vector<Object>> to =new Vector<>();
-		Vector<Object> v;
-		boolean canAdd;
-		v = gS.getSomeVarFromGamesFromTournament(tournament);
-		to.add(v);
-		canAdd = v.get(1) == v.get(2);
+		Vector<Vector<Object>> to = new Vector<>();
+		Vector<Object> listVarGame;
+		boolean canAdd = true;
+		try {
+			ResultSet rs = gS.getNbRoundsByMatchs(tournament);
+			while(rs.next()){
+				listVarGame = new Vector<>();
+				listVarGame.add(rs.getInt(CONSTANTS.BD_NUM_TOUR));
+				listVarGame.add(rs.getInt(CONSTANTS.BD_TMATCHS));
+				listVarGame.add(rs.getInt(CONSTANTS.BD_TERMINES));
+				to.add(listVarGame);
+				canAdd = canAdd && rs.getInt(CONSTANTS.BD_TMATCHS) == rs.getInt(CONSTANTS.BD_TERMINES);
+			}
+		} catch (Exception e) {
+			Window.showError("Une erreur est survenue lors de la récupération des tours du match du tournoi.");
+			System.out.println(e.getMessage()); // Message développeur
+		}
 		Vector<String> columnNames = new Vector<>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_ROUND_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_NUMBER);
@@ -674,9 +674,9 @@ public class Window extends JFrame {
 		}
 		updateButtons();
 		if(traceGames){
+			gS.updateGames(tournament);
 			modelGame.setTournament(tournament);
 			updateGameStatus(tournament);
-			updateButtons();
 		}else{
 			traceGames = true;
 			pGame = new JPanel();
@@ -686,7 +686,6 @@ public class Window extends JFrame {
 			pGame.add(descGame);
 			pGame.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 			c.add(pGame,CONSTANTS.B_GAMES);
-
 			modelGame = new GameTable(tournament){
 				@Override
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -757,5 +756,13 @@ public class Window extends JFrame {
 		int total=gS.getNbGames(t), ended=gS.getNbEndedGames(t);
 		stateGame.setText(ended + "/" + total + CONSTANTS.GAMES_ENDED);
 		confirmGame.setEnabled(total == ended);
+	}
+
+	/**
+	 * Affiche une boîte de dialogue d'erreur avec le message spécifié.
+	 * @param message : le message d'erreur à afficher
+	 */
+	public static void showError(String message) {
+		JOptionPane.showMessageDialog(null, message, "ERREUR", JOptionPane.ERROR_MESSAGE);
 	}
 }

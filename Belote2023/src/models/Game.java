@@ -1,28 +1,28 @@
 package models;
 
 public class Game {
-	private final int idMatch;
-    private final int
-			team1;
-    private final int
-			team2;
-    private int
-			score1;
-    private int
-			score2;
-    private final int
-			numRounds;
-	private final boolean hasEnded;
+	private int idMatch;
+    private int team1;
+    private int team2;
+    private int	score1;
+    private int	score2;
+    private int numRound;
+	private boolean hasEnded;
 
-	public Game(int _idGame, int _t1, int _t2, int _score1, int _score2, int _numRounds, boolean _hasEnded){
+	public Game(int _idGame, int _t1, int _t2, int _score1, int _score2, int _numRound, boolean _hasEnded){
 			idMatch = _idGame;
 			team1 = _t1;
 			team2 = _t2;
 			score1  = _score1;
 			score2  = _score2;
-			numRounds = _numRounds;
+			numRound = _numRound;
 			hasEnded = _hasEnded;
-		}
+	}
+
+	public Game (int _t1, int _t2){
+		this.team1 = _t1;
+		this.team2 = _t2;
+	}
 
 	public String toString(){
 			if(team1 < team2){
@@ -46,7 +46,7 @@ public class Game {
 	}
 
 	public int getNumRounds() {
-		return numRounds;
+		return numRound;
 	}
 
 	public int getScore1() {
@@ -65,7 +65,12 @@ public class Game {
 		this.score2 = sco;
 	}
 
+	public void setNumRound(int numRound) {
+		this.numRound = numRound;
+	}
+
 	public boolean isEnded() {
 		return hasEnded;
 	}
+
 }

@@ -20,6 +20,7 @@ public class GameTable extends AbstractTableModel {
     @Override
     public int getRowCount() {
         if(tournament == null)return 0;
+        gS.updateGames(tournament);
         return gS.getNbGames(tournament);
     }
 
@@ -78,6 +79,7 @@ public class GameTable extends AbstractTableModel {
                 try {
                     int sco = Integer.parseInt((String) aValue);
                     m.setScore1(sco);
+                    gS.updateGame(m, tournament);
                     break;
                 } catch (Exception e) {
                     return;
@@ -86,6 +88,7 @@ public class GameTable extends AbstractTableModel {
                 try {
                     int sco = Integer.parseInt((String) aValue);
                     m.setScore2(sco);
+                    gS.updateGame(m, tournament);
                     break;
                 } catch (Exception e) {
                     return;
@@ -93,13 +96,11 @@ public class GameTable extends AbstractTableModel {
             default:
                 break;
         }
-        gS.updateGame(m, tournament);
         fireTableDataChanged();
     }
 
     public void setTournament(Tournament to) {
         this.tournament = to;
-        gS.updateGames(tournament);
         fireTableDataChanged();
     }
 }

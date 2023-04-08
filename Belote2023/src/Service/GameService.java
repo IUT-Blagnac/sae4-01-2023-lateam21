@@ -2,33 +2,30 @@ package Service;
 
 import IDAO.GameIDAOImpl;
 import models.Game;
+import models.Team;
 import models.Tournament;
+import view.Window;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
 public class GameService {
     //attributes
-    Tournament tournament;
     TeamService teS = new TeamService();
     static GameIDAOImpl idaoGame = GameIDAOImpl.getInstance();
     /**
      * The Data games.
      */
-    private ArrayList<Game> dataGames = null;
-
+    private Vector<Game> dataGames = null;
     private ArrayList<Integer> idGames = null;
-
-    Statement st;
-
     public GameService(){super();}
-
-    public Vector<Object> getSomeVarFromGamesFromTournament(Tournament t){
-        return idaoGame.getSomeVarFromGamesFromTournament(t);
+    public ResultSet getNbRoundsByMatchs(Tournament t){
+        return idaoGame.getNbRoundsByMatchs(t);
     }
 
     /**
@@ -73,12 +70,15 @@ public class GameService {
         return dataGames.get(index);
     }
 
+//    public Vector<Game> getGames(Tournament to) {
+//        return idaoGame.getGamesFromTournament(to);
+//    }
 
     /**
      * Update game.
      */
     public void updateGames(Tournament t){
-        dataGames = new ArrayList<>();
+        dataGames = new Vector<>();
         idGames = new ArrayList<>();
         dataGames = idaoGame.getGamesFromTournament(t);
         idGames = idaoGame.getAllIdGames();
@@ -102,15 +102,12 @@ public class GameService {
      * @param t the t
      */
     public void generateGames(Tournament t){
-        int id=setRandomID(), nbt = 1;
-        for(int i : idGames){
-            if(idGames.contains(id)){
-                id++;
-            }
-        }
-        Vector<Game> ms;
+        int nbt = 1;
+        updateGames(t);
+        Vector<Vector<Game>> ms;
         ms = getGamesToDo(teS.getNbTeams(t), nbt);
-        idaoGame.createGame(ms, t, id);
+        idaoGame.createGame(ms, t);
+
     }
 
     /**
@@ -120,14 +117,36 @@ public class GameService {
      * @return the boolean
      */
     public void addRound(Tournament t){
-        //si nbtours == 0 alors créaton d'un tour
-        if(getNbRounds(t) == 0){
-            Vector<Game> games = getGamesToDo(teS.getNbTeams(t), getNbRounds(t)+1);
-//            Game lastGame = games.lastElement();
-            int id=setRandomID();
-            idaoGame.createGame(games,t,id);
+        updateGames(t);
+        int nbroundsav;
+        if(getNbRounds(t) >= (teS.getNbTeams(t)-1)) return;
+        try{
+            nbroundsav = idaoGame.getNbRounds(t);
+        }catch (Exception e){
+            Window.showError("Erreur lors de la récupération du nombre de tours du tournoi.");
+            System.out.println(e.getMessage()); // Message développeur
+            return;
+        }
+        if(nbroundsav==0){
+            Vector<Game> gvect;
+            gvect = getGamesToDo(teS.getNbTeams(t),nbroundsav+1 ).lastElement();
+            try{
+                for(Game g : gvect){
+                    idaoGame.addGame(g,nbroundsav+1,t);
+                }
+            }catch (Exception e){
+                Window.showError("Erreur lors de l'insertion du match.");
+                System.out.println(e.getMessage()); // Message développeur
+                return;
+            }
         }else{
-            idaoGame.addRounds(t);
+            try{
+                idaoGame.addRounds(t);
+            }catch (Exception e){
+                Window.showError("Erreur lors de la récupération des matchs du tournoi.");
+                System.out.println(e.getMessage()); // Message développeur
+                return;
+            }
         }
     }
 
@@ -141,13 +160,12 @@ public class GameService {
     /**
      * Get games to do vector.
      *
-     * @param nbPlayers the nb players
      * @param nbRounds  the nb rounds
      * @return the vector
      */
-    public static Vector<Game> getGamesToDo(int nbPlayers, int nbRounds){
+    public Vector<Vector<Game>> getGamesToDo(int nbPlayers, int nbRounds){
         if( nbRounds  >= nbPlayers){
-            System.out.println("Erreur tours < equipes");
+            Window.showError("Erreur lors de la récupération des matchs à faire, le nombre de tours est supérieur ou égal au nombre d'équipes.");
             return null;
         }
 
@@ -167,45 +185,33 @@ public class GameService {
             }
         }
 
+        int i, increment  = 1, temp;
+
+        Vector<Vector<Game>> retour = new Vector<>(); //?
+        Vector<Game> vm = new Vector<>();
         boolean stop;
-        int     i, increment  = 1, temp;
-
-//        Vector<Vector<Game>> retour = new Vector<>(); //?
-
-        Vector<Game> vq = new Vector<>();;
 
         for( int r = 1; r <= nbRounds;r++){
             if(r > 1){
-                temp = listPlayers[nbPlayers - 2];
+                temp = listPlayers[nbPlayers-2];
                 for(i = (nbPlayers - 2) ; i > 0; i--){
                     listPlayers[i] = listPlayers[i-1];
                 }
-                listPlayers[0] = temp;
+                listPlayers[0]=temp;
             }
-            i       = 0;
-//            stop = false; //? On a un break apres - donc je pense que on pourait simplement faire while(true)
-            while(true){
-                if (listPlayers[i] == -1 || listPlayers[nbPlayers - 1  - i] == -1){
-                    // Nombre impair de joueur, le joueur n'a pas d'adversaire
-                }else{
-                    vq.add(new Game(i,listPlayers[i], listPlayers[nbPlayers - 1  - i],0,0,0,false));
+            i = 0;
+            stop = false;
+            while(!stop){
+                if (!(listPlayers[i]==-1 || listPlayers[nbPlayers - 1 - i]== -1)){
+                    vm.add(new Game(listPlayers[i], listPlayers[nbPlayers - 1 - i]));
                 }
                 i+= increment;
                 if(i >= nbPlayers / 2){
-                    if(increment == 1){
-                        break;
-                    }else{
-                        increment = -2;
-                        if( i > nbPlayers / 2){
-                            i = ((i > nbPlayers / 2) ? i - 3 : --i) ;
-                        }
-                        if ((i < 1) && (increment == -2)){
-                            break;
-                        }
-                    }
+                    stop=true;
                 }
             }
+            retour.add(vm);
         }
-        return vq;
+        return retour;
     }
 }

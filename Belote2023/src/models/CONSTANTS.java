@@ -115,6 +115,7 @@ public abstract class CONSTANTS {
 
     public static final String SQL_CONNECTION_ERROR = "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.";
     public static final String BD_ID_MATCH = "id_match";
+    public static final String BD_GET_NB_MATCHS = "nb_matchs";
     /**
      * The constant instance.
      */

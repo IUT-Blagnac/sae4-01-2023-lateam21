@@ -4,6 +4,7 @@ import Service.GameService;
 import models.CONSTANTS;
 import models.Game;
 import models.Tournament;
+import view.Window;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,8 +42,8 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     }
 
     @Override
-    public ArrayList<Game> getGamesFromTournament(Tournament t) {
-        ArrayList<Game> listGames = new ArrayList<>();
+    public Vector<Game> getGamesFromTournament(Tournament t) {
+        Vector<Game> listGames = new Vector<>();
         Game game;
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM matchs WHERE id_tournoi = ?");
@@ -61,22 +62,18 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     }
 
     @Override
-    public Vector<Object> getSomeVarFromGamesFromTournament(Tournament t) {
-        Vector<Object> listVarGame = new Vector<>();
+    public ResultSet getNbRoundsByMatchs(Tournament t) {
         try {
             Statement st = connection.createStatement();
-            String req = "Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + t.getIdTournament() + " GROUP BY m.num_tour,m.id_tournoi;";
+            String req = "Select num_tour, count(*) as tmatchs, " +
+                    "(Select count(*) from matchs m2 WHERE m2.id_tournoi = m.id_tournoi AND m2.num_tour=m.num_tour AND m2.termine='oui' ) as termines " +
+                    "from matchs m WHERE m.id_tournoi="+ t.getIdTournament()
+                    + " GROUP BY m.num_tour,m.id_tournoi";
             ResultSet rs = st.executeQuery(req);
-            while(rs.next()){
-                listVarGame.add(rs.getInt(CONSTANTS.BD_NUM_TOUR));
-                listVarGame.add(rs.getInt(CONSTANTS.BD_TMATCHS));
-                listVarGame.add(rs.getInt(CONSTANTS.BD_TERMINES));
-            }
-
+            return rs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listVarGame;
     }
 
     /**
@@ -145,15 +142,18 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     }
 
     @Override
-    public void createGame(Vector<Game> Matches, Tournament t, int id) {
+    public void createGame(Vector<Vector<Game>> Matches, Tournament t) {
         try {
-            int tour = 1; String req = null;
+            String req = null;
+            int tour = 1;
             Statement st = connection.createStatement();
-            for (Game m : Matches) {
-                req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES ("+id+"," + t.getIdTournament() + "," + tour + ", " + m.getTeam1() + ", " + m.getTeam2() + ", 'non')";
+            for(Vector<Game> vect : Matches){
+                for (Game m : vect) {
+                    req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES (NULL," + t.getIdTournament() + "," + tour + ", " + m.getTeam1() + ", " + m.getTeam2() + ", 'non')";
+                    st.executeUpdate(req);
+                }
                 tour++;
             }
-            st.executeUpdate(req);
             st.executeUpdate("UPDATE tournois SET statut=2 WHERE id_tournoi=" + t.getIdTournament() + ";"); //maj statut tournoi
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -198,54 +198,64 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     public void addRounds(Tournament t) {
         try {
             Statement st = connection.createStatement();
-            GameService gS = new GameService();
-            int nbRounds = gS.getNbRounds(t);
-            
-//            ResultSet rs;
-//            rs = st.executeQuery("SELECT equipe, " +
-//                    "(SELECT count(*) FROM matchs m " +
-//                    "WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes " +
-//                    "FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + t.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + t.getIdTournament() + ") " +
-//                    "GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
-//            ArrayList<Integer> ordreeq= new ArrayList<Integer>();
-//            while(rs.next()){
-//                ordreeq.add(rs.getInt("equipe"));
-//                System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
-//            }
-//            System.out.println("Taille : "+ordreeq.size());
-//            int i;
-//            boolean fini;
-//            String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
-//            char v = ' ';
-//            while(ordreeq.size() > 1){
-//                System.out.println("Taille " + ordreeq.size());
-//                int j=0;
-//                while(j<ordreeq.size()) {
-//                    System.out.println(ordreeq.get(j));
-//                    j++;
-//                }
-//                i=1;
-//                do{
-//                    rs = st.executeQuery("SELECT COUNT(*) FROM matchs m WHERE ( (m.equipe1 = " + ordreeq.get(0) + " AND m.equipe2 = " + ordreeq.get(i) + ") OR (m.equipe2 = " + ordreeq.get(0) + " AND m.equipe1 = " + ordreeq.get(i) + ")  )");
-//                    rs.next();
-//                    if(rs.getInt(1) > 0){
-//                        // Le match est d�j� jou�
-//                        i++;
-//                        fini = false;
-//                    }else{
-//                        fini = true;
-//                        req += v + "(NULL," + t.getIdTournament() + ", " + (getNbRounds(t) + 1) + ", "+  ordreeq.get(0) + ", " +  ordreeq.get(i) + ", 'non')";
-//                        System.out.println(ordreeq.get(0) + ", " +  ordreeq.get(i));
-//                        ordreeq.remove(0);
-//                        ordreeq.remove(i-1);
-//                        v = ',';
-//                    }
-//                }while(!fini);
-//            }
-//            System.out.println(req);
-//            st.executeUpdate(req);
+            int nbroundsav = getNbRounds(t);
+            ArrayList<Integer> teamOrder= new ArrayList<Integer>();
+
+            //obtention de l'ordre des matchs
+            ResultSet rs;
+            rs = st.executeQuery("SELECT equipe, " +
+                    "(SELECT count(*) FROM matchs m " +
+                    "WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes " +
+                    "FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + t.getIdTournament() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + t.getIdTournament() + ") " +
+                    "GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
+            while(rs.next()){
+                teamOrder.add(rs.getInt("equipe"));
+                System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
+            }
+            System.out.println("Taille : "+teamOrder.size());
+            int i;
+            boolean end;
+            while(teamOrder.size() > 1){
+                int j=0;
+                while(j<teamOrder.size()) {
+                    System.out.println(teamOrder.get(j));
+                    j++;
+                }
+                i=1;
+                do{
+                    rs = getNbGamesByTeams(teamOrder.get(0), teamOrder.get(i-1));
+                    rs.next();
+                    if(rs.getInt(CONSTANTS.BD_GET_NB_MATCHS)>0){
+                        i++;
+                        end=false;
+                    }else{
+                        end=true;
+                        Game ga = new Game(teamOrder.get(0), teamOrder.get(i));
+                        addGame(ga, nbroundsav+1, t);
+                        teamOrder.remove(0);
+                        teamOrder.remove(i-1);
+                    }
+                }while(!end);
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Window.showError("Erreur lors de la récupération des matchs du tournoi.");
+            System.out.println(e.getMessage()); // Message développeur
+        }
+    }
+
+    @Override
+    public ResultSet getNbGamesByTeams(int team1, int team2) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) as nb_matchs FROM matchs m " +
+                    "WHERE ( (m.equipe1 = ? AND m.equipe2 = ?) OR (m.equipe2 = ? AND m.equipe1 = ?))");
+            ps.setInt(1, team1);
+            ps.setInt(2, team2);
+            ps.setInt(3, team1);
+            ps.setInt(4, team2);
+            ResultSet rs = ps.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -270,6 +280,20 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             System.out.println("Erreur del tour : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void addGame(Game ga, int numRound ,Tournament t) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES (NULL,?,?,?,?, 'non')");
+            ps.setInt(1, t.getIdTournament());
+            ps.setInt(2, numRound);
+            ps.setInt(3, ga.getTeam1());
+            ps.setInt(4, ga.getTeam2());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
