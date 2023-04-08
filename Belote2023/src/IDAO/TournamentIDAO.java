@@ -2,6 +2,7 @@ package IDAO;
 
 import models.Tournament;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import java.util.Vector;
@@ -53,5 +54,7 @@ public interface TournamentIDAO extends IDAO<Tournament> {
      */
     void createTournament(int id, String nom);
 
-    Vector<Object> getResultTournament(Tournament tournament);
+    ResultSet getResultTournament(Tournament tournament);
+
+    String getWinnerTournament(Tournament tournament);
 }

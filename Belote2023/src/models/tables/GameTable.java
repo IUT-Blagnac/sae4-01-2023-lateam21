@@ -73,6 +73,7 @@ public class GameTable extends AbstractTableModel {
     }
 
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        gS.updateGames(tournament);
         Game m = gS.getGame(rowIndex, tournament);
         switch (columnIndex) {
             case 3:

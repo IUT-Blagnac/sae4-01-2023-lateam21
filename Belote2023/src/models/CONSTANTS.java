@@ -61,7 +61,7 @@ public abstract class CONSTANTS {
 
     public static final String LABEL_TOURNAMENT_GAMES = "Matchs du tournoi";
     public static final String LABEL_TOURNAMENT_RESULTS = "Résultats du tournoi";
-    public static final String LABEL_WINNER = "Gagnant:";
+    public static final String LABEL_WINNER = "Gagnant : Equipe n°";
 
     public static final String COLUMN_ADD_ROUND_NUMBER = "Numéro du tour";
 

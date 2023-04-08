@@ -105,7 +105,7 @@ public class GameService {
         int nbt = 1;
         updateGames(t);
         Vector<Vector<Game>> ms;
-        ms = getGamesToDo(teS.getNbTeams(t), nbt);
+        ms = getGamesToDo(teS.getNbTeams(t), nbt, t);
         idaoGame.createGame(ms, t);
 
     }
@@ -129,7 +129,7 @@ public class GameService {
         }
         if(nbroundsav==0){
             Vector<Game> gvect;
-            gvect = getGamesToDo(teS.getNbTeams(t),nbroundsav+1 ).lastElement();
+            gvect = getGamesToDo(teS.getNbTeams(t),nbroundsav+1, t ).lastElement();
             try{
                 for(Game g : gvect){
                     idaoGame.addGame(g,nbroundsav+1,t);
@@ -163,25 +163,26 @@ public class GameService {
      * @param nbRounds  the nb rounds
      * @return the vector
      */
-    public Vector<Vector<Game>> getGamesToDo(int nbPlayers, int nbRounds){
+    public Vector<Vector<Game>> getGamesToDo(int nbPlayers, int nbRounds, Tournament to){
         if( nbRounds  >= nbPlayers){
             Window.showError("Erreur lors de la récupération des matchs à faire, le nombre de tours est supérieur ou égal au nombre d'équipes.");
             return null;
         }
 
+        ArrayList<Team> teList = teS.getTeamsTournament(to);
         int[]   listPlayers;
         if((nbPlayers % 2) == 1){
             // Nombre impair de joueurs, on rajoute une �quipe fictive
             listPlayers   = new int[nbPlayers+1];
             listPlayers[nbPlayers] = -1;
             for(int z = 0; z < nbPlayers;z++){
-                listPlayers[z] = z+1;
+                listPlayers[z] = teList.get(z).getId();
             }
             nbPlayers++;
         }else{
             listPlayers   = new int[nbPlayers];
             for(int z = 0; z < nbPlayers;z++){
-                listPlayers[z] = z+1;
+                listPlayers[z] = teList.get(z).getId();
             }
         }
 

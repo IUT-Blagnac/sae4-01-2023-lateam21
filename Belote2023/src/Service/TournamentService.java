@@ -6,6 +6,7 @@ import models.Tournament;
 import resources.Tools;
 
 import javax.swing.*;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -130,7 +131,11 @@ public class TournamentService {
         idTournaments = idaoTournoi.getAllIds();
     }
 
-    public Vector<Object> getInfoTournoi(Tournament tournament) {
+    public ResultSet getResultTournoi(Tournament tournament) {
         return idaoTournoi.getResultTournament(tournament);
+    }
+
+    public String getWinnerTournament(Tournament tournament) {
+        return idaoTournoi.getWinnerTournament(tournament);
     }
 }

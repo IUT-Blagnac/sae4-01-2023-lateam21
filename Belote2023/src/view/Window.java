@@ -717,9 +717,24 @@ public class Window extends JFrame {
 			return ;
 		}
 		Vector<Vector<Object>> to =new Vector<>();
-		Vector<Object> listInfoGame;
-		listInfoGame = toS.getInfoTournoi(tournament);
-		to.add(listInfoGame);
+		Vector<Object> resultTournament;
+		try{
+			ResultSet rs = toS.getResultTournoi(tournament);
+			while(rs.next()){
+				resultTournament = new Vector<>();
+				resultTournament.add(rs.getInt(CONSTANTS.BD_GET_EQUIPE));
+				resultTournament.add(rs.getString(CONSTANTS.BD_GET_JOUEUR1));
+				resultTournament.add(rs.getString(CONSTANTS.BD_GET_JOUEUR2));
+				resultTournament.add(rs.getInt(CONSTANTS.BD_GET_SCORE));
+				resultTournament.add(rs.getInt(CONSTANTS.BD_GET_MATCHS_GAGNES));
+				resultTournament.add(rs.getInt(CONSTANTS.BD_GET_MATCHS_JOUES));
+				to.add(resultTournament);
+			}
+		}catch (Exception e){
+			Window.showError("Une erreur est survenue lors de la récupération des résultats du match pour ce tournoi.");
+			System.out.println(e.getMessage()); // Message développeur
+		}
+
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(CONSTANTS.COLUMN_ADD_TEAM_NUMBER);
 		columnNames.add(CONSTANTS.COLUMN_ADD_NAME_PLAYER_1);
@@ -729,8 +744,11 @@ public class Window extends JFrame {
 		columnNames.add(CONSTANTS.COLUMN_ADD_GAMES_PLAYED);
 		jtResults = new JTable(to,columnNames);
 		jtResults.setAutoCreateRowSorter(true);
+		bottomResults = new JPanel();
 		if(traceResults){
 			jsResults.setViewportView(jtResults);
+			String winner = toS.getWinnerTournament(tournament);
+			stateResults.setText(CONSTANTS.LABEL_WINNER+winner);
 		}else{
 			traceResults = true;
 			pResults = new JPanel();
@@ -742,8 +760,9 @@ public class Window extends JFrame {
 			c.add(pResults,CONSTANTS.RESULTS);
 			jsResults = new JScrollPane(jtResults);
 			pResults.add(jsResults);
+			String winner = toS.getWinnerTournament(tournament);
 			bottomResults = new JPanel();
-			bottomResults.add(stateResults = new JLabel(CONSTANTS.LABEL_WINNER));
+			bottomResults.add(stateResults = new JLabel(CONSTANTS.LABEL_WINNER+winner));
 			pResults.add(bottomResults);
 		}
 		window.show(c,CONSTANTS.RESULTS);

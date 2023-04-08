@@ -210,17 +210,12 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
                     "GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
             while(rs.next()){
                 teamOrder.add(rs.getInt("equipe"));
-                System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
+                System.out.println(rs.getInt(1) +" _ " + rs.getString(2)); //message dev
             }
             System.out.println("Taille : "+teamOrder.size());
             int i;
             boolean end;
             while(teamOrder.size() > 1){
-                int j=0;
-                while(j<teamOrder.size()) {
-                    System.out.println(teamOrder.get(j));
-                    j++;
-                }
                 i=1;
                 do{
                     rs = getNbGamesByTeams(teamOrder.get(0), teamOrder.get(i-1));
