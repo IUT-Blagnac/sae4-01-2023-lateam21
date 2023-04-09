@@ -156,6 +156,7 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 L'https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Livrable%20SAE%20.pdf[analyse du code source] existant de l’application liste les principales défauts constatés et les possibles tâches de refactoring à appliquer.
 
 === Cahier de Recette
+Le https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Cahier_des_recettes.adoc[cahier de recette] de l’application atteste du bon fonctionnement de cette dernière en détaillant des plans de tests pour chaque fonctionnalité avec les actions à réaliser, les résultats attendus et ceux obtenus. Ce document explique également comment lancer l’application simplement avec Maven à partir de fichiers exécutables fournis avec le code source
 
 === Scripts d'éxecution de l'application
 
