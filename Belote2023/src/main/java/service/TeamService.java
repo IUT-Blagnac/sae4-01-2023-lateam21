@@ -2,7 +2,7 @@
 
 package service;
 
-import IDAO.TeamIDAOImpl;
+import IDAO.impl.TeamIDAOImpl;
 import models.Team;
 import models.Tournament;
 import resources.Tools;

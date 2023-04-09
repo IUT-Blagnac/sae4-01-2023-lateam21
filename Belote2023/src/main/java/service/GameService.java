@@ -1,6 +1,6 @@
 package service;
 
-import IDAO.GameIDAOImpl;
+import IDAO.impl.GameIDAOImpl;
 import models.Game;
 import models.Team;
 import models.Tournament;

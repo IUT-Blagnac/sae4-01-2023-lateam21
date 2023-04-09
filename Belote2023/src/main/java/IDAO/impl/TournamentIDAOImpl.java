@@ -1,5 +1,7 @@
-package IDAO;
+package IDAO.impl;
 
+import IDAO.AbstractDAO;
+import IDAO.TournamentIDAO;
 import models.CONSTANTS;
 import models.Tournament;
 import view.Window;

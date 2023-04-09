@@ -1,5 +1,7 @@
-package IDAO;
+package IDAO.impl;
 
+import IDAO.AbstractDAO;
+import IDAO.GameIDAO;
 import models.CONSTANTS;
 import models.Game;
 import models.Tournament;
@@ -12,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
+public class GameIDAOImpl extends AbstractDAO implements GameIDAO {
 
     private static GameIDAOImpl instance = null;
 
