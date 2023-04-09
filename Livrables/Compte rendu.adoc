@@ -1,0 +1,260 @@
+= Compte-rendu du Refactoring de l'application Belote
+:toc:
+:toc-title: Sommaire
+:toclevels: 4
+
+[underline]#STRZESZEWSKI Tobiasz et LONGÉQUE Ruben# *(2A/B)*
+
+{empty} +
+
+== I. Contexte
+[.text-justify]
+
+Dans le contexte de la SAE 4.01, notre mission était de refactoriser une application de gestion des tournois de belote sous Java Swing, c'est-à-dire corriger les erreurs, rendre l'application plus lisible et plus optimale.
+
+Nous disposions de TPs et TDs en distanciel, mis en place par M. Mahmoud EL HAMLAOUI. Sans lui, ce projet n'aurait jamais pu être abouti.
+
+== II. Refactoring
+=== 1) Conversion en projet Maven
+[.text-justify]
+
+Dans un premier temps, nous avons récupéré le projet initial et l'avons converti en un projet Maven grâce à la plateforme https://maven.apache.org/[Maven]. Cette conversion nous a permis de mieux gérer, maintenir et comprendre le projet, tant pour nous que pour les personnes qui travailleront dessus à l'avenir. Le code source du projet est désormais situé dans le package ``Belote2023/src/main/java/``.
+
+==== 1.1) Scripts d’exécution du code source
+[.text-justify]
+
+Grâce à Maven, il est possible de compiler, importer des packages, nettoyer l'application, et bien plus encore, directement à l'intérieur d'un terminal. Nous avons donc créé deux scripts (un pour Linux et un pour Windows) pour exécuter l'application Belote2023.
+[source, bash]
+----
+:: Maven package
+call mvn clean compile package install
+
+:: Run the app
+java -jar target/Belote2023.jar
+----
+
+{empty} +
+
+=== 2) Conversion du projet avec l'utilisation du MVCS pattern, et l'implementation d'IDAO
+[.text-justify]
+
+
+L'ancien projet était structuré en cinq classes Java dans un même répertoire. Le pattern MVCS n'a pas été respecté, le code mélangeant toutes les classes (Model, View, Controller), alors qu'un point fort de Java est la possibilité de réorganiser les classes pour simplifier la lecture et l'exécution (sans redondances, sans appels de méthodes inutiles, etc.).
+
+Nous avons donc décidé de restructurer le code en respectant le pattern MVCS et avons créé une interface DAO (Data Access Object) pour la récupération et la gestion des données de l'application. Ces classes sont situées dans un répertoire séparé pour une meilleure organisation.
+
+_Ancienne arborescence :_
+[source]
+----
+src
+├───Belote.java
+├───Equipe.java
+├───Fenetre.java
+├───MatchM.java
+└───Tournoi.java
+----
+
+==== 2.1) Nouvelle structure
+[.text-justify]
+Nous avons restructuré l'application afin qu'elle respecte le principe du pattern MVCS. Ce modèle permet de décomposer une application en quatre parties :
+
+    * Model : mise en place de toutes les données, leur * modélisation.
+    * View : tout ce qui est graphique, qui visualise les * données.
+    * Controller : la liaison et le contrôle entre la vue et le * modèle.
+    * Service : permet de fournir toutes les données nécessaires du contrôleur au modèle (une utilisation très particulière).
+
+[.text-justify]
+La nouvelle structure comprend donc les quatre répertoires principaux ainsi que le répertoire main et les outils :
+
+    * `main` : la classe qui exécute l'application.
+    * ``resources`` : les outils et les constantes que nous utilisons partout dans le code.
+    * ``IDAO`` : les classes permettant la récupération et la gestion des données frontend (contrôleur).
+   *  ``models`` : les classes permettant la mise en place des données.
+   *  ``service`` : les classes permettant la récupération et la gestion des données backend.
+    * ``view`` : les classes qui affichent toutes les données.
+
+_Nouvelle arborescence complète :_
+[source]
+----
+java
+├───IDAO
+│   ├───AbstractDAO.java 
+│   ├───GameIDAO.java
+│   ├───GameIDAOImpl.java
+│   ├───TeamIDAO.java
+│   ├───TeamIDAOImpl.java
+│   ├───TournamentIDAO.java
+│   └───TournamentIDAOImpl.java 
+├───main
+│   └───Belote.java  
+├───models
+│   ├───Game.java
+│   ├───Team.java
+│   └───Tournament.java 
+├───resources
+│   ├───CONSTANTS.java
+│   └───Tools.java 
+├───service
+│   ├───GameService.java
+│   ├───TeamService.java
+│   └───TournamentService.java 
+└───view
+    ├───tables  
+    │   ├───GameTable.java
+    │   └───TeamTable.java 
+    └───Window.java 
+----
+
+
+
+==== 2.2) Déplacement des classes dans le package Model
+[.text-justify]
+Les classes de type model implémentant des objets permettant de traiter les données de l'application ont été déplacées dans le package model en accord avec le pattern MVCS.
+
+=== 3) Ajout de classes
+==== 3.1) Ajout de la classe Constants
+[.text-justify]
+Dans le but de ne pas utiliser de chaînes de caractères "en dur" dans tout le code, nous avons implémenté une classe Constants qui stocke toutes les chaînes de caractères que l'on ne modifie jamais, mais que l'on utilise par exemple pour afficher les boutons ou faire des requêtes SQL. Toutes ces chaînes de caractères sont donc dans le fichier ``resources/Constants.java.``
+
+C'est rédondant d'afficher toute la classe mais voici un extrait:
+
+[source, java]
+----
+public abstract class CONSTANTS {
+    /**
+     * The constant B_TOURNAMENT.
+     */
+    public final static String B_TOURNAMENT = "Tournois";
+    /**
+     * The constant B_TEAMS.
+     */
+    public final static String B_TEAMS = "Equipes";
+    /**
+     * The constant B_GAMES.
+     */
+    public final static String B_GAMES = "Matchs";
+
+    ...
+   
+    public static final String ERROR_DELETE = "Erreur suppression : ";
+    /**
+     * The constant ERROR_UNKNOWN.
+     */
+    public static final String ERROR_UNKNOWN = "Erreur inconnue";
+    /**
+     * The constant SQL_CONNECTION_ERROR.
+     */
+    public static final String SQL_CONNECTION_ERROR = "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.";
+    /**
+     * The constant BD_ID_MATCH.
+     */
+    public static final String BD_ID_MATCH = "id_match";
+    /**
+     * The constant BD_GET_NB_MATCHS.
+     */
+    public static final String BD_GET_NB_MATCHS = "nb_matchs";
+}
+----
+==== 3.2) Ajout des classes IDAO et Service
+[.text-justify]
+Les créations des matchs, équipes, etc. étaient très mal ordonnées à la base. C'est pour cela que lorsqu'on a refactoré le code, on a décidé d'implémenter les classes IDAO et Service. Elles sont liées entre elles pour permettre à l'application de gérer les données des différentes classes.
+
+==== 3.3) Décomposition de la classe "Fenetre"
+[.text-justify]
+Des classes anonymes étaient utilisées dans la classe ``Fenetre.java`` afin d'implémenter des ``TableModel`` permettant l'affichage de tableaux. Nous avons donc externalisé ces classes dans le package view/tables en créant ``TeamTable.java`` pour le tableau d'affichage et de saisies des joueurs des équipes d'un tournoi, et ``GameTable.java`` pour les scores des matchs.
+
+==== 3.4) Ajout d'une classe "Tools"
+[.text-justify]
+Nous avons aussi ajouté une classe ``Tools.java`` dans le but de mettre de côté les méthodes statiques que l'on pourrait avoir besoin dans n'importe quelle classe. Cependant, elle ne comporte qu'une seule méthode, ``mysql_real_escape_string``. Si jamais on s'interroge sur le comportement des autres méthodes, on pourrait surement en mettre plusieurs.
+
+_Méthode `mysql_real_escape_string` et Javadoc de la classe `Tools` :_
+[source, java]
+----
+package resources;
+
+/**
+ * La classe Tools contient des méthodes utilitaires.
+ */
+public class Tools {
+
+    /**
+     * Échappe les caractères spéciaux dans une chaîne de caractères pour éviter les injections SQL.
+     *
+     * @param str : la chaîne de caractères à échapper
+     * @return la chaîne de caractères échappée
+     */
+    public static String mysql_real_escape_string(String str) {
+        if (str == null) {
+            return null;
+        }
+        if (str.replaceAll("[a-zA-Z0-9_!@#$%^&*()-=+~.;:,\\Q[\\E\\Q]\\E<>{}\\/? ]","").length() < 1) {
+            return str;
+        }
+        String clean_string = str;
+        clean_string = clean_string.replaceAll("\\n","\\\\n");
+        clean_string = clean_string.replaceAll("\\r", "\\\\r");
+        clean_string = clean_string.replaceAll("\\t", "\\\\t");
+        clean_string = clean_string.replaceAll("\\00", "\\\\0");
+        clean_string = clean_string.replaceAll("'", "''");
+        return clean_string;
+    }
+
+
+}
+----
+
+{empty} +
+
+=== 4) Reformatage, homogénéisation et contrôle du code
+==== 4.1) Mise au propre des classes
+[.text-justify]
+Après avoir réfactoré l'application et nous être assurés que tout fonctionne correctement, nous avons commencé à mettre en place de bonnes pratiques de développement (ne jugez pas notre sens des priorités). Tout d'abord, nous avons traduit toutes les classes en anglais. Ensuite, nous avons corrigé la syntaxe de toutes les classes, méthodes et fonctions. Nous avons remplacé les `if` par des `switch` et les `switch` par des `enhanced switch`. Enfin, nous avons incorporé des `StringBuilder` et des lambdas. Nous avons terminé avec un code fonctionnel et lisible, qui respecte les bonnes pratiques que nous avons pu apprendre en cours.
+
+
+[source, java]
+----
+// Exemple d'un switch améliore implementé 
+				case 0 -> {
+					bTournament.setEnabled(true);
+					bTeams.setEnabled(true);
+					bGames.setEnabled(false);
+					bRounds.setEnabled(false);
+					bResults.setEnabled(false);
+					bParams.setEnabled(true);
+				}
+				case 2 -> {
+					bTournament.setEnabled(true);
+					bTeams.setEnabled(true);
+					bGames.setEnabled(gS.getNbRounds(tournament) > 0);
+					bRounds.setEnabled(true);
+					int total = gS.getNbGames(tournament), ended = gS.getNbEndedGames(tournament);
+					bResults.setEnabled(total == ended && total > 0);
+					bParams.setEnabled(true);
+				}
+// Exemple des labdas dans la même classe
+ createTournament.addActionListener(e -> {
+				toS.createTournament();
+				Window.this.tracerSelectTournament();
+                });
+deleteTournament.addActionListener(e -> {
+                toS.deleteTournament(Window.this.list.getSelectedValue());
+                Window.this.tracerSelectTournament();
+                });
+----
+
+==== 4.2) Reformatage de la classes Belote
+[.text-justify]
+La classe `Belote.java` s'occupe maintenant de la connexion avec la base de données, de la création de scripts pour la création des tables, ainsi que du lancement de la fenêtre d'application.
+
+=== 5) Documentation
+==== 5.1) Rédaction de la Javadoc
+[.text-justify]
+Pour permettre aux futurs développeurs, ainsi qu'à nous-mêmes, de mieux comprendre le code, nous avons rédigé une Javadoc sur la majorité des classes, afin que cela soit lisible et utile (par exemple, il est inutile de faire une Javadoc sur une variable "Label" si son nom indique exactement ce qu'elle fait).
+
+==== 5.2) Cahier de recette de l’application
+[.text-justify]
+Nous avons rédigé un https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Cahier_des_recettes.adoc[cahier de recette] dans le but de tester l'application pendant et après le refactoring. Cela nous a permis de mieux comprendre sa logique, ainsi que le constat que la personne ayant rédigé l'application initiale n'avait jamais suivi les cours.
+
+==== 5.3) Des issues sur github
+[.text-justify]
+Nous avons essayé de répertorier tous les problèmes importants sous forme de https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/issues?q=is%3Aissue+is%3Aclosed[issues] sur le GitHub du projet. De cette manière, le suivi et l'ordonnancement des tâches étaient faciles à mettre en place.
