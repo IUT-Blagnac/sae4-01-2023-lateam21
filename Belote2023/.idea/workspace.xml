@@ -11,9 +11,29 @@
   <component name="ChangeListManager">
     <list default="true" id="13abcd22-e677-4f82-9681-0f8c1cdc0d16" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/impl/GameIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/impl/GameIDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/impl/TeamIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/impl/TeamIDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/impl/TournamentIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/impl/TournamentIDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jBelote/belote.lck" beforeDir="false" afterPath="$PROJECT_DIR$/jBelote/belote.lck" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jBelote/belote.log" beforeDir="false" afterPath="$PROJECT_DIR$/jBelote/belote.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jBelote/belote.properties" beforeDir="false" afterPath="$PROJECT_DIR$/jBelote/belote.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jBelote/belote.script" beforeDir="false" afterPath="$PROJECT_DIR$/jBelote/belote.script" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Belote2023.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/Belote2023.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/belote-2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/belote-2.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/IDAO/GameIDAOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/IDAO/TeamIDAOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/IDAO/TournamentIDAOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/Window$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/Window$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-models.GameTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-models.GameTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-models.TeamTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-models.TeamTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-models.TournamentTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-models.TournamentTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/models.GameTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/models.GameTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/models/GameTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/models/GameTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/models/TeamTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/models/TeamTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/models/TournamentTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/models/TournamentTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +45,8 @@
       <list>
         <option value="Python Script" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -87,7 +107,7 @@
       <recent name="models" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Belote">
     <configuration name="Belote" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Belote" />
       <module name="Belote" />
@@ -144,8 +164,8 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/Belote-2.0-jar-with-dependencies.jar" />
       <method v="2" />
     </configuration>
-    <configuration name="Belote-2.0.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/target/Belote-2.0.jar" />
+    <configuration name="Belote2023.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/Belote2023.jar" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
@@ -195,11 +215,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JAR Application.Belote2023.jar" />
         <item itemvalue="JUnit.GameTest" />
         <item itemvalue="JUnit.TeamTest" />
         <item itemvalue="JUnit.TournamentTest" />
         <item itemvalue="JAR Application.Belote-2.0-jar-with-dependencies.jar" />
-        <item itemvalue="JAR Application.Belote-2.0.jar" />
       </list>
     </recent_temporary>
   </component>
