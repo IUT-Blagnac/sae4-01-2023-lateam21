@@ -159,6 +159,9 @@ L'https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Liv
 Le https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Cahier_des_recettes.adoc[cahier de recette] de l’application atteste du bon fonctionnement de cette dernière en détaillant des plans de tests pour chaque fonctionnalité avec les actions à réaliser, les résultats attendus et ceux obtenus. Ce document explique également comment lancer l’application simplement avec Maven à partir de fichiers exécutables fournis avec le code source
 
 === Scripts d'éxecution de l'application
+Deux scripts ont été fournis pour compiler et exécuter le code source de l’application avec module sous Windows ou sous Linux. Voir le cahier de recette pour plus de détails sur le lancement de l’application.
+- Sous Windows, lancer le script https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Belote2023/RunBelote2023.bat[RunBelote2023.bat]
+- Sous Linux, lancer le script https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Belote2023/RunBelote2023.sh[RunBelote2023.sh]
 
 === Compte rendu du refactoring de l'application
 
