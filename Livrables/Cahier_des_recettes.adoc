@@ -1,0 +1,465 @@
+= Cahier De Recette de l'application Belote
+:toc:
+:toclevels: 3
+:toc-title: Sommaire
+
+Groupe *la team 21* (2A/B) : Tobiasz STRZESZEWSKI et Ruben LONGEQUE
+
+{empty} +
+
+== I. Introduction
+=== 1. Objet :
+[.text-justify]
+
+Ce document a ete cree dans le but de decrire le comportement de l'application Belote analysé en cadre de la SAE 4.01 Refactoring.
+
+{empty} +
+
+== II. Pre-Requis :
+[.text-justify]
+L'exécution des tests nécessite :
+
+* Le répertoire `Belote` avec le code source réfactoré de l'application
+* Le jar de l'application
+
+
+=== 1. Environnement de test :
+[.text-justify]
+Un poste avec le système d'exploitation *Windows*, un environnement Java (au moins la version 17.x.x) et l'outil de production https://maven.apache.org/[Maven]. De preférence IntelliJ.
+
+=== 2. Lancement de l'application :
+[.text-justify]
+
+Pour lancer facilement et correctement l'application avec Maven sous Windows ou Linux, vous nécessities de code source et de jar d'application. Avec ca, vous pouvez sans moindre probleme tester lancer l'application. 
+
+=== 3. Éléments à tester :
+[.text-justify]
+Les éléments testés concernent :
+
+* Les fonctionnalités de base de menu et d'application
+* Les fonctionnalités de gestion de base des tournois
+* Les fonctionnalités de gestion de base et la validation des équipes
+* L'ajout et la suppression des tours d'une partie
+* La saisie des scores d'un match
+* Les résultats d'une partie
+
+
+
+{empty} +
+
+== III. Cas de test :
+=== 1. Les fonctionnalités de base de menu et d'application:
+==== 1.1) Accées a des difféerents sous parties de menu:
+* Pour les tests 2 a 6, nécessite d'avoir au moins un tournoi dans la base des données l'avoir sélectionne.*
+|====
+
+>|Cas de test 3+| MenuButtonTournoi - Test 01-01-01
+>|Titre 3+|Accées a la liste des tournois
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour aller a la page "Sélection des tournois", celle ci s'affiche
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu 
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "Tournois" 
+^|Affiche la page des sélections des tournois
+^|OK
+
+|====
+|====
+
+>|Cas de test 3+| MenuButtonParams - Test 01-01-02
+>|Titre 3+|Accées aux paramétres du tournoi
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour aller a la page "Paramétres du tournoi", celle ci s'affiche
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu 
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "Paramètres" 
+^|Affiche la page des Paramètres du tournois sélectionne
+^|OK
+
+|====
+|====
+
+>|Cas de test 3+| MenuButtonEquipes - Test 01-01-03
+>|Titre 3+|Accées aux équipes du tournoi
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour aller a la page "équipes du tournoi", celle ci s'affiche
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu 
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "équipes" 
+^|Affiche la page des équipes du tournois sélectionne, avec plusieurs autres buttons interactables.
+^|OK
+
+|====
+|====
+
+>|Cas de test 3+| MenuButtonTours - Test 01-01-04
+>|Titre 3+|Accées aux tours du tournoi
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour aller a la page "tours du tournoi", celle ci s'affiche
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu 
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "tours" 
+^|Affiche la page des tours du tournois sélectionne, avec plusieurs autres buttons interactables.
+^|OK
+
+|====
+|====
+
+>|Cas de test 3+| MenuButtonMatchs - Test 01-01-05
+>|Titre 3+|Accées aux matchs du tournoi
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour aller a la page "matchs du tournoi", celle ci s'affiche
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu 
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "matchs" 
+^|Affiche la page des matchs du tournois sélectionne, avec plusieurs autres buttons interactables.
+^|OK
+
+|====   
+|====
+
+>|Cas de test 3+| MenuButtonResults - Test 01-01-06
+>|Titre 3+|Résultats aux matchs du tournoi
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour aller a la page "Résultats du tournoi", celle ci s'affiche
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu 
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "Résultats" 
+^|Affiche la page des résultats du tournois sélectionne.
+^|OK
+
+|====   
+
+=== 2. Les fonctionnalités de tournoi:
+==== 2.1) Ajout d'un nouveau tournoi :
+
+|====
+
+>|Cas de test 3+| TournoiAddNew - Test 02-01-01
+>|Titre 3+|Ajout d'un nouveau tournoi
+>|Objectif 3+| Vérifier que lorsque on appuie sur bouton pour ajouter un tournoi, celui s'ajoute proprement dans la base des données et dans l'application
+
+4+|
+
+^|ID 
+^|Action 
+^|Comportement attendu
+^|Résultat
+
+^|1 
+^|Cliquer sur le bouton "Créer un tournoi"
+^|Affiche un champ de saisie du nom du tournoi 
+^|OK
+
+^|2
+^|Saisir un nom de tournoi supérieur ou égal a 3 charactéres et cliquer sur "OK" 
+^|Ferme le champ et ajoute le tournoi 
+^|OK
+
+|====
+
+|====
+
+>|Cas de test 3+|TournoiAddExisting - Test 02-01-02
+>|Titre 3+|Ajout d'un nouveau tournoi qui a un nom déja existant dans la base des données
+>|Objectif 3+| Vérifier qu'il n'est pas possible d'ajouter un tournoi dont le nom existe déjà
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Cliquer sur le bouton "Créer un tournoi" ^|Affiche un champ de saisie du nom du tournoi ^|OK
+^|2 ^|Saisir un nom de tournoi déjà existant et cliquer sur "OK" ^|Affiche un message d'erreur clair ^|OK
+
+|====
+
+|====
+
+>|Cas de test 3+|TournoiAddNameInvalid - Test 02-01-03
+>|Titre 3+|Ajout d'un nouveau tournoi qui a un nom qui ne respecte pas la contrainte
+>|Objectif 3+| Vérifier qu'il est n'est pas possible d'ajouter un tournoi dont le nom a moins de trois charactéres
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Cliquer sur le bouton "Créer un tournoi" ^|Affiche un champ de saisie du nom du tournoi ^|OK
+^|2 ^|Saisir un nom de tournoi inferieur a 3 charactéres et cliquer sur "OK" ^|Affiche un message d'erreur clair ^|OK
+
+|====
+
+==== 2.2) Suppression d'un tournoi :
+
+|====
+
+>|Cas de test 3+|TournamentDelete-02-02-01
+>|Titre 3+|Suppression d'un tournoi existant de la base des données
+>|Objectif 3+| Vérifier qu'il est possible de supprimer un tournoi sélectionne
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Sélectionner le tournoi à supprimer et cliquer sur "Supprimer le tournoi" ^|Supprime le tournoi sélectionné ^|OK
+
+|====
+
+==== 2.3) Consulter/continuer un tournoi :
+*Nécessite d'avoir au moins un tournoi dans la base des données l'avoir sélectionne.*
+
+
+|====
+
+>|Cas de test 3+|TournamentDetails-02-03-01
+>|Titre 3+|Activation des boutons de consultation/continuation d'un tournoi, de création d'une équipe et d'ajout des tours
+>|Objectif 3+| Vérifier que les boutons Paramsétres, Equipes, Tours, Matchs, Résultats, sont desactives tent que on ne sélectionne pas le tournoi
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Aucun tournoi sélectionné ^|Les buttons a gauche d'interface ne sont pas actives ^|OK
+^|2 ^|Sélection d'un tournoi, avec le button "Selectionner le tournoi" ^|Activation des boutons de interface a gauche, dépéndant des données concernatn le tournoi ^|OK
+
+|====
+
+
+
+=== 3. CRUD des équipes :
+*Nécessite d'avoir créé et sélectionné un tournoi.*
+
+==== 3.1) Consultation des équipes :
+
+|====
+
+>|Cas de test 3+|TeamDetails-03-01-01
+>|Titre 3+|Consultation des données des équipes d'un tournoi
+>|Objectif 3+| Vérifier qu'il on peut accéeder la page ou toutes le données et actions concernant la gesion des équipes d'un tournoi s'affichent
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Sélectionner un tournoi et cliquer sur "Equipes"  ^|Affichage d'une fenêtre de gestion des équipes avec plusieurs butons interactifs ^|OK
+
+|====
+
+==== 3.2) Saisie des équipes :
+
+|====
+
+>|Cas de test 3+|TeamConfirm-03-02-01
+>|Titre 3+|Ajout d'un nombre pair d'équipes d'un tournoi
+>|Objectif 3+| Vérifier que le bouton "Valider les équipes" est activé lorsque dans la table on a un nombre pair des équipes
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Ajouter un nombre impair d'équipes avec le bouton "Ajouter une équipe"  ^|Le bouton "Valider les équipes" reste desactivé ^|OK
+^|2 ^|Ajouter un nombre pair d'équipes ^|Le bouton "Valider les équipes" s'active ^|OK
+
+|====
+
+|====
+
+>|Cas de test 3+|TeamEditNames-03-02-02
+>|Titre 3+|Modification des noms des joueurs des équipes
+>|Objectif 3+| Vérifier que les noms des joueurs sont éditables
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Garder les valeurs par défaut ^|Les noms sauvegarde pour les jouerus sont "Joueur 1" et "Joueur 2" ^|OK
+^|2 ^|Changement de nom du joueur ^|Le nouveau nom est sauvegarde pour chaque joueur ^|OK
+^|3 ^|Changement de nom du joueur pour un charactére vide ^|Un message d'erreur claire ^|*PAS OK* : Le joeur n'a pas de nom (c'est triste)
+
+
+|====
+
+==== 3.3) Suppression d'une équipe
+*Nécessite d'avoir créé et sélectionné une équipe*
+
+|====
+
+>|Cas de test 3+|TeamDelete-03-03-01
+>|Titre 3+|Suppression d'une équipe
+>|Objectif 3+| Vérifier que une équipe sélectionne est suprimable
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Sélectionner une équipe et cliquer sur "Supprimer une équipe" ^|L'équipe sélectionne est suprime ^|OK
+
+|====
+
+==== 3.4) Validation des équipes
+*Nécessite d'avoir créé un nombre pair d'équipes.*
+
+|====
+
+>|Cas de test 3+|TeamConfirm-03-04-01
+>|Titre 3+|Validation finale des équipes
+>|Objectif 3+| Lorsque on valide un nombre pair des équipes, elles sont sauvegardes dans la base des données et ne peuvent plus être modifie dans aucune partie d'interface
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Cliquer sur "Valider les équipes" ^|Sauvegarde des équipes. Activation des boutons "Tours et Matchs" sur la gauche de l'interface. Désactivation de la modification des équipes ^|OK
+
+|====
+
+=== 4. Gestion des tours d'une partie
+*Nécessite d'avoir validé les équipes d'un tournoi*
+
+==== 4.1) Consultation des tours :
+
+|====
+
+>|Cas de test 3+|RoundsDetails-04-01-01
+>|Titre 3+|Consultation des données des tours d'une partie
+>|Objectif 3+| Lorsque on appuie sur le bouton tours après avoir calide les équipes, on peut consulter toutes les tours du match.
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Intereaction avec le bouton "Tours"  ^|Affichage d'une interface avec les données des Tours de la Manche ^|OK
+
+|====
+
+==== 4.2) Ajout d'un tour :
+
+|====
+
+>|Cas de test 3+|RoundsAdd-04-02-01
+>|Titre 3+|Ajout d'un tour
+>|Objectif 3+| Lorsque toutes les matchs d'un tour sont fini, on puisse ajouter un nouveau tour
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Les données du match précédent n'ont pas encore été saisies  ^|Bouton "Ajouter un tour" ne s'active pas ^|OK
+^|2 ^|Saisir les données du match précédent et cliquer sur "Ajouter un tour"  ^|Ajout d'un nouveau tour et de nouveaux matchs à saisir ^|OK
+
+|====
+
+|====
+
+>|Cas de test 3+|RoundsAddTooMany-04-02-02
+>|Titre 3+|Trop des tours ajoutes
+>|Objectif 3+| Vérifier qu'il est plus possible d'ajouter un tour si le nombre de tour est égal au nombre d'équipes - 1
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Le nombre de tours est inférieur au nombre d'équipes - 1 ^|Le button "Ajouter un tour" reste active ^|OK
+^|1 ^|Le nombre de tours est égal au nombre d'équipes - 1  ^|Désactivation du bouton "Ajouter un tour" ^|OK
+
+|====
+
+==== 4.3) Suppression du dernier tour :
+*Nécessite d'avoir au moins ajouté deux tours.*
+
+|====
+
+>|Cas de test 3+|RoundsDel-04-03-01
+>|Titre 3+|Suppresion d'un tour
+>|Objectif 3+| Lorsque on a deux tours ou plus, on veut verifier que on puisse supprimer un tour
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Le nombre de tours ne dépasse pas 2 ^|Le bouton "Supprimer le dernier tour" reste désactivé ^|OK
+
+^|2
+^|Le nombre des tours est égal a 2
+^|Le bouton "Supprimer le dernier tour" s'active
+^|OK
+
+^|3
+^|On appuie sur le bouton "Supprimer le dernier tour"
+^|Le dernier tour est suprime, le bouton est désative
+^|OK
+|====
+
+=== 5. Consultation et saisie des données d'un match
+*Nécessite d'avoir validé les équipes d'un tournoi.*
+
+==== 5.1) Consultation des matchs :
+
+|====
+
+>|Cas de test 3+|MatchDetails-05-01-01
+>|Titre 3+|Consultation des données des matchs d'une partie
+>|Objectif 3+| Vérifier qu'il on peut accéeder la page ou toutes le données et actions concernant la gesion des matchs d'un tournoi s'affichent
+
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Les équipes sont validés et on clique sur le bouton "Matchs"  ^|Affichage d'une interface pour remplir les scores des Matchs^|OK
+
+|====
+
+==== 5.2) Saisie des scores d'un match
+
+|====
+
+>|Cas de test 3+|MatchAddScore-05-02-01
+>|Titre 3+|Modification de score d'un Tour
+>|Objectif 3+| Lorsque on modifier le score d'un tour, celui la est sauvegarde (mais toujours modifiable)
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|On saisit les scores de dernier tour ^|Le bouton "Résultats" s'active sur la gauche de l'interface ^|OK
+
+|====
+
+=== 6. Consultation des résultats d'une partie
+*Nécessite d'avoir saisie les scores des matchs d'au moins un tour.*
+
+==== 6.1) Consultation des résultats d'un tournoi :
+
+|====
+
+>|Cas de test 3+|ResultsDetails-06-01-01
+>|Titre 3+|Accées aux résultats finaux d'une partie
+>|Objectif 3+| Lorsque on accéede a la page "Resultat" on a toutes les données d'un Tournoi, comme le score ou le gagnant.
+
+4+|
+
+^|ID ^|Action ^|Comportement attendu ^|Résultat
+^|1 ^|Les scores des matchs sont saisit et on clique sur resultats  ^|L'inteface des scores est affiché, avec un gagnant calculé a partir des scores totaux ^|OK
+
+|====
