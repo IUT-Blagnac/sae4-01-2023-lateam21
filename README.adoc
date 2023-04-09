@@ -35,7 +35,7 @@ ifdef::env-github[]
 endif::[]
 
 // /!\ A MODIFIER !!!
-:baseURL: https://github.com/IUT-Blagnac/sae4-01-template
+:baseURL: https://github.com/IUT-Blagnac/sae4-01-2023-lateam21
 
 // Tags
 image:{baseURL}/actions/workflows/build.yml/badge.svg[Build] 
@@ -58,9 +58,8 @@ Vous trouverez le dépôt "template" qui a servi de base ici : https://github.co
 
 Projet est réalisé par::
 
-- https://github.com/janeDoe[Jane Doe]
-- https://github.com/johnSmith[John Smith]
-...
+- https://github.com/Aadroman[Ruben Longéque]
+- https://github.com/tobilub04[Tobiasz Strzeszewski]
 
 
 == Contexte général
@@ -151,3 +150,20 @@ image:88x31.png["Licence Creative
 Commons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/3.0/"]
 http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé].
 **********************************************************************
+
+== Livrables
+=== Analyse de l'application
+L'https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Livrable%20SAE%20.pdf[analyse du code source] existant de l’application liste les principales défauts constatés et les possibles tâches de refactoring à appliquer.
+
+=== Cahier de Recette
+Le https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Cahier_des_recettes.adoc[cahier de recette] de l’application atteste du bon fonctionnement de cette dernière en détaillant des plans de tests pour chaque fonctionnalité avec les actions à réaliser, les résultats attendus et ceux obtenus. Ce document explique également comment lancer l’application simplement avec Maven à partir de fichiers exécutables fournis avec le code source
+
+=== Scripts d'éxecution de l'application
+Deux scripts ont été fournis pour compiler et exécuter le code source de l’application avec module sous Windows ou sous Linux. Voir le cahier de recette pour plus de détails sur le lancement de l’application.
+
+- Sous Windows, lancer le script https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Belote2023/RunBelote2023.bat[RunBelote2023.bat]
+- Sous Linux, lancer le script https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Belote2023/RunBelote2023.sh[RunBelote2023.sh]
+
+=== Compte rendu du refactoring de l'application
+
+https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Compte%20rendu.adoc[Compte rendu du refactoing] est la documentation finale du projet, mettant en avance toutes les changemenets importants que on a fait, les ajout des classes, des methodes, des patterns, et de nos âmes.

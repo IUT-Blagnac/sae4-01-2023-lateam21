@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+.idea
+.settings
+jBelote/
+Belote.iml
+belote.properties
+target/
