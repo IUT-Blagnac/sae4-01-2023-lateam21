@@ -246,6 +246,10 @@ deleteTournament.addActionListener(e -> {
 [.text-justify]
 La classe `Belote.java` s'occupe maintenant de la connexion avec la base de données, de la création de scripts pour la création des tables, ainsi que du lancement de la fenêtre d'application.
 
+==== 4.3) Ajout d'affichage de gagnant
+[.text-justify]
+Dans la fênetre des équipes, en bas on a pu observer un label 'Gagnant:' sauf que cela ne montrait jamais l'équipe gagnante. On a donc ajouté cette fonctianolité avec une petite réquete SQL. C'est un des seuls erreurs d'affichage dans l'application
+
 === 5) Documentation
 ==== 5.1) Rédaction de la Javadoc
 [.text-justify]
