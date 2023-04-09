@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Belote:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="13abcd22-e677-4f82-9681-0f8c1cdc0d16" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/AbstractDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/AbstractDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Belote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Belote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/CONSTANTS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/resources/CONSTANTS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Tournament.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Tournament.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/tables/GameTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/tables/GameTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/tables/TeamTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/tables/TeamTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/resources/Tools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/resources/Tools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/GameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/TeamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/TournamentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/TournamentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/models/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/GameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/models/TeamTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/TeamTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/models/TournamentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/TournamentTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="JUnit4 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2Mx3EydDiarJmfRC4PJOoJAniYJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
+    "full.screen.before.presentation.mode": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_directory_selection": "C:/Users/ruben/Desktop/sae4-01-2023-lateam21/Belote2023/src/main/java",
+    "last_opened_file_path": "C:/Users/ruben/Desktop/sae4-01-2023-oui/Belote",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "JavaDoc"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ruben\Desktop\sae4-01-2023-lateam21\Belote2023\jBelote" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ruben\Desktop\sae4-01-2023-lateam21\Belote2023\src\main\java" />
+      <recent name="C:\Users\ruben\Desktop\sae4-01-2023-lateam21\Belote2023\src" />
+      <recent name="C:\Users\ruben\Desktop\sae4-01-2023-lateam21\Belote2023" />
+      <recent name="C:\Users\ruben\Desktop\sae4-01-2023-lateam21\Belote2023\jBelote" />
+      <recent name="C:\Users\ruben\Desktop\BUT info\sae-s4-refactoring\Belote2023\src\main" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="models" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.GameTest">
+    <configuration name="Belote" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.Belote" />
+      <module name="Belote" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Belote" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="resources.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="models" />
+      <option name="MAIN_CLASS_NAME" value="models.GameTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TeamTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Belote" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="resources.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="models" />
+      <option name="MAIN_CLASS_NAME" value="models.TeamTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TournamentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Belote" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="resources.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="models" />
+      <option name="MAIN_CLASS_NAME" value="models.TournamentTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Belote-2.0-jar-with-dependencies.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/Belote-2.0-jar-with-dependencies.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Belote-2.0.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/Belote-2.0.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Belote2023" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Belote2023" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="Belote2023" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="Belote2023" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.GameTest" />
+        <item itemvalue="JUnit.TeamTest" />
+        <item itemvalue="JUnit.TournamentTest" />
+        <item itemvalue="JAR Application.Belote-2.0-jar-with-dependencies.jar" />
+        <item itemvalue="JAR Application.Belote-2.0.jar" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="13abcd22-e677-4f82-9681-0f8c1cdc0d16" name="Changes" comment="" />
+      <created>1678695301969</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678695301969</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="modifByRuben" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Service.TeamService" memberName="dataTeamTournament" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="rs" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

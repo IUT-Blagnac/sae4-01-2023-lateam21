@@ -1,23 +1,36 @@
 package models;
 
 import org.junit.Test;
+import resources.CONSTANTS;
 
 import static org.junit.Assert.*;
 
+/**
+ * The type Tournament test.
+ */
 public class TournamentTest {
 
+    /**
+     * Can create tournament.
+     */
     @Test
     public void canCreateTournament(){
         Tournament to = new Tournament("Bonjour");
         assertTrue(to != null);
     }
 
+    /**
+     * Can create tournament 2.
+     */
     @Test
     public void canCreateTournament2(){
         Tournament to = new Tournament(10, "Bonsoir", 15, 2);
         assertTrue(to != null);
     }
 
+    /**
+     * Gets status.
+     */
     @Test
     public void getStatus() {
         Tournament to1 = new Tournament("Bonjour");
@@ -26,6 +39,9 @@ public class TournamentTest {
         assertTrue(to2.getStatus()==2);
     }
 
+    /**
+     * Gets status name.
+     */
     @Test
     public void getStatusName() {
         Tournament to1 = new Tournament("Bonjour");
@@ -34,6 +50,9 @@ public class TournamentTest {
         assertTrue(to2.getStatusName().equals(CONSTANTS.GAMES_IN_PROGRESS));
     }
 
+    /**
+     * Gets nom.
+     */
     @Test
     public void getNom() {
         Tournament to1 = new Tournament("Bonjour");
@@ -42,6 +61,9 @@ public class TournamentTest {
         assertTrue(to2.getName().equals("Bonsoir"));
     }
 
+    /**
+     * Gets id tournament.
+     */
     @Test
     public void getIdTournament() {
         Tournament to1 = new Tournament("Bonjour");
@@ -50,6 +72,9 @@ public class TournamentTest {
         assertTrue(to2.getIdTournament()==10);
     }
 
+    /**
+     * Sets id tournament.
+     */
     @Test
     public void setIdTournament() {
         Tournament to1 = new Tournament("Bonjour");
@@ -60,6 +85,9 @@ public class TournamentTest {
         assertTrue(to2.getIdTournament()!=10 && to2.getIdTournament()==20);
     }
 
+    /**
+     * Sets name tournament.
+     */
     @Test
     public void setNameTournament() {
         Tournament to1 = new Tournament("Bonjour");
@@ -70,6 +98,9 @@ public class TournamentTest {
         assertTrue(!to2.getName().equals("Bonsoir") && to2.getName().equals("Rouge"));
     }
 
+    /**
+     * Sets nb games.
+     */
     @Test
     public void setNbGames() {
         Tournament to1 = new Tournament("Bonjour");
@@ -80,6 +111,9 @@ public class TournamentTest {
         assertTrue(to2.getNbGames()!=10 && to2.getNbGames()==30);
     }
 
+    /**
+     * Sets status.
+     */
     @Test
     public void setStatus() {
         Tournament to1 = new Tournament("Bonjour");

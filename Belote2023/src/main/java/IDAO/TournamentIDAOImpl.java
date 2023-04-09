@@ -1,6 +1,6 @@
 package IDAO;
 
-import models.CONSTANTS;
+import resources.CONSTANTS;
 import models.Tournament;
 import view.Window;
 
@@ -94,6 +94,11 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         return t;
     }
 
+    /**
+     * Gets all ids.
+     *
+     * @return the all ids
+     */
     @Override
     public ArrayList<Integer> getAllIds() {
         ArrayList<Integer> T = new ArrayList<>();
@@ -129,6 +134,11 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         }
     }
 
+    /**
+     * Gets all tournaments names.
+     *
+     * @return the all tournaments names
+     */
     @Override
     public Vector<String> getAllTournamentsNames() {
         Vector<String> names = new Vector<>();
@@ -149,6 +159,7 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
     /**
      * Create tournament.
      *
+     * @param id  the id
      * @param nom the nom
      */
     @Override
@@ -163,6 +174,12 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         }
     }
 
+    /**
+     * Gets result tournament.
+     *
+     * @param tournament the tournament
+     * @return the result tournament
+     */
     @Override
     public ResultSet getResultTournament(Tournament tournament) {
         try {
@@ -183,6 +200,12 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
         }
     }
 
+    /**
+     * Gets winner tournament.
+     *
+     * @param to the to
+     * @return the winner tournament
+     */
     @Override
     public String getWinnerTournament(Tournament to) {
         try {

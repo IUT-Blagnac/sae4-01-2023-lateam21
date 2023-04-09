@@ -1,5 +1,5 @@
 package main;
-import models.CONSTANTS;
+import resources.CONSTANTS;
 import view.Window;
 
 import java.io.File;
@@ -16,10 +16,22 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
+/**
+ * The type Belote.
+ */
 public class Belote {
+	/**
+	 * The constant connect.
+	 */
 	private static Connection connect = null;
+	/**
+	 * The Properties.
+	 */
 	private final Properties properties = new Properties();
 
+	/**
+	 * Instantiates a new Belote.
+	 */
 	private Belote(){
 		String beloteFile = System.getProperty("user.dir") + "\\jBelote";
 		String createFile =System.getProperty("user.dir") +"/src/create.sql";
@@ -45,12 +57,22 @@ public class Belote {
 		}
 	}
 
+	/**
+	 * Get unique instance belote connection.
+	 *
+	 * @return the connection
+	 */
 	public static Connection getUniqueInstanceBelote(){
 		if(connect==null)
 			new Belote();
 		return connect;
 	}
 
+	/**
+	 * The entry point of application.
+	 *
+	 * @param args the input arguments
+	 */
 	public static void main(String[] args) {
 		getUniqueInstanceBelote();
 		Window f = new Window();
@@ -58,6 +80,14 @@ public class Belote {
 	}
 
 
+	/**
+	 * Import sql.
+	 *
+	 * @param conn the conn
+	 * @param in   the in
+	 * @throws SQLException          the sql exception
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
 	{
 		Scanner s = new Scanner(in);
@@ -79,6 +109,7 @@ public class Belote {
 
 	/**
 	 * Importe un fichier SQL dans la base de données.
+	 *
 	 * @param dataBaseConfigFile : chemin du fichier SQL.
 	 */
 	private void loadConfig(String dataBaseConfigFile) {

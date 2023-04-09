@@ -26,10 +26,21 @@ public class TournamentService {
         super();
     }
 
+    /**
+     * Get tournaments names vector.
+     *
+     * @return the vector
+     */
     public Vector<String> getTournamentsNames(){
         return idaoTournoi.getAllTournamentsNames();
     }
 
+    /**
+     * Get tournament from name tournament.
+     *
+     * @param nt the nt
+     * @return the tournament
+     */
     public Tournament getTournamentFromName(String nt){return idaoTournoi.getOne(nt);}
 
 
@@ -44,7 +55,6 @@ public class TournamentService {
 
     /**
      * Create tournament int.
-     *
      */
     public void createTournament(){
         String nameNewTournament = JOptionPane.showInputDialog(
@@ -84,18 +94,40 @@ public class TournamentService {
         }
     }
 
+    /**
+     * Update tournament.
+     *
+     * @param t the t
+     */
     public void updateTournament(Tournament t){
         idaoTournoi.updateTournament(t);
     }
 
+    /**
+     * Get all i ds tournaments array list.
+     *
+     * @return the array list
+     */
     protected ArrayList<Integer> getAllIDsTournaments(){
         return idaoTournoi.getAllIds();
     }
 
+    /**
+     * Gets result tournoi.
+     *
+     * @param tournament the tournament
+     * @return the result tournoi
+     */
     public ResultSet getResultTournoi(Tournament tournament) {
         return idaoTournoi.getResultTournament(tournament);
     }
 
+    /**
+     * Gets winner tournament.
+     *
+     * @param tournament the tournament
+     * @return the winner tournament
+     */
     public String getWinnerTournament(Tournament tournament) {
         return idaoTournoi.getWinnerTournament(tournament);
     }

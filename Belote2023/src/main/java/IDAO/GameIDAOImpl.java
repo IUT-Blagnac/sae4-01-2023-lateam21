@@ -1,6 +1,6 @@
 package IDAO;
 
-import models.CONSTANTS;
+import resources.CONSTANTS;
 import models.Game;
 import models.Tournament;
 import view.Window;
@@ -12,14 +12,28 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+/**
+ * The type Game idao.
+ */
 public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
 
+    /**
+     * The constant instance.
+     */
     private static GameIDAOImpl instance = null;
 
+    /**
+     * Instantiates a new Game idao.
+     */
     private GameIDAOImpl(){
         super();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static GameIDAOImpl getInstance() {
         if (GameIDAOImpl.instance == null) {
             synchronized(GameIDAOImpl.class) {
@@ -30,6 +44,12 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
     }
 
 
+    /**
+     * Gets games from tournament.
+     *
+     * @param t the t
+     * @return the games from tournament
+     */
     @Override
     public Vector<Game> getGamesFromTournament(Tournament t) {
         Vector<Game> listGames = new Vector<>();
@@ -50,6 +70,12 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         return listGames;
     }
 
+    /**
+     * Gets nb rounds by matchs.
+     *
+     * @param t the t
+     * @return the nb rounds by matchs
+     */
     @Override
     public ResultSet getNbRoundsByMatchs(Tournament t) {
         try {
@@ -128,6 +154,12 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         }
     }
 
+    /**
+     * Create game.
+     *
+     * @param Matches the matches
+     * @param t       the t
+     */
     @Override
     public void createGame(Vector<Vector<Game>> Matches, Tournament t) {
         try {
@@ -147,6 +179,11 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         }
     }
 
+    /**
+     * Update game.
+     *
+     * @param gm the gm
+     */
     @Override
     public void updateGame(Game gm) {
         String hasEnded = (gm.getScore1() > 0 || gm.getScore2() > 0) ? "oui":"non";
@@ -165,6 +202,11 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         }
     }
 
+    /**
+     * Add rounds.
+     *
+     * @param t the t
+     */
     @Override
     public void addRounds(Tournament t) {
         try {
@@ -209,6 +251,13 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         }
     }
 
+    /**
+     * Gets nb games by teams.
+     *
+     * @param team1 the team 1
+     * @param team2 the team 2
+     * @return the nb games by teams
+     */
     @Override
     public ResultSet getNbGamesByTeams(int team1, int team2) {
         try {
@@ -224,6 +273,11 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         }
     }
 
+    /**
+     * Delete round.
+     *
+     * @param to the to
+     */
     @Override
     public void deleteRound(Tournament to) {
         int lastRound;
@@ -246,6 +300,13 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
         }
     }
 
+    /**
+     * Add game.
+     *
+     * @param ga       the ga
+     * @param numRound the num round
+     * @param t        the t
+     */
     @Override
     public void addGame(Game ga, int numRound ,Tournament t) {
         try {

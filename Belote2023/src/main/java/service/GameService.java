@@ -10,16 +10,35 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Vector;
 
+/**
+ * The type Game service.
+ */
 public class GameService {
-    //attributes
+
+    /**
+     * The Team Service Object.
+     */
     TeamService teS = new TeamService();
+    /**
+     * The Idao game.
+     */
     static GameIDAOImpl idaoGame = GameIDAOImpl.getInstance();
     /**
      * The Data games.
      */
     private Vector<Game> dataGames = null;
 
+    /**
+     * Instantiates a new Game service.
+     */
     public GameService(){super();}
+
+    /**
+     * Get nb rounds by matchs result set.
+     *
+     * @param t the t
+     * @return the result set
+     */
     public ResultSet getNbRoundsByMatchs(Tournament t){
         return idaoGame.getNbRoundsByMatchs(t);
     }
@@ -27,12 +46,19 @@ public class GameService {
     /**
      * Get nb games int.
      *
+     * @param to the to
      * @return the int
      */
     public int getNbGames(Tournament to){
         return idaoGame.getNbGames(to);
     }
 
+    /**
+     * Get nb ended games int.
+     *
+     * @param to the to
+     * @return the int
+     */
     public int getNbEndedGames(Tournament to){return idaoGame.getNbGamesEnded(to);}
 
     /**
@@ -49,6 +75,7 @@ public class GameService {
      * Update game.
      *
      * @param gm the game
+     * @param t  the t
      */
     public void updateGame(Game gm, Tournament t){
         idaoGame.updateGame(gm);
@@ -59,6 +86,7 @@ public class GameService {
      * Get game game.
      *
      * @param index the index
+     * @param t     the t
      * @return the game
      */
     public Game getGame(int index, Tournament t){
@@ -69,6 +97,8 @@ public class GameService {
 
     /**
      * Update game.
+     *
+     * @param t the t
      */
     public void updateGames(Tournament t){
         dataGames = new Vector<>();
@@ -128,6 +158,8 @@ public class GameService {
 
     /**
      * Delete round.
+     *
+     * @param to the to
      */
     public void deleteRound(Tournament to){
         idaoGame.deleteRound(to);
@@ -136,7 +168,9 @@ public class GameService {
     /**
      * Get games to do vector.
      *
+     * @param nbPlayers the nb players
      * @param nbRounds  the nb rounds
+     * @param to        the to
      * @return the vector
      */
     public Vector<Vector<Game>> getGamesToDo(int nbPlayers, int nbRounds, Tournament to){

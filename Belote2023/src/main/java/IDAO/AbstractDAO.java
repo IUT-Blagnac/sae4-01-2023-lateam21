@@ -12,5 +12,4 @@ public class AbstractDAO {
      * The Connection.
      */
     protected Connection connection = Belote.getUniqueInstanceBelote();
-
 }

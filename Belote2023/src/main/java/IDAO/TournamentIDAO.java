@@ -28,6 +28,11 @@ public interface TournamentIDAO{
      */
     Tournament getOne(String nomT);
 
+    /**
+     * Gets all ids.
+     *
+     * @return the all ids
+     */
     ArrayList<Integer> getAllIds();
 
     /**
@@ -39,21 +44,33 @@ public interface TournamentIDAO{
 
 
     /**
-     * Gets all names.
+     * Gets all tournaments names.
      *
-     * @return the all names
+     * @return the all tournaments names
      */
-
     Vector<String> getAllTournamentsNames();
 
     /**
      * Create tournament.
      *
+     * @param id  the id
      * @param nom the nom
      */
     void createTournament(int id, String nom);
 
+    /**
+     * Gets result tournament.
+     *
+     * @param tournament the tournament
+     * @return the result tournament
+     */
     ResultSet getResultTournament(Tournament tournament);
 
+    /**
+     * Gets winner tournament.
+     *
+     * @param tournament the tournament
+     * @return the winner tournament
+     */
     String getWinnerTournament(Tournament tournament);
 }

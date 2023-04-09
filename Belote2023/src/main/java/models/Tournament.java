@@ -1,5 +1,7 @@
 package models;
 
+import resources.CONSTANTS;
+
 /**
  * The type Tournament.
  */
@@ -50,6 +52,7 @@ public class Tournament {
 	/**
 	 * Instantiates a new Tournament.
 	 *
+	 * @param id      the id
 	 * @param name    the name
 	 * @param nbGames the nb games
 	 * @param satut   the status
@@ -106,6 +109,11 @@ public class Tournament {
 		return idTournament;
 	}
 
+	/**
+	 * Gets nb games.
+	 *
+	 * @return the nb games
+	 */
 	public int getNbGames() {
 		return nbGames;
 	}

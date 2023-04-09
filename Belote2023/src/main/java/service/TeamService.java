@@ -43,6 +43,12 @@ public class TeamService {
         idTeam = idaoTeam.getAllIdTeams();
     }
 
+    /**
+     * Gets teams tournament.
+     *
+     * @param to the to
+     * @return the teams tournament
+     */
     public ArrayList<Team> getTeamsTournament(Tournament to) {
         return idaoTeam.getTeamsTournament(to);
     }
@@ -50,8 +56,8 @@ public class TeamService {
     /**
      * Update teams.
      *
-     * @param te    the Team
-     * @param t     the t
+     * @param te the Team
+     * @param t  the t
      */
     public void updatePlayersTeams(Team te, Tournament t){
         int idTeam = te.getId();
@@ -107,7 +113,7 @@ public class TeamService {
      * Delete team.
      *
      * @param idTeam the idTeam
-     * @param t    the t
+     * @param t      the t
      */
     public void deleteTeam(int idTeam, Tournament t){
         idaoTeam.deleteTeam(t, idTeam);

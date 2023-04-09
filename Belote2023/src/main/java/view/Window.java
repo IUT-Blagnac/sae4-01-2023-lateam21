@@ -3,9 +3,9 @@ package view;
 import service.GameService;
 import service.TeamService;
 import service.TournamentService;
-import models.CONSTANTS;
-import models.tables.GameTable;
-import models.tables.TeamTable;
+import resources.CONSTANTS;
+import view.tables.GameTable;
+import view.tables.TeamTable;
 import models.Tournament;
 
 import javax.swing.*;
@@ -51,7 +51,7 @@ public class Window extends JFrame {
 	 */
 	private JLabel label;
 	/**
-	 * The Button create tournament.
+	 * The Create tournament.
 	 */
 	private JButton createTournament;
 	/**
@@ -267,14 +267,17 @@ public class Window extends JFrame {
 	private final JLabel selectState;
 
 	/**
-	 * The Ts.
+	 * The To s.
 	 */
 	public TournamentService toS = new TournamentService();
 	/**
-	 * The Gs.
+	 * The Te s.
 	 */
 	private final TeamService teS = new TeamService();
 
+	/**
+	 * The G s.
+	 */
 	private final GameService gS = new GameService();
 
 	/**
@@ -735,6 +738,8 @@ public class Window extends JFrame {
 
 	/**
 	 * Update game status.
+	 *
+	 * @param t the t
 	 */
 	private void updateGameStatus(Tournament t){
 		int total=gS.getNbGames(t), ended=gS.getNbEndedGames(t);
@@ -743,8 +748,9 @@ public class Window extends JFrame {
 	}
 
 	/**
-	 * Affiche une boîte de dialogue d'erreur avec le message spécifié.
-	 * @param message : le message d'erreur à afficher
+	 * Show error.
+	 *
+	 * @param message the message
 	 */
 	public static void showError(String message) {
 		JOptionPane.showMessageDialog(null, message, "ERREUR", JOptionPane.ERROR_MESSAGE);

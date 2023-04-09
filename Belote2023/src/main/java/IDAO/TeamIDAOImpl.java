@@ -1,6 +1,6 @@
 package IDAO;
 
-import models.CONSTANTS;
+import resources.CONSTANTS;
 import models.Team;
 import models.Tournament;
 
@@ -15,6 +15,9 @@ import java.util.ArrayList;
  */
 public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
 
+    /**
+     * The constant instance.
+     */
     private static TeamIDAOImpl instance = null;
 
     /**
@@ -56,6 +59,11 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
         return listTeamsTournament;
     }
 
+    /**
+     * Gets all id teams.
+     *
+     * @return the all id teams
+     */
     @Override
     public ArrayList<Integer> getAllIdTeams() {
         ArrayList<Integer> listIdTeamsTournament = new ArrayList<>();
@@ -72,6 +80,12 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
         return listIdTeamsTournament;
     }
 
+    /**
+     * Add team.
+     *
+     * @param t   the t
+     * @param pos the pos
+     */
     @Override
     public void addTeam(Tournament t, int pos) {
         try {
@@ -85,6 +99,12 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
         }
     }
 
+    /**
+     * Delete team.
+     *
+     * @param t       the t
+     * @param posTeam the pos team
+     */
     @Override
     public void deleteTeam(Tournament t, int posTeam) {
         try {
@@ -95,6 +115,14 @@ public class TeamIDAOImpl extends AbstractDAO implements TeamIDAO {
         }
     }
 
+    /**
+     * Update players team.
+     *
+     * @param idTeam the id team
+     * @param pTeam1 the p team 1
+     * @param pTeam2 the p team 2
+     * @param t      the t
+     */
     @Override
     public void updatePlayersTeam(int idTeam, String pTeam1, String pTeam2, Tournament t){
         try {

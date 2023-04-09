@@ -1,21 +1,40 @@
-package models.tables;
+package view.tables;
 
 import service.GameService;
-import models.CONSTANTS;
+import resources.CONSTANTS;
 import models.Game;
 import models.Tournament;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * The type Game table.
+ */
 public class GameTable extends AbstractTableModel {
 
+    /**
+     * The Tournament.
+     */
     private Tournament tournament;
+    /**
+     * The GameService object.
+     */
     private GameService gS = new GameService();
 
+    /**
+     * Instantiates a new Game table.
+     *
+     * @param to the to
+     */
     public GameTable(Tournament to){
         this.tournament = to;
     }
 
+    /**
+     * Gets row count.
+     *
+     * @return the row count
+     */
     @Override
     public int getRowCount() {
         if(tournament == null)return 0;
@@ -23,11 +42,22 @@ public class GameTable extends AbstractTableModel {
         return gS.getNbGames(tournament);
     }
 
+    /**
+     * Gets column count.
+     *
+     * @return the column count
+     */
     @Override
     public int getColumnCount() {
         return 5;
     }
 
+    /**
+     * Gets column name.
+     *
+     * @param col the col
+     * @return the column name
+     */
     public String getColumnName(int col) {
         if(col == 0){
             return CONSTANTS.ROUND;
@@ -44,6 +74,13 @@ public class GameTable extends AbstractTableModel {
         }
     }
 
+    /**
+     * Gets value at.
+     *
+     * @param arg0 the arg 0
+     * @param arg1 the arg 1
+     * @return the value at
+     */
     @Override
     public Object getValueAt(int arg0, int arg1) {
         return switch (arg1) {
@@ -56,10 +93,24 @@ public class GameTable extends AbstractTableModel {
         };
     }
 
+    /**
+     * Is cell editable boolean.
+     *
+     * @param x the x
+     * @param y the y
+     * @return the boolean
+     */
     public boolean isCellEditable(int x, int y){
         return y > 2 && gS.getGame(x, tournament).getNumRounds() == gS.getNbRounds(tournament);
     }
 
+    /**
+     * Sets value at.
+     *
+     * @param aValue      the a value
+     * @param rowIndex    the row index
+     * @param columnIndex the column index
+     */
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         gS.updateGames(tournament);
         Game m = gS.getGame(rowIndex, tournament);
@@ -88,6 +139,11 @@ public class GameTable extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    /**
+     * Sets tournament.
+     *
+     * @param to the to
+     */
     public void setTournament(Tournament to) {
         this.tournament = to;
         fireTableDataChanged();
