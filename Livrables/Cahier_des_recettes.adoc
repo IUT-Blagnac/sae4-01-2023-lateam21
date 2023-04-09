@@ -20,18 +20,17 @@ Ce document a ete cree dans le but de decrire le comportement de l'application B
 L'exécution des tests nécessite :
 
 * Le répertoire `Belote` avec le code source réfactoré de l'application
-* Le jar de l'application
+* Le script RUNAPP pour lancer l'application (.sh pour Linux .bat pour Windows).
 
 
 === 1. Environnement de test :
 [.text-justify]
-Un poste avec le système d'exploitation *Windows*, un environnement Java (au moins la version 17.x.x) et l'outil de production https://maven.apache.org/[Maven]. De preférence IntelliJ.
+Un poste avec le système d'exploitation *Windows* ou *Linux*, un environnement Java (au moins la version 17.x.x) et l'outil de production https://maven.apache.org/[Maven]. Nous avons utilise Intellij comme IDE.
 
 === 2. Lancement de l'application :
 [.text-justify]
 
-Pour lancer facilement et correctement l'application avec Maven sous Windows ou Linux, vous nécessities de code source et de jar d'application. Avec ca, vous pouvez sans moindre probleme tester lancer l'application. 
-
+Pour lancer facilement et correctement l'application avec Maven sous Windows ou Linux, vous nécessities des scripts RUNAPP.bat ou RUNAPP.sh dependant de votre système d'exploitation
 === 3. Éléments à tester :
 [.text-justify]
 Les éléments testés concernent :
@@ -226,7 +225,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TournamentDelete-02-02-01
+>|Cas de test 3+|TournamentDelete - Test 02-02-01
 >|Titre 3+|Suppression d'un tournoi existant de la base des données
 >|Objectif 3+| Vérifier qu'il est possible de supprimer un tournoi sélectionne
 
@@ -243,7 +242,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TournamentDetails-02-03-01
+>|Cas de test 3+|TournamentDetails - Test 02-03-01
 >|Titre 3+|Activation des boutons de consultation/continuation d'un tournoi, de création d'une équipe et d'ajout des tours
 >|Objectif 3+| Vérifier que les boutons Paramsétres, Equipes, Tours, Matchs, Résultats, sont desactives tent que on ne sélectionne pas le tournoi
 
@@ -264,7 +263,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TeamDetails-03-01-01
+>|Cas de test 3+|TeamDetails - Test 03-01-01
 >|Titre 3+|Consultation des données des équipes d'un tournoi
 >|Objectif 3+| Vérifier qu'il on peut accéeder la page ou toutes le données et actions concernant la gesion des équipes d'un tournoi s'affichent
 
@@ -279,7 +278,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TeamConfirm-03-02-01
+>|Cas de test 3+|TeamConfirm - Test 03-02-01
 >|Titre 3+|Ajout d'un nombre pair d'équipes d'un tournoi
 >|Objectif 3+| Vérifier que le bouton "Valider les équipes" est activé lorsque dans la table on a un nombre pair des équipes
 
@@ -293,7 +292,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TeamEditNames-03-02-02
+>|Cas de test 3+|TeamEditNames - Test 03-02-02
 >|Titre 3+|Modification des noms des joueurs des équipes
 >|Objectif 3+| Vérifier que les noms des joueurs sont éditables
 
@@ -312,7 +311,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TeamDelete-03-03-01
+>|Cas de test 3+|TeamDelete - Test 03-03-01
 >|Titre 3+|Suppression d'une équipe
 >|Objectif 3+| Vérifier que une équipe sélectionne est suprimable
 
@@ -328,7 +327,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|TeamConfirm-03-04-01
+>|Cas de test 3+|TeamConfirm - Test 03-04-01
 >|Titre 3+|Validation finale des équipes
 >|Objectif 3+| Lorsque on valide un nombre pair des équipes, elles sont sauvegardes dans la base des données et ne peuvent plus être modifie dans aucune partie d'interface
 
@@ -346,7 +345,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|RoundsDetails-04-01-01
+>|Cas de test 3+|RoundsDetails - Test 04-01-01
 >|Titre 3+|Consultation des données des tours d'une partie
 >|Objectif 3+| Lorsque on appuie sur le bouton tours après avoir calide les équipes, on peut consulter toutes les tours du match.
 
@@ -361,7 +360,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|RoundsAdd-04-02-01
+>|Cas de test 3+|RoundsAdd - Test 04-02-01
 >|Titre 3+|Ajout d'un tour
 >|Objectif 3+| Lorsque toutes les matchs d'un tour sont fini, on puisse ajouter un nouveau tour
 
@@ -375,7 +374,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|RoundsAddTooMany-04-02-02
+>|Cas de test 3+|RoundsAddTooMany - Test 04-02-02
 >|Titre 3+|Trop des tours ajoutes
 >|Objectif 3+| Vérifier qu'il est plus possible d'ajouter un tour si le nombre de tour est égal au nombre d'équipes - 1
 
@@ -419,7 +418,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|MatchDetails-05-01-01
+>|Cas de test 3+|MatchDetails - Test 05-01-01
 >|Titre 3+|Consultation des données des matchs d'une partie
 >|Objectif 3+| Vérifier qu'il on peut accéeder la page ou toutes le données et actions concernant la gesion des matchs d'un tournoi s'affichent
 
@@ -435,7 +434,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|MatchAddScore-05-02-01
+>|Cas de test 3+|MatchAddScore - Test 05-02-01
 >|Titre 3+|Modification de score d'un Tour
 >|Objectif 3+| Lorsque on modifier le score d'un tour, celui la est sauvegarde (mais toujours modifiable)
 
@@ -453,7 +452,7 @@ Les éléments testés concernent :
 
 |====
 
->|Cas de test 3+|ResultsDetails-06-01-01
+>|Cas de test 3+|ResultsDetails - Test 06-01-01
 >|Titre 3+|Accées aux résultats finaux d'une partie
 >|Objectif 3+| Lorsque on accéede a la page "Resultat" on a toutes les données d'un Tournoi, comme le score ou le gagnant.
 
