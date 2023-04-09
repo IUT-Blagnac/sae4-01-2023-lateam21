@@ -39,9 +39,7 @@ public class Belote {
 		try{
 			Class.forName("org.hsqldb.jdbcDriver");
 			this.loadConfig(dataBaseConfigFile);
-			connect = DriverManager.getConnection(properties.getProperty("DBURL")+ beloteFile + "\\" + properties.getProperty("DBName"),
-					properties.getProperty("DBUser"),
-					properties.getProperty("DBPassword"));
+			connect = DriverManager.getConnection(properties.getProperty("DBURL")+ beloteFile + "\\" + properties.getProperty("DBName"), properties.getProperty("DBUser"), properties.getProperty("DBPassword"));
 			if( !new File(beloteFile).isDirectory() ){
 				new File(beloteFile).mkdir();
 			}
@@ -63,8 +61,9 @@ public class Belote {
 	 * @return the connection
 	 */
 	public static Connection getUniqueInstanceBelote(){
-		if(connect==null)
+		if(connect==null){
 			new Belote();
+		}
 		return connect;
 	}
 

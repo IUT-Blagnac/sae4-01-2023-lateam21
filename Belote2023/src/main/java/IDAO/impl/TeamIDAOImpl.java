@@ -1,6 +1,12 @@
-package IDAO;
+package IDAO.impl;
 
+<<<<<<< HEAD:Belote2023/src/main/java/IDAO/TeamIDAOImpl.java
 import resources.CONSTANTS;
+=======
+import IDAO.AbstractDAO;
+import IDAO.TeamIDAO;
+import models.CONSTANTS;
+>>>>>>> modifByRuben:Belote2023/src/main/java/IDAO/impl/TeamIDAOImpl.java
 import models.Team;
 import models.Tournament;
 

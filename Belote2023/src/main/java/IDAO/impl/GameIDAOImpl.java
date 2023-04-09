@@ -1,6 +1,12 @@
-package IDAO;
+package IDAO.impl;
 
+<<<<<<< HEAD:Belote2023/src/main/java/IDAO/GameIDAOImpl.java
 import resources.CONSTANTS;
+=======
+import IDAO.AbstractDAO;
+import IDAO.GameIDAO;
+import models.CONSTANTS;
+>>>>>>> modifByRuben:Belote2023/src/main/java/IDAO/impl/GameIDAOImpl.java
 import models.Game;
 import models.Tournament;
 import view.Window;
@@ -12,10 +18,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+<<<<<<< HEAD:Belote2023/src/main/java/IDAO/GameIDAOImpl.java
 /**
  * The type Game idao.
  */
 public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
+=======
+public class GameIDAOImpl extends AbstractDAO implements GameIDAO {
+>>>>>>> modifByRuben:Belote2023/src/main/java/IDAO/impl/GameIDAOImpl.java
 
     /**
      * The constant instance.

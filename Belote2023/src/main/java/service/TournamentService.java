@@ -1,6 +1,6 @@
 package service;
 
-import IDAO.TournamentIDAOImpl;
+import IDAO.impl.TournamentIDAOImpl;
 import models.Tournament;
 import resources.Tools;
 
