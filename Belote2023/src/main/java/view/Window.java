@@ -1,12 +1,13 @@
 package view;
 
-import Service.GameService;
-import Service.TeamService;
-import Service.TournamentService;
+import service.GameService;
+import service.TeamService;
+import service.TournamentService;
 import models.CONSTANTS;
-import models.Tournament;
 import models.tables.GameTable;
 import models.tables.TeamTable;
+import models.Tournament;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serial;

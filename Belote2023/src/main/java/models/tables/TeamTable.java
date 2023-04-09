@@ -1,9 +1,10 @@
 package models.tables;
 
-import Service.TeamService;
+
 import models.CONSTANTS;
 import models.Team;
 import models.Tournament;
+import service.TeamService;
 
 import javax.swing.table.AbstractTableModel;
 

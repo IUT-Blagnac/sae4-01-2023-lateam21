@@ -1,4 +1,4 @@
-package Service;
+package service;
 
 import IDAO.TournamentIDAOImpl;
 import models.Tournament;

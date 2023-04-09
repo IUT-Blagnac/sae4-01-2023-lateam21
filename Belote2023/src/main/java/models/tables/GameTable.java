@@ -1,6 +1,6 @@
 package models.tables;
 
-import Service.GameService;
+import service.GameService;
 import models.CONSTANTS;
 import models.Game;
 import models.Tournament;

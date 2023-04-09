@@ -1,5 +1,4 @@
 package main;
-
 import models.CONSTANTS;
 import view.Window;
 

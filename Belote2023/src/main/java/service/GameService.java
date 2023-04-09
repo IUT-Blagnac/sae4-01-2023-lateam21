@@ -1,4 +1,4 @@
-package Service;
+package service;
 
 import IDAO.GameIDAOImpl;
 import models.Game;

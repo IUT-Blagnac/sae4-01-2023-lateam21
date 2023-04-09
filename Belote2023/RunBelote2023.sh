@@ -1,7 +1,7 @@
-@echo off
+#!/bin/bash
 
-:: Maven package
+#Maven package
 call mvn clean compile package install
 
-:: Run the app
+#Run the app
 java -jar target/Belote2023.jar

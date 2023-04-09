@@ -1,6 +1,6 @@
 
 
-package Service;
+package service;
 
 import IDAO.TeamIDAOImpl;
 import models.Team;
