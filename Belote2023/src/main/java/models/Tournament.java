@@ -26,7 +26,6 @@ public class Tournament {
 	 * The Status name.
 	 */
 	private String statusName;
-	//int    nbtours;
 
 	/**
 	 * Instantiates a new Tournament.
@@ -61,7 +60,7 @@ public class Tournament {
 		this.nbGames = nbGames;
 		this.nameTournament = name;
 		this.status = satut;
-
+		statusName = CONSTANTS.NULL;
 		switch (this.status) {
 			case 0 -> statusName = CONSTANTS.PLAYERS_SIGNED;
 			case 1 -> statusName = CONSTANTS.GAMES_GENERATED;
@@ -94,7 +93,7 @@ public class Tournament {
 	 *
 	 * @return the nom
 	 */
-	public String getNom() {
+	public String getName() {
 		return nameTournament;
 	}
 
@@ -105,6 +104,10 @@ public class Tournament {
 	 */
 	public int getIdTournament() {
 		return idTournament;
+	}
+
+	public int getNbGames() {
+		return nbGames;
 	}
 
 	/**
@@ -141,6 +144,12 @@ public class Tournament {
 	 */
 	public void setStatus(int status) {
 		this.status = status;
+		switch (status){
+			case 0 -> this.statusName = CONSTANTS.PLAYERS_SIGNED;
+			case 1 -> this.statusName = CONSTANTS.GAMES_GENERATED;
+			case 2 -> this.statusName = CONSTANTS.GAMES_IN_PROGRESS;
+			case 3 -> this.statusName = CONSTANTS.ENDED;
+		}
 	}
 
 }

@@ -468,7 +468,7 @@ public class Window extends JFrame {
 		p.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_DETAILS));
 		c.add(p, CONSTANTS.DETAILS);
 		JPanel tab = new JPanel( new GridLayout(4,2));
-		nameDetails = new JLabel(tournament.getNom());
+		nameDetails = new JLabel(tournament.getName());
 		tab.add(new JLabel(CONSTANTS.LABEL_TOURNAMENT_NAME));
 		tab.add(nameDetails);
 		stateDetails = new JLabel(tournament.getStatusName());
