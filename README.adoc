@@ -151,7 +151,7 @@ Commons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/
 http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé].
 **********************************************************************
 
-== Compte-Rendu du projet
+== Livrables
 === Etape 1 (Semaine 11)
 ==== Diagramme de classe
 image::./Livrables/digramme_classe_etape1.jpg[]
