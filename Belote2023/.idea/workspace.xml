@@ -10,28 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13abcd22-e677-4f82-9681-0f8c1cdc0d16" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/AbstractDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/AbstractDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/GameIDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TeamIDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/TournamentIDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Belote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Belote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/CONSTANTS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/resources/CONSTANTS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Tournament.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Tournament.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/tables/GameTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/tables/GameTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/tables/TeamTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/tables/TeamTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/resources/Tools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/resources/Tools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/GameService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/TeamService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/service/TournamentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/TournamentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/GameTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/TeamTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/TeamTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/TournamentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/TournamentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/impl/GameIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/impl/GameIDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/impl/TeamIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/impl/TeamIDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/IDAO/impl/TournamentIDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IDAO/impl/TournamentIDAOImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,23 +49,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "full.screen.before.presentation.mode": "true",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_directory_selection": "C:/Users/ruben/Desktop/sae4-01-2023-lateam21/Belote2023/src/main/java",
-    "last_opened_file_path": "C:/Users/ruben/Desktop/sae4-01-2023-oui/Belote",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "JavaDoc"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/ruben/Desktop/sae4-01-2023-lateam21/Belote2023/src/main/java&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ruben/Desktop/sae4-01-2023-oui/Belote&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;JavaDoc&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ruben\Desktop\sae4-01-2023-lateam21\Belote2023\jBelote" />
@@ -105,7 +87,7 @@
       <recent name="models" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GameTest">
+  <component name="RunManager">
     <configuration name="Belote" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Belote" />
       <module name="Belote" />

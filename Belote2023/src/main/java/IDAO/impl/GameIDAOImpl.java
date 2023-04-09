@@ -3,11 +3,9 @@ package IDAO.impl;
 import resources.CONSTANTS;
 import IDAO.AbstractDAO;
 import IDAO.GameIDAO;
-import models.CONSTANTS;
 import models.Game;
 import models.Tournament;
 import view.Window;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
