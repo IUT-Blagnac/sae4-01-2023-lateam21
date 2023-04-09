@@ -153,7 +153,7 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 
 == Livrables
 === Analyse de l'application
-L’ https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Livrable%20SAE%20.pdf[analyse du code source] existant de l’application liste les principales défauts constatés et les possibles tâches de refactoring à appliquer.
+L’https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Livrable%20SAE%20.pdf[analyse du code source] existant de l’application liste les principales défauts constatés et les possibles tâches de refactoring à appliquer.
 
 === Cahier de Recette
 
