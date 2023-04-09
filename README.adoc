@@ -166,3 +166,4 @@ Deux scripts ont été fournis pour compiler et exécuter le code source de l’
 
 === Compte rendu du refactoring de l'application
 
+https://github.com/IUT-Blagnac/sae4-01-2023-lateam21/blob/master/Livrables/Compte%20rendu.adoc[Compte rendu du refactoing] est la documentation finale du projet, mettant en avance toutes les changemenets importants que on a fait, les ajout des classes, des methodes, des patterns, et de nos âmes.
