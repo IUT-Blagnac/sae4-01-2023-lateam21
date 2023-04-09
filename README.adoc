@@ -152,32 +152,11 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 **********************************************************************
 
 == Livrables
-=== Etape 1 (Semaine 11)
-==== Diagramme de classe
-image::./Livrables/digramme_classe_etape1.jpg[]
+=== Analyse de l'application
 
-====  Digramme de séquence
-image::./Livrables/digrame_seq_part1_etape1.png[]
-image::./Livrables/digrame_seq_part2_etape1.png[]
+=== Cahier de Recette
 
-==== Analyse du code
-Après analyse du code et analyse, nous en tirons les critiques suivantes :
-- Mauvaise organisation du code, les packages sont inexistants ce qui rend la lisibilité des interactions compliquée.
-- Gestion des dépendances compliqués car avec la présence d’un jar dans le projet, cela le rend plus lourd. De plus, si une personne récupère les codes sources, il doit alors de son côté réinstaller les dépendances.
-- Manque de commentaires et de documentation, ce qui rend la compréhension du code fastidieuse.
-- La classe interne Match est inutile car c’est une répétition de la classe MatchM, sans pour autant avoir tous les éléments de celle-ci
-- Il manque des getters et des setters dans certaines classes, ce qui implique que tous les attributs ne sont pas “private” ce qui peut être problématique, car cela veut dire que on peut modifier les attributs de n’importe où.
+=== Scripts d'éxecution de l'application
 
-On s’est donc mis d’accord sur plusieurs points qu'il faut mettre en avance lors de notre travail de refactoring. Tout d’abord, corriger les erreurs de fonctionnement de code, comme le fait que l’application n’affiche pas le vainqueur - ou le manque de getters et des setters. 
-Pour faciliter cette tâche on a donc commencé à faire des issues sur le github de notre projet.
-
-image::./Livrables/issues_etape1.png[]
-
-=== Etape 2 (Semaine 12)
-==== Ajout des getters et setters aux classes pré-existantes du projet
-
-==== Ajout du patron Singleton
-
-
-=== Etape 3 (Semaine 13)
+=== Compte rendu du refactoring de l'application
 
