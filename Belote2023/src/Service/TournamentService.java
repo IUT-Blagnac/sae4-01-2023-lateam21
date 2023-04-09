@@ -63,7 +63,6 @@ public class TournamentService {
                     return;
                 }
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             if(Objects.equals(nameNewTournament, "")){

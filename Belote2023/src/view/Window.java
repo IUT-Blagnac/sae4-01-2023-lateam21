@@ -611,7 +611,6 @@ public class Window extends JFrame {
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_END_PLEASE));
 			pRounds.add(new JLabel(CONSTANTS.LABEL_ROUNDS_MAX));
 			addRounds.addActionListener(e -> {
-				// TODO Auto-generated method stub
 				gS.addRound(tournament);
 				Window.this.tracerRoundsTournament();
 			});

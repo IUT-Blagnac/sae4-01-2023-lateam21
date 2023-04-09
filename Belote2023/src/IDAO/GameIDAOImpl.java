@@ -123,7 +123,6 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
             rs.next();
             return rs.getInt(1);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
             return -1;
         }
@@ -235,7 +234,6 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
             lastRound = rs.getInt(1);
             rs.close();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
             return ;
         }
@@ -244,7 +242,6 @@ public class GameIDAOImpl extends AbstractDAO implements GameIDAO{
             Statement st = connection.createStatement();
             st.executeUpdate("DELETE FROM matchs WHERE id_tournoi="+ to.getIdTournament()+" AND num_tour=" + lastRound);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.out.println("Erreur del tour : " + e.getMessage());
         }
     }

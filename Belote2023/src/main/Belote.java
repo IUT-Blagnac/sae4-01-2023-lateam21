@@ -23,8 +23,8 @@ public class Belote {
 
 	private Belote(){
 		String beloteFile = System.getProperty("user.dir") + "\\jBelote";
-		String createFile = System.getProperty("user.dir") + "\\create.sql";
-		String dataBaseConfigFile = "/database.properties";
+		String createFile =System.getProperty("user.dir") +"/src/create.sql";
+		String dataBaseConfigFile ="/database.properties";
 		try{
 			Class.forName("org.hsqldb.jdbcDriver");
 			this.loadConfig(dataBaseConfigFile);
@@ -87,7 +87,9 @@ public class Belote {
 			InputStream inputStream = this.getClass().getResourceAsStream(dataBaseConfigFile);
 			properties.load(inputStream);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
+			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donnée. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
+			System.out.println(e.getMessage());
+			System.exit(0);
 		}
 	}
 }

@@ -60,12 +60,10 @@ public class TournamentIDAOImpl extends AbstractDAO implements TournamentIDAO {
             st.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idTournamentDelete);
             st.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idTournamentDelete);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             Window.showError(CONSTANTS.ERROR_DELETE+e.getMessage());
             System.out.println(CONSTANTS.ERROR_DELETE + e.getMessage());//message dev
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             Window.showError(CONSTANTS.ERROR_UNKNOWN);
             System.out.println("Erreur inconnue");
         }
